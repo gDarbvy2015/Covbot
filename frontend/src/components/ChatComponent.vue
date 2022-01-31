@@ -84,6 +84,7 @@ export default {
     margin-bottom: 8px;
     display: inline-block;
     max-width: 45%;
+    overflow-wrap: break-word;
   }
 
   .bot-message {
