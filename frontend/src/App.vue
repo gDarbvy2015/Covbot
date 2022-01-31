@@ -16,12 +16,14 @@ export default {
 </script>
 
 <style>
-#app {
-  margin-top: 60px;
-}
-
 .wrapper {
   max-width: 50%;
   margin: auto;
+  max-height: 100vh;
+  display: flex;
+}
+
+html, body {
+  max-height: 100vh;
 }
 </style>

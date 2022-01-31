@@ -1,12 +1,14 @@
 <template>
-  <n-space vertical style="margin-bottom: 10px">
-    <div v-for="message in messages" :key="message.message" class="message-container" :class="{'own-message': message.self}">
-      {{message.message}}
-    </div>
-  </n-space>
   <div class="container">
-    <n-input v-model:value="value" size="large" type="text" placeholder="Write something..." />
-    <n-button type="info" size="large">Send</n-button>
+    <n-space vertical class="message-container">
+      <div v-for="message in messages" :key="message.message" class="message-bubble-container" :class="message.self ? 'own-message': 'bot-message'">
+        {{message.message}}
+      </div>
+    </n-space>
+    <div class="message-compose-container">
+      <n-input v-model:value="currentMessage" size="large" type="text" placeholder="Write something..." />
+      <n-button type="info" size="large" @click="sendMessage()">Send</n-button>
+    </div>
   </div>
 </template>
 
@@ -35,27 +37,54 @@ export default {
         {id: 17, self: false, message: "Eh, I'm hanging in there. How about you?"},
         {id: 18, self: true, message: "Can't complain either!"}
       ],
-      value: null
+      currentMessage: null
+    }
+  },
+  methods: {
+    sendMessage() {
+      if(this.currentMessage != null && this.currentMessage.trim() !== "") {
+        let id = this.messages.length;
+        this.messages.push({id: id, self: true, message: this.currentMessage});
+        this.currentMessage = null;
+      }
     }
   }
 }
 </script>
 
 <style scoped>
-  .container {
+  .message-compose-container {
     display: flex;
     gap: 10px;
   }
 
+  .container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    width: 100%;
+  }
+
   .message-container {
+    overflow-y: scroll;
+  }
+
+  .message-bubble-container {
     padding: 10px;
     border-radius: 20px;
-    font-size: 16px;
+    font-size: 18px;
+    margin-bottom: 8px;
     display: inline-block;
-    background-color: #57c441;
+    max-width: 45%;
+  }
+
+  .bot-message {
+    float: left;
+    background-color: #0481b3;
   }
 
   .own-message {
     float: right;
+    background-color: #57c441;
   }
 </style>
