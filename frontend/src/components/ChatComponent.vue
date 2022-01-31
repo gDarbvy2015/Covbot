@@ -1,13 +1,13 @@
 <template>
   <div class="container">
-    <n-space vertical class="message-container">
+    <n-space vertical class="message-container" ref="messageContainer">
       <div v-for="message in messages" :key="message.message" class="message-bubble-container" :class="message.self ? 'own-message': 'bot-message'">
         {{message.message}}
       </div>
     </n-space>
     <div class="message-compose-container">
-      <n-input v-model:value="currentMessage" size="large" type="text" placeholder="Write something..." />
-      <n-button type="info" size="large" @click="sendMessage()">Send</n-button>
+      <n-input v-model:value="currentMessage" @keyup.enter="sendMessage" size="large" type="text" placeholder="Write something..." />
+      <n-button type="info" size="large" @click="sendMessage">Send</n-button>
     </div>
   </div>
 </template>
@@ -40,13 +40,21 @@ export default {
       currentMessage: null
     }
   },
+  mounted() {
+    this.scrollChatToBottom();
+  },
   methods: {
     sendMessage() {
       if(this.currentMessage != null && this.currentMessage.trim() !== "") {
         let id = this.messages.length;
         this.messages.push({id: id, self: true, message: this.currentMessage});
         this.currentMessage = null;
+
+        this.$nextTick(this.scrollChatToBottom);
       }
+    },
+    scrollChatToBottom() {
+      this.$refs.messageContainer.$el.scrollTop = this.$refs.messageContainer.$el.scrollHeight;
     }
   }
 }
@@ -80,7 +88,7 @@ export default {
 
   .bot-message {
     float: left;
-    background-color: #0481b3;
+    background-color: #3096bf;
   }
 
   .own-message {
