@@ -5,7 +5,7 @@ from sqlalchemy import create_engine, MetaData, Table, Column, Integer, DATE, St
 from sqlalchemy.exc import DatabaseError
 import logging
 
-from scripts.dataset_handler import DatasetHandler
+from lib.database.dataset_handler import DatasetHandler
 
 
 class DatabaseManager:
@@ -42,7 +42,7 @@ class DatabaseManager:
         self.logger.info("Updating the data in the database...")
 
         dataset_handler = DatasetHandler()
-        covid_cases = dataset_handler.load_covid_cases("../data/owid/new_cases.csv")
+        covid_cases = dataset_handler.load_covid_cases()
 
         engine = create_engine(self.db_server_link + f"{self.db_name}")
         db_connection = engine.connect()
