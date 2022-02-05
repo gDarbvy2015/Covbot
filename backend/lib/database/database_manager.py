@@ -42,7 +42,7 @@ class DatabaseManager:
         self.update_vaccinations()
 
     def update_covid_cases(self) -> None:
-        covid_cases = self.dataset_handler.load_covid_cases()\
+        covid_cases = self.dataset_handler.load_covid_cases()
 
         engine = create_engine(self.db_server_link + f"{self.db_name}")
         db_connection = engine.connect()
