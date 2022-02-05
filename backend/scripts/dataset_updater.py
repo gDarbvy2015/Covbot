@@ -1,3 +1,5 @@
+import time
+
 from lib.util.logger import Logger
 import hashlib
 import requests
@@ -30,6 +32,10 @@ class DatasetUpdater:
         self.logger.info("Successfully started the database updater.")
         self._perform_updates()
 
+        # while True:
+        #     self._perform_updates()
+        #     time.sleep(30)
+
     def _perform_updates(self):
 
         for tracked_file in self.tracked_files:
@@ -46,7 +52,7 @@ class DatasetUpdater:
                     content = file.read()
 
                     if hashlib.sha256(response.content).digest() == hashlib.sha256(content).digest():
-                        self.logger.info("File hasn't been updated.")
+                        self.logger.info(f"{tracked_file['name']} data file hasn't been updated.")
                     else:
                         self._download_file(tracked_file)
 
