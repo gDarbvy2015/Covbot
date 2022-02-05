@@ -3,23 +3,20 @@ import sys
 
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, DATE, String, BigInteger
 from sqlalchemy.exc import DatabaseError
-import logging
+from lib.util.logger import Logger
 
 from lib.database.dataset_handler import DatasetHandler
 
 
 class DatabaseManager:
     def __init__(self):
-        self.logger = logging.getLogger(__name__)
+        self.logger = Logger(__name__)
         self.host = os.environ.get("COVBOT_DB_HOST")
         self.port = os.environ.get("COVBOT_DB_PORT")
         self.user = os.environ.get("COVBOT_USER")
         self.password = os.environ.get("COVBOT_PASSWORD")
         self.db_server_link = f"mysql://{self.user}:{self.password}@{self.host}:{self.port}/"
         self.db_name = "covbot"
-
-        self.logger.addHandler(logging.StreamHandler(sys.stdout))
-        self.logger.setLevel(logging.INFO)
 
     def create_database(self) -> None:
         self.logger.info("Creating the database for Covbot...")
