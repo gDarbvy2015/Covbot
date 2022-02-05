@@ -1,3 +1,4 @@
+Add readme to the repository
 Update database automatically
 Distinguish between 0 and null in database
 Allow aliases for country names
