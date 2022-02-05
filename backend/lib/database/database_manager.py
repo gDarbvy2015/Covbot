@@ -43,12 +43,22 @@ class DatabaseManager:
 
         dataset_handler = DatasetHandler()
         covid_cases = dataset_handler.load_covid_cases()
+        vaccinations = dataset_handler.load_vaccinations()
 
         engine = create_engine(self.db_server_link + f"{self.db_name}")
         db_connection = engine.connect()
 
-        cases_dtypes = {"date": DATE, "country": String(256), "cases": BigInteger}
-        covid_cases.to_sql(name="cases", con=db_connection, if_exists="replace", index=False, dtype=cases_dtypes)
+        self.logger.info("Updating the daily detected covid cases...")
+        covid_cases_dtypes = {"date": DATE, "country": String(256), "cases": BigInteger}
+        covid_cases.to_sql(name="cases", con=db_connection, if_exists="replace", index=False, dtype=covid_cases_dtypes)
+        self.logger.info("Daily detected covid cases were updated.")
+
+        self.logger.info("Updating daily vaccinations...")
+        vaccinations_dtypes = {"country": String(256), "date": DATE, "daily_vaccinations": Integer,
+                               "daily_people_vaccinated": Integer, "people_vaccinated": BigInteger,
+                               "total_vaccinations": BigInteger}
+        vaccinations.to_sql(name="vaccinations", con=db_connection, if_exists="replace", index=False, dtype=vaccinations_dtypes)
+        self.logger.info("Daily vaccinations were updated.")
 
     def _create_tables(self) -> None:
         metadata = MetaData()
