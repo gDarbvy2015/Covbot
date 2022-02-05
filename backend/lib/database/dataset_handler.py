@@ -1,11 +1,12 @@
 import pandas as pd
 
 from lib.nlp.nlp_pipeline import NLPPipeline
-
+from lib.util.logger import Logger
 
 class DatasetHandler:
     def __init__(self):
         self.nlp_pipeline = NLPPipeline()
+        self.logger = Logger(__name__)
 
     def load_covid_cases(self) -> pd.DataFrame:
         path = "../../data/owid/new_cases.csv"
@@ -23,6 +24,7 @@ class DatasetHandler:
     def load_vaccinations(self) -> pd.DataFrame:
         path = "../../data/owid/vaccinations.csv"
         relevant_columns = ["location", "date", "total_vaccinations", "people_vaccinated", "daily_vaccinations", "daily_people_vaccinated"]
+
         data = pd.read_csv(path)[relevant_columns]
         relevant_columns[0] = "country"
         data.columns = relevant_columns
