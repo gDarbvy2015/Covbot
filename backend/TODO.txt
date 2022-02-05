@@ -1,0 +1,2 @@
+Distinguish between 0 and null in database
+Allow aliases for country names
