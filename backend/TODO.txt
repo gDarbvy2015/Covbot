@@ -1,2 +1,4 @@
+Update database automatically
 Distinguish between 0 and null in database
 Allow aliases for country names
+Add unified logging system
