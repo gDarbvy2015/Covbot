@@ -26,7 +26,8 @@ class DatasetHandler:
 
     def load_vaccinations(self) -> pd.DataFrame:
         path = self.config.get_vaccinations_path()
-        relevant_columns = ["location", "date", "total_vaccinations", "people_vaccinated", "daily_vaccinations", "daily_people_vaccinated"]
+        relevant_columns = ["location", "date", "total_vaccinations", "people_vaccinated", "daily_vaccinations",
+                            "daily_people_vaccinated"]
         data = pd.read_csv(path)[relevant_columns]
         relevant_columns[0] = "country"
         data.columns = relevant_columns
@@ -34,7 +35,7 @@ class DatasetHandler:
         data["country_normalized"] = data.apply(lambda row:
                                                 self.nlp_pipeline.normalize_country_name(row["country"]), axis=1)
 
-        exclude_countries = ["world", "lower middle income", "low income", "high income"]
+        exclude_countries = ["world", "lower middle income", "low income", "high income", "upper middle income"]
         data = data[~data["country_normalized"].isin(exclude_countries)]
         return data
 
