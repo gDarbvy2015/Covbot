@@ -17,6 +17,7 @@ class DatabaseManager:
         self.password = os.environ.get("COVBOT_PASSWORD")
         self.db_server_link = f"mysql://{self.user}:{self.password}@{self.host}:{self.port}/"
         self.db_name = "covbot"
+        self.dataset_handler = DatasetHandler()
 
     def create_database(self) -> None:
         self.logger.info("Creating the database for Covbot...")
@@ -37,10 +38,11 @@ class DatabaseManager:
 
     def update_database(self) -> None:
         self.logger.info("Updating the data in the database...")
+        self.update_covid_cases()
+        self.update_vaccinations()
 
-        dataset_handler = DatasetHandler()
-        covid_cases = dataset_handler.load_covid_cases()
-        vaccinations = dataset_handler.load_vaccinations()
+    def update_covid_cases(self) -> None:
+        covid_cases = self.dataset_handler.load_covid_cases()\
 
         engine = create_engine(self.db_server_link + f"{self.db_name}")
         db_connection = engine.connect()
@@ -49,6 +51,12 @@ class DatabaseManager:
         covid_cases_dtypes = {"date": DATE, "country": String(256), "cases": BigInteger}
         covid_cases.to_sql(name="cases", con=db_connection, if_exists="replace", index=False, dtype=covid_cases_dtypes)
         self.logger.info("Daily detected covid cases were updated.")
+
+    def update_vaccinations(self) -> None:
+        vaccinations = self.dataset_handler.load_vaccinations()
+
+        engine = create_engine(self.db_server_link + f"{self.db_name}")
+        db_connection = engine.connect()
 
         self.logger.info("Updating daily vaccinations...")
         vaccinations_dtypes = {"country": String(256), "date": DATE, "daily_vaccinations": Integer,
