@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 import pandas as pd
 
 from lib.nlp.nlp_pipeline import NLPPipeline
@@ -19,6 +21,10 @@ class DatasetHandler:
         data["country_normalized"] = data.apply(lambda row:
                                                 self.nlp_pipeline.normalize_country_name(row["country"]), axis=1)
 
+        # Increase by one so that cases from yesterday are shown as today
+        data["date"] = data.apply(lambda row:
+                                  self._increase_date_by_one(row["date"]), axis=1)
+
         exclude_countries = ["upper middle income", "summer olympics 2020", "lower middle income",
                              "low income", "international", "world", "high income"]
         data = data[~data["country_normalized"].isin(exclude_countries)]
@@ -35,13 +41,22 @@ class DatasetHandler:
         data["country_normalized"] = data.apply(lambda row:
                                                 self.nlp_pipeline.normalize_country_name(row["country"]), axis=1)
 
+        # Increase by one so that vaccinations from yesterday are shown as today
+        data["date"] = data.apply(lambda row:
+                                  self._increase_date_by_one(row["date"]), axis=1)
+
         exclude_countries = ["world", "lower middle income", "low income", "high income", "upper middle income"]
         data = data[~data["country_normalized"].isin(exclude_countries)]
         return data
 
+    def _increase_date_by_one(self, date: str) -> str:
+        date_format = "%Y-%m-%d"
+        date_obj = datetime.strptime(date, date_format).date()
+        date_obj += timedelta(days=1)
+        return date_obj.strftime(date_format)
+
 
 if __name__ == '__main__':
     dataset_handler = DatasetHandler()
-    #new_cases = dataset_handler.load_covid_cases()
+    new_cases = dataset_handler.load_covid_cases()
     vaccinations = dataset_handler.load_vaccinations()
-    print(set(vaccinations["country_normalized"]))
