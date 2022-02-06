@@ -1,4 +1,3 @@
-import time
 
 from lib.util.logger import Logger
 import hashlib
@@ -8,6 +7,13 @@ from lib.util.config import Config
 
 
 class DatasetUpdater:
+    """ Class responsible for updating the database
+
+    This class makes it possible to update the database. Once it's run, it'll check whether the
+    necessary data files are already stored locally. If this is not the case, it will be downloaded from Github.
+    If it already exists, it will check whether the file is up-to-date, and if not it will update redownload the
+    files accordingly.
+    """
     def __init__(self):
         self.config = Config()
         self.db_manager = DatabaseManager()
@@ -37,7 +43,6 @@ class DatasetUpdater:
         #     time.sleep(30)
 
     def _perform_updates(self):
-
         for tracked_file in self.tracked_files:
             if not tracked_file["local_path"].exists():
                 self.logger.info(f"Datafile with new {tracked_file['name']} does not exist.")
