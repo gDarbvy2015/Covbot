@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+import pandas
 import pandas as pd
 
 from lib.nlp.nlp_pipeline import NLPPipeline
@@ -28,6 +29,7 @@ class DatasetHandler:
         exclude_countries = ["upper middle income", "summer olympics 2020", "lower middle income",
                              "low income", "international", "world", "high income"]
         data = data[~data["country_normalized"].isin(exclude_countries)]
+        data = self._add_cumulative_cases(data)
         return data
 
     def load_vaccinations(self) -> pd.DataFrame:
@@ -55,8 +57,13 @@ class DatasetHandler:
         date_obj += timedelta(days=1)
         return date_obj.strftime(date_format)
 
+    def _add_cumulative_cases(self, df: pandas.DataFrame) -> pandas.DataFrame:
+        df["date_in_seconds"] = df.apply(lambda row:
+                                                       datetime.strptime(row["date"], "%Y-%m-%d").timestamp(), axis=1)
+        df = df.set_index(["country", "date_in_seconds"]).sort_index()
+        df["cumulative_cases"] = df["cases"].groupby("country").cumsum()
+        return df.reset_index().drop("date_in_seconds", axis=1)
+
 
 if __name__ == '__main__':
     dataset_handler = DatasetHandler()
-    new_cases = dataset_handler.load_covid_cases()
-    vaccinations = dataset_handler.load_vaccinations()

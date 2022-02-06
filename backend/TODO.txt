@@ -1,6 +1,2 @@
-Allow aliases for country names
-calculate the total number of cases
-compare countries from both datasets
-
 Add readme to the repository
 Add documentation to the various classes
