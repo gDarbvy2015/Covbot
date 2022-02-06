@@ -22,7 +22,10 @@ class NLPPipeline:
             "uae": "united arab emirates",
             "bosnia": "bosnia and herzegovina",
             "salvador": "el salvador",
-            "virgin islands": "british virgin islands"
+            "virgin islands": "british virgin islands",
+            "us": "united states",
+            "usa": "united states",
+            "united states of america": "united states"
         }
 
         return map[string] if string in map else string
