@@ -26,8 +26,22 @@ export default {
         {id: 2, self: false, message: "I'm afraid I don't have any data on COVID cases in Austria today, yet. :( Try " +
               "again a bit later."},
         {id: 3, self: true, message: "How many people have been vaccinated this week in Germany?"},
-        {id: 3, self: false, message: "More than **500.000** people have been vaccinated this week in Germany."}
-      ],
+        {id: 4, self: false, message: "More than **500.000** people have been vaccinated this week in Germany."},
+        {id: 4, self: true, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
+        {id: 5, self: true, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
+        {id: 6, self: true, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
+        {id: 7, self: true, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
+        {id: 8, self: true, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
+        {id: 9, self: true, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
+        {id: 10, self: false, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
+        {id: 11, self: false, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
+        {id: 12, self: true, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
+        {id: 14, self: false, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
+        {id: 15, self: false, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
+        {id: 16, self: false, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
+        {id: 17, self: true, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
+        //{id: 12, self: false, message: "OKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK OKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK OKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK OKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK."},
+        ],
       currentMessage: null
     }
   },
@@ -68,8 +82,10 @@ export default {
   }
 
   .message-container {
+    padding: 10px 10px 0 10px;
     overflow-y: auto;
     height: 100%;
+    border: 1px solid black;
   }
 
   .message-bubble-container {
