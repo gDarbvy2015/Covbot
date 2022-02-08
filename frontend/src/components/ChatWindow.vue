@@ -23,6 +23,7 @@
 import {Send} from '@vicons/ionicons5'
 import {Icon} from '@vicons/utils'
 import ChatBubble from "@/components/ChatBubble";
+import { v4 as uuidv4 } from 'uuid';
 
 export default {
   name: "ChatWindow",
@@ -56,8 +57,16 @@ export default {
     sendMessage() {
       if (this.currentMessage != null && this.currentMessage.trim() !== "") {
         let id = this.messages.length;
-        this.messages.push({id: id, self: true, message: this.currentMessage});
+        this.messages.push({id: uuidv4(), self: true, message: this.currentMessage});
         this.currentMessage = null;
+
+        // Simulate response
+        id = uuidv4();
+        this.messages.push({id: id, self: false, message: "I successfully received your message. This will be the answer!", loading: true})
+
+        setTimeout(() => {
+          this.messages.filter(msg => msg.id === id)[0].loading = false;
+        }, 2000)
 
         this.$nextTick(this.scrollChatToBottom);
       }
