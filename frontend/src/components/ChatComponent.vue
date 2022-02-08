@@ -1,11 +1,13 @@
 <template>
   <div class="container">
     <n-scrollbar ref="scrollbarRef">
-      <div class="message-container" ref="messageContainer">
-        <div v-for="message in messages" :key="message.message" class="message-bubble-container" :class="message.self ? 'own-message': 'bot-message'">
-          <span v-html="message.self ? message.message : convertMessage(message.message)"></span>
+        <div class="message-container" ref="messageContainer">
+          <transition-group name="expand">
+            <div v-for="message in messages" :key="message.message" class="message-bubble-container" :class="message.self ? 'own-message': 'bot-message'">
+              <span v-html="message.self ? message.message : convertMessage(message.message)"></span>
+            </div>
+          </transition-group>
         </div>
-      </div>
     </n-scrollbar>
     <div class="message-compose-container">
       <n-input v-model:value="currentMessage" @keyup.enter="sendMessage" size="large" type="text" placeholder="Write something..." />
@@ -71,7 +73,8 @@ export default {
       }
     },
     scrollChatToBottom() {
-      this.$refs.scrollbarRef.scrollTo({top: this.$refs.messageContainer.$el.scrollHeight})
+      console.log(this.$refs.messageContainer)
+      this.$refs.scrollbarRef.scrollTo({top: this.$refs.messageContainer.scrollHeight})
     }
   }
 }
@@ -139,5 +142,20 @@ export default {
     margin-left: auto;
     background-color: #19233B;
     color: white;
+  }
+
+  .expand-enter-active {
+    animation: bounce-in 0.3s;
+  }
+  .expand-leave-active {
+    animation: bounce-in 0.3s reverse;
+  }
+  @keyframes bounce-in {
+    0% {
+      transform: scale(0);
+    }
+    100% {
+      transform: scale(1);
+    }
   }
 </style>
