@@ -43,20 +43,9 @@ export default {
         },
         {id: 3, self: true, message: "How many people have been vaccinated this week in Germany?"},
         {id: 4, self: false, message: "More than **500.000** people have been vaccinated this week in Germany."},
-        {id: 4, self: true, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
-        {id: 5, self: true, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
-        {id: 6, self: true, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
-        {id: 7, self: true, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
-        {id: 8, self: true, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
-        {id: 9, self: true, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
-        {id: 10, self: false, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
-        {id: 11, self: false, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
-        {id: 12, self: true, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
-        {id: 14, self: false, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
-        {id: 15, self: false, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
-        {id: 16, self: false, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
-        {id: 17, self: true, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
-        {id: 18, self: false, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST.", loading: true},
+        {id: 5, self: true, message: "On which day where most people vaccinated in Austria?"},
+        {id: 6, self: false, message: "**26th of September 2021** was the day were the most people were vaccinated in Austria."},
+
       ],
       currentMessage: null
     }

@@ -1,7 +1,8 @@
 <template>
   <div :class="message.self ? 'self-message' : 'bot-message'">
     <template v-if="!message.loading">
-      <span v-html="message.self ? message.message : convertMessage(message.message)"></span>
+      <span v-if="!message.self" v-html="message.self ? message.message : convertMessage(message.message)"></span>
+      <span v-else>{{message.message}}</span>
     </template>
     <template v-else>
       <div class="loading-dots"></div>
