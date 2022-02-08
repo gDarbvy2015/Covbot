@@ -2,7 +2,7 @@
   <div class="container">
     <n-space vertical class="message-container" ref="messageContainer">
       <div v-for="message in messages" :key="message.message" class="message-bubble-container" :class="message.self ? 'own-message': 'bot-message'">
-        {{message.message}}
+        <span v-html="message.self ? message.message : convertMessage(message.message)"></span>
       </div>
     </n-space>
     <div class="message-compose-container">
@@ -13,13 +13,17 @@
 </template>
 
 <script>
+
+var showdown = require("showdown")
+var converter = new showdown.Converter()
+
 export default {
   name: "ChatComponent",
   data() {
     return {
       messages: [
         {id: 1, self: true, message: "Hey! How's it going?"},
-        {id: 2, self: false, message: "Eh, I'm hanging in there. How about you?"},
+        {id: 2, self: false, message: "**Eh**, I'm hanging in there. How about you?"},
         {id: 3, self: false, message: "Eh, I'm hanging in there. How about you?"},
         {id: 4, self: false, message: "Eh, I'm hanging in there. How about you?"},
         {id: 5, self: false, message: "Eh, I'm hanging in there. How about you?"},
@@ -42,8 +46,12 @@ export default {
   },
   mounted() {
     this.scrollChatToBottom();
+    console.log(converter.makeHtml("**Hi**, this is a small test."))
   },
   methods: {
+    convertMessage(msg) {
+      return converter.makeHtml(msg);
+    },
     sendMessage() {
       if(this.currentMessage != null && this.currentMessage.trim() !== "") {
         let id = this.messages.length;
@@ -60,7 +68,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
   .message-compose-container {
     display: flex;
     gap: 10px;
@@ -78,7 +86,7 @@ export default {
   }
 
   .message-bubble-container {
-    padding: 10px;
+    padding: 9px;
     border-radius: 20px;
     font-size: 18px;
     margin-bottom: 8px;
@@ -89,11 +97,17 @@ export default {
 
   .bot-message {
     float: left;
+    margin-left: 15px;
     background-color: #3096bf;
+  }
+
+  p, span {
+    margin: 0;
   }
 
   .own-message {
     float: right;
+    margin-right: 15px;
     background-color: #57c441;
   }
 </style>
