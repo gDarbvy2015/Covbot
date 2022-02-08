@@ -22,31 +22,17 @@ export default {
   data() {
     return {
       messages: [
-        {id: 1, self: true, message: "Hey! How's it going?"},
-        {id: 2, self: false, message: "**Eh**, I'm hanging in there. How about you?"},
-        {id: 3, self: false, message: "Eh, I'm hanging in there. How about you?"},
-        {id: 4, self: false, message: "Eh, I'm hanging in there. How about you?"},
-        {id: 5, self: false, message: "Eh, I'm hanging in there. How about you?"},
-        {id: 6, self: false, message: "Eh, I'm hanging in there. How about you?"},
-        {id: 7, self: false, message: "Eh, I'm hanging in there. How about you?"},
-        {id: 8, self: false, message: "Eh, I'm hanging in there. How about you?"},
-        {id: 9, self: false, message: "Eh, I'm hanging in there. How about you?"},
-        {id: 10, self: false, message: "Eh, I'm hanging in there. How about you?"},
-        {id: 11, self: false, message: "Eh, I'm hanging in there. How about you?"},
-        {id: 12, self: false, message: "Eh, I'm hanging in there. How about you?"},
-        {id: 13, self: false, message: "Eh, I'm hanging in there. How about you?"},
-        {id: 14, self: false, message: "Eh, I'm hanging in there. How about you?"},
-        {id: 15, self: false, message: "Eh, I'm hanging in there. How about you?"},
-        {id: 16, self: false, message: "Eh, I'm hanging in there. How about you?"},
-        {id: 17, self: false, message: "Eh, I'm hanging in there. How about you?"},
-        {id: 18, self: true, message: "Can't complain either!"}
+        {id: 1, self: true, message: "Hey! How many cases have there been in Austria this today?"},
+        {id: 2, self: false, message: "I'm afraid I don't have any data on COVID cases in Austria today, yet. :( Try " +
+              "again a bit later."},
+        {id: 3, self: true, message: "How many people have been vaccinated this week in Germany?"},
+        {id: 3, self: false, message: "More than **500.000** people have been vaccinated this week in Germany."}
       ],
       currentMessage: null
     }
   },
   mounted() {
     this.scrollChatToBottom();
-    console.log(converter.makeHtml("**Hi**, this is a small test."))
   },
   methods: {
     convertMessage(msg) {
@@ -77,19 +63,17 @@ export default {
   .container {
     display: flex;
     flex-direction: column;
-    row-gap: 15px;
     width: 100%;
   }
 
   .message-container {
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 
   .message-bubble-container {
     padding: 9px;
     border-radius: 20px;
     font-size: 18px;
-    margin-bottom: 8px;
     display: inline-block;
     max-width: 45%;
     overflow-wrap: break-word;
@@ -97,7 +81,6 @@ export default {
 
   .bot-message {
     float: left;
-    margin-left: 15px;
     background-color: #3096bf;
   }
 
@@ -107,7 +90,6 @@ export default {
 
   .own-message {
     float: right;
-    margin-right: 15px;
     background-color: #57c441;
   }
 </style>
