@@ -18,12 +18,21 @@ export default {
 <style>
 .wrapper {
   max-width: 75%;
-  margin: 15px auto 15px auto;
+  margin: auto;
   max-height: 100vh;
   display: flex;
 }
 
-html, body {
-  max-height: 100vh;
+html{
+  height: 100vh;
+}
+
+body {
+  height: calc(100vh - 2*15px);
+  padding: 15px 0 15px 0;
+}
+
+#app, .wrapper {
+  height: 100%;
 }
 </style>

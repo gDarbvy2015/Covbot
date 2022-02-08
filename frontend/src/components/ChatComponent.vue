@@ -63,11 +63,13 @@ export default {
   .container {
     display: flex;
     flex-direction: column;
+    row-gap: 20px;
     width: 100%;
   }
 
   .message-container {
     overflow-y: auto;
+    height: 100%;
   }
 
   .message-bubble-container {
