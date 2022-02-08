@@ -1,16 +1,16 @@
 <template>
   <div class="wrapper">
-    <chat-component></chat-component>
+    <chat-window></chat-window>
   </div>
 </template>
 
 <script>
-import ChatComponent from './components/ChatComponent.vue'
+import ChatWindow from './components/ChatWindow.vue'
 
 export default {
   name: 'App',
   components: {
-    ChatComponent
+    ChatWindow
   }
 }
 </script>
