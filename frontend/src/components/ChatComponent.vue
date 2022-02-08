@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <n-scrollbar>
+    <n-scrollbar >
       <n-space vertical class="message-container" ref="messageContainer">
         <div v-for="message in messages" :key="message.message" class="message-bubble-container" :class="message.self ? 'own-message': 'bot-message'">
           <span v-html="message.self ? message.message : convertMessage(message.message)"></span>
@@ -9,18 +9,28 @@
     </n-scrollbar>
     <div class="message-compose-container">
       <n-input v-model:value="currentMessage" @keyup.enter="sendMessage" size="large" type="text" placeholder="Write something..." />
-      <n-button type="info" size="large" @click="sendMessage">Send</n-button>
+      <n-button type="info" size="large" @click="sendMessage" class="sendButton">
+        <Icon size="18">
+          <Send />
+        </Icon>
+      </n-button>
     </div>
   </div>
 </template>
 
 <script>
+import {Send} from '@vicons/ionicons5'
+import { Icon } from '@vicons/utils'
 
 var showdown = require("showdown")
 var converter = new showdown.Converter()
 
 export default {
   name: "ChatComponent",
+  components: {
+    Icon,
+    Send
+  },
   data() {
     return {
       messages: [
@@ -93,6 +103,10 @@ export default {
     padding: 15px 15px 0 15px;
     overflow-y: auto;
     height: 100%;
+  }
+
+  .sendButton {
+    border-radius: 10px;
   }
 
   .message-bubble-container {
