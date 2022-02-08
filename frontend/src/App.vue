@@ -17,7 +17,7 @@ export default {
 
 <style>
 .wrapper {
-  max-width: 75%;
+  max-width: 50%;
   margin: auto;
   max-height: 100vh;
   display: flex;

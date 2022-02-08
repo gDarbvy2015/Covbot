@@ -1,10 +1,12 @@
 <template>
   <div class="container">
-    <n-space vertical class="message-container" ref="messageContainer">
-      <div v-for="message in messages" :key="message.message" class="message-bubble-container" :class="message.self ? 'own-message': 'bot-message'">
-        <span v-html="message.self ? message.message : convertMessage(message.message)"></span>
-      </div>
-    </n-space>
+    <n-scrollbar>
+      <n-space vertical class="message-container" ref="messageContainer">
+        <div v-for="message in messages" :key="message.message" class="message-bubble-container" :class="message.self ? 'own-message': 'bot-message'">
+          <span v-html="message.self ? message.message : convertMessage(message.message)"></span>
+        </div>
+      </n-space>
+    </n-scrollbar>
     <div class="message-compose-container">
       <n-input v-model:value="currentMessage" @keyup.enter="sendMessage" size="large" type="text" placeholder="Write something..." />
       <n-button type="info" size="large" @click="sendMessage">Send</n-button>
@@ -78,18 +80,19 @@ export default {
     display: flex;
     flex-direction: column;
     row-gap: 20px;
+    background-color: #F2F6FC;
+    border-radius: 8px;
     width: 100%;
   }
 
   .message-container {
-    padding: 10px 10px 0 10px;
+    padding: 15px 15px 0 15px;
     overflow-y: auto;
     height: 100%;
-    border: 1px solid black;
   }
 
   .message-bubble-container {
-    padding: 9px;
+    padding: 14px 17px 14px 17px;
     border-radius: 20px;
     font-size: 18px;
     display: inline-block;
@@ -99,7 +102,7 @@ export default {
 
   .bot-message {
     float: left;
-    background-color: #3096bf;
+    background-color: white;
   }
 
   p, span {
@@ -108,6 +111,7 @@ export default {
 
   .own-message {
     float: right;
-    background-color: #57c441;
+    background-color: #19233B;
+    color: white;
   }
 </style>
