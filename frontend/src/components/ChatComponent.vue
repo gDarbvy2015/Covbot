@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     <n-scrollbar ref="scrollbarRef">
-      <n-space vertical class="message-container" ref="messageContainer">
+      <div class="message-container" ref="messageContainer">
         <div v-for="message in messages" :key="message.message" class="message-bubble-container" :class="message.self ? 'own-message': 'bot-message'">
           <span v-html="message.self ? message.message : convertMessage(message.message)"></span>
         </div>
-      </n-space>
+      </div>
     </n-scrollbar>
     <div class="message-compose-container">
       <n-input v-model:value="currentMessage" @keyup.enter="sendMessage" size="large" type="text" placeholder="Write something..." />
@@ -106,6 +106,8 @@ export default {
     padding: 15px 15px 0 15px;
     overflow-y: auto;
     height: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   .sendButton {
@@ -114,16 +116,18 @@ export default {
 
   .message-bubble-container {
     padding: 14px 17px 14px 17px;
+    flex: 0 0 100%;
     border-radius: 20px;
     font-size: 18px;
-    display: inline-block;
     max-width: 45%;
     overflow-wrap: break-word;
     box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2);
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
 
   .bot-message {
-    float: left;
+    margin-right: auto;
     background-color: white;
   }
 
@@ -132,7 +136,7 @@ export default {
   }
 
   .own-message {
-    float: right;
+    margin-left: auto;
     background-color: #19233B;
     color: white;
   }
