@@ -3,15 +3,9 @@
     <n-scrollbar ref="scrollbarRef">
       <div class="message-container" ref="messageContainer">
         <transition-group name="expand">
-          <div v-for="message in messages" :key="message.message" class="message-bubble-container"
-               :class="message.self ? 'own-message': 'bot-message'">
-            <template v-if="!message.loading">
-              <span v-html="message.self ? message.message : convertMessage(message.message)"></span>
-            </template>
-            <template v-else>
-              <div class="loading-dots"></div>
-            </template>
-          </div>
+          <template v-for="message in messages" :key="message.id" >
+            <chat-bubble :message="message" class="message-bubble-container"></chat-bubble>
+          </template>
         </transition-group>
       </div>
     </n-scrollbar>
@@ -28,15 +22,14 @@
 <script>
 import {Send} from '@vicons/ionicons5'
 import {Icon} from '@vicons/utils'
-
-var showdown = require("showdown")
-var converter = new showdown.Converter()
+import ChatBubble from "@/components/ChatBubble";
 
 export default {
   name: "ChatWindow",
   components: {
     Icon,
-    Send
+    Send,
+    ChatBubble
   },
   data() {
     return {
@@ -63,8 +56,7 @@ export default {
         {id: 15, self: false, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
         {id: 16, self: false, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
         {id: 17, self: true, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST."},
-        {id: 17, self: false, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST.", loading: true},
-        //{id: 12, self: false, message: "OKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK OKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK OKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK OKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK."},
+        {id: 18, self: false, message: "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST.", loading: true},
       ],
       currentMessage: null
     }
@@ -72,9 +64,6 @@ export default {
   mounted() {
   },
   methods: {
-    convertMessage(msg) {
-      return converter.makeHtml(msg);
-    },
     sendMessage() {
       if (this.currentMessage != null && this.currentMessage.trim() !== "") {
         let id = this.messages.length;
@@ -85,7 +74,6 @@ export default {
       }
     },
     scrollChatToBottom() {
-      console.log(this.$refs.messageContainer)
       this.$refs.scrollbarRef.scrollTo({top: this.$refs.messageContainer.scrollHeight})
     }
   }
@@ -93,32 +81,6 @@ export default {
 </script>
 
 <style>
-
-.loading-dots{
-  width: 50px;
-  height: 24px;
-  background: radial-gradient(circle closest-side, currentColor 90%, #0000) 0 50%,
-  radial-gradient(circle closest-side, currentColor 90%, #0000) 50% 50%,
-  radial-gradient(circle closest-side, currentColor 90%, #0000) 100% 50%;
-  background-size: calc(100% / 3) 12px;
-  background-repeat: no-repeat;
-  animation: dots-animation 1s infinite linear;
-}
-
-@keyframes dots-animation {
-  20% {
-    background-position: 0 0, 50% 50%, 100% 50%
-  }
-  40% {
-    background-position: 0 100%, 50% 0, 100% 50%
-  }
-  60% {
-    background-position: 0 50%, 50% 100%, 100% 0
-  }
-  80% {
-    background-position: 0 50%, 50% 50%, 100% 100%
-  }
-}
 
 .message-compose-container {
   display: flex;
@@ -166,21 +128,6 @@ export default {
   box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2);
   margin-top: 10px;
   margin-bottom: 10px;
-}
-
-.bot-message {
-  margin-right: auto;
-  background-color: white;
-}
-
-p, span {
-  margin: 0;
-}
-
-.own-message {
-  margin-left: auto;
-  background-color: #19233B;
-  color: white;
 }
 
 .expand-enter-active {
