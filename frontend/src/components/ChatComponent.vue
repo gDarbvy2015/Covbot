@@ -86,6 +86,7 @@ export default {
     padding: 10px;
     border-radius: 10px;
     background-color: white;
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2);
   }
 
   .container {
@@ -118,6 +119,7 @@ export default {
     display: inline-block;
     max-width: 45%;
     overflow-wrap: break-word;
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2);
   }
 
   .bot-message {
