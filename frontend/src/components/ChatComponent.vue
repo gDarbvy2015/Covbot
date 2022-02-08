@@ -73,13 +73,17 @@ export default {
 <style>
   .message-compose-container {
     display: flex;
+    justify-content: space-around;
     gap: 10px;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
   }
 
   .container {
     display: flex;
     flex-direction: column;
-    row-gap: 20px;
     background-color: #F2F6FC;
     border-radius: 8px;
     width: 100%;
