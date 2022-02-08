@@ -35,34 +35,64 @@ export default {
   data() {
     return {
       messages: [
-        {id: 1, self: true, message: "Hey! How many cases have there been in Austria this today?"},
-        {
-          id: 2,
-          self: false,
-          message: "I'm afraid I don't have any data on COVID cases in Austria today, yet. :( Try " +
-              "again a bit later."
-        },
-        {id: 3, self: true, message: "How many people have been vaccinated this week in Germany?"},
-        {id: 4, self: false, message: "More than **500.000** people have been vaccinated this week in Germany."},
-        {id: 5, self: true, message: "On which day where most people vaccinated in Austria?"},
-        {id: 6, self: false, message: "**26th of September 2021** was the day were the most people were vaccinated in Austria."},
+        // {id: 1, self: true, message: "Hey! How many cases have there been in Austria this today?"},
+        // {
+        //   id: 2,
+        //   self: false,
+        //   message: "I'm afraid I don't have any data on COVID cases in Austria today, yet. :( Try " +
+        //       "again a bit later."
+        // },
+        // {id: 3, self: true, message: "How many people have been vaccinated this week in Germany?"},
+        // {id: 4, self: false, message: "More than **500.000** people have been vaccinated this week in Germany."},
+        // {id: 5, self: true, message: "On which day where most people vaccinated in Austria?"},
+        // {id: 6, self: false, message: "**26th of September 2021** was the day were the most people were vaccinated in Austria."},
 
       ],
       currentMessage: null
     }
   },
   mounted() {
+    this.addWelcomeMessage()
   },
   methods: {
+    addMessage(self, message, loading) {
+      var id = uuidv4();
+      this.messages.push({
+        id: id,
+        self: self,
+        message: message,
+        loading: loading
+      })
+
+      return id;
+    },
+    addWelcomeMessage() {
+      var message = "Hi there! My name is **Covbot**, I am a chatbot that can help you answer certain questions about COVID." +
+          "\n\n\nIn particular, I have access to information about:\n" +
+          "1. The number of positive COVID cases detected in certain countries every day.\n" +
+          "2. The number of vaccinations that were administered in certain countries every day.\n\n" +
+          "I was built as part of a project for a bachelor thesis. I'm still in my infancy, meaning that I have a couple " +
+          "of limitations:\n" +
+          "1. Unfortunately, I don't have any memory (yet). :( This means that every message you send" +
+          " has to contain all of the information that is necessary for me, you can't refer to anything that you've" +
+          " written in the past.\n" +
+          "2. I'm kind of bad at small talk and understanding difficult questions. So try to keep your questions " +
+          "relatively short and precise!\n\n" +
+          "Anyway, ask away! ;)"
+
+      var messageId = this.addMessage(false, message, true);
+
+      setTimeout(() => {
+        this.messages.filter(msg => msg.id === messageId)[0].loading = false;
+      }, 2000)
+    },
     sendMessage() {
       if (this.currentMessage != null && this.currentMessage.trim() !== "") {
-        let id = this.messages.length;
-        this.messages.push({id: uuidv4(), self: true, message: this.currentMessage});
+        this.addMessage(true, this.currentMessage, false)
         this.currentMessage = null;
 
         // Simulate response
-        id = uuidv4();
-        this.messages.push({id: id, self: false, message: "I successfully received your message. This will be the answer!", loading: true})
+        let id = this.addMessage(false, "I successfully received your message. This will be the answer!", true);
 
         setTimeout(() => {
           this.messages.filter(msg => msg.id === id)[0].loading = false;
@@ -121,7 +151,7 @@ export default {
   flex: 0 0 100%;
   border-radius: 20px;
   font-size: 18px;
-  max-width: 45%;
+  max-width: 65%;
   overflow-wrap: break-word;
   box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2);
   margin-top: 10px;
