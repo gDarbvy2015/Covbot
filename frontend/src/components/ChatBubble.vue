@@ -24,7 +24,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .loading-dots{
   width: 50px;
   height: 24px;
