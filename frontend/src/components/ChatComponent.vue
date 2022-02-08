@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <n-scrollbar >
+    <n-scrollbar ref="scrollbarRef">
       <n-space vertical class="message-container" ref="messageContainer">
         <div v-for="message in messages" :key="message.message" class="message-bubble-container" :class="message.self ? 'own-message': 'bot-message'">
           <span v-html="message.self ? message.message : convertMessage(message.message)"></span>
@@ -9,17 +9,15 @@
     </n-scrollbar>
     <div class="message-compose-container">
       <n-input v-model:value="currentMessage" @keyup.enter="sendMessage" size="large" type="text" placeholder="Write something..." />
-      <n-button type="info" size="large" @click="sendMessage" class="sendButton">
-        <Icon size="18">
-          <Send />
-        </Icon>
-      </n-button>
+      <Icon size="35" color="black" @click="sendMessage" class="sendIcon">
+        <Send />
+      </Icon>
     </div>
   </div>
 </template>
 
 <script>
-import {Send} from '@vicons/ionicons5'
+import { Send } from '@vicons/ionicons5'
 import { Icon } from '@vicons/utils'
 
 var showdown = require("showdown")
@@ -58,7 +56,6 @@ export default {
     }
   },
   mounted() {
-    this.scrollChatToBottom();
   },
   methods: {
     convertMessage(msg) {
@@ -74,7 +71,7 @@ export default {
       }
     },
     scrollChatToBottom() {
-      this.$refs.messageContainer.$el.scrollTop = this.$refs.messageContainer.$el.scrollHeight;
+      this.$refs.scrollbarRef.scrollTo({top: this.$refs.messageContainer.$el.scrollHeight})
     }
   }
 }
@@ -85,7 +82,7 @@ export default {
     display: flex;
     justify-content: space-around;
     gap: 10px;
-    margin: 10px;
+    margin: 13px;
     padding: 10px;
     border-radius: 10px;
     background-color: white;
@@ -95,8 +92,13 @@ export default {
     display: flex;
     flex-direction: column;
     background-color: #F2F6FC;
-    border-radius: 8px;
+    border-radius: 12px;
     width: 100%;
+  }
+
+  .sendIcon {
+    margin: 0 5px 0 5px;
+    cursor: pointer;
   }
 
   .message-container {
