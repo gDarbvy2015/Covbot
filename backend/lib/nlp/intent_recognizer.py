@@ -8,6 +8,7 @@ import spacy
 from nltk.stem import PorterStemmer, WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 from dateutil.parser import *
+from lib.nlp.nlp_pipeline import NLPPipeline
 
 #from spacy.cli import download as spacy_download
 #spacy_download('en')
@@ -22,8 +23,8 @@ class Topic(Enum):
 
 
 class Area(Enum):
-    COUNTRY = 1
-    CONTINENT = 2
+    ONE_COUNTRY = 1
+    MANY_COUNTRIES = 2
     NOT_SPECIFIED = 3
     WORLDWIDE = 4
 
@@ -48,6 +49,7 @@ class IntentRecognizer:
         self.spacy = spacy.load("en_core_web_sm")
         self.stemmer = PorterStemmer()
         self.lemmatizer = WordNetLemmatizer()
+        self.nlp_pipeline = NLPPipeline()
 
     def get_topic(self, sentence: str) -> (Topic, dict):
         vaccine_triggers = {self.stemmer.stem(word) for word in ["shot", "vaccine", "catch"]}
@@ -88,8 +90,17 @@ class IntentRecognizer:
         if len(converted_dates) == 0:
             return TimeFrame.NOT_SPECIFIED, None
         else:
-            #TODO: Distinguish more cases
             return TimeFrame.SINGLE_DAY, {"date": converted_dates[0]}
+
+    def get_area(self, sentence: str) -> (TimeFrame, datetime.date):
+        annotated_sentence = self.spacy(sentence)
+        locations = [self.nlp_pipeline.normalize_country_name(ent.text)
+                     for ent in annotated_sentence.ents if ent.label_ == "GPE"]
+
+        if len(locations) == 0:
+            return Area.NOT_SPECIFIED, None
+        else:
+            return Area.ONE_COUNTRY, {"country": locations[0]}
 
     def _get_stemmed_tokens(self, pos_tagged_tokens: list) -> list:
         stemmed_tokens = []
@@ -105,9 +116,9 @@ class IntentRecognizer:
 
 
 if __name__ == '__main__':
-    sent1 = "How many people were infected on 27th of November 2021 in Austria"
+    sent1 = "How many people were infected on 27th of November 2021 in Austria, the USA, the U.S.A"
     sent2 = "How many people caught COVID two days ago in Germany?"
 
     ir = IntentRecognizer()
-    print(ir.get_date(sent1))
-    print(ir.get_date(sent2))
+    print(ir.get_area(sent1))
+    print(ir.get_area(sent2))
