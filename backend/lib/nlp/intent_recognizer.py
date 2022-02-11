@@ -1,3 +1,5 @@
+import datetime
+import typing
 from enum import Enum
 
 import nltk
@@ -5,20 +7,31 @@ from nltk import pos_tag
 import spacy
 from nltk.stem import PorterStemmer, WordNetLemmatizer
 from nltk.tokenize import word_tokenize
+from dateutil.parser import *
+
+#from spacy.cli import download as spacy_download
+#spacy_download('en')
+
+#nltk.download('punkt')
 
 
 class Topic(Enum):
-    VACCINATION = 1
-    POSITIVE_CASE = 2
-    UNSURE = 3
-    UNKNOWN = 4
+    SINGLE_TOPIC = 1
+    MULTIPLE_TOPICS = 2
+    NOT_SPECIFIED = 3
 
 
 class Area(Enum):
     COUNTRY = 1
     CONTINENT = 2
-    UNKNOWN = 3
+    NOT_SPECIFIED = 3
     WORLDWIDE = 4
+
+
+class TimeFrame(Enum):
+    SINGLE_DAY = 1
+    TIME_FRAME = 2
+    NOT_SPECIFIED = 3
 
 
 class Intention(Enum):
@@ -27,7 +40,7 @@ class Intention(Enum):
     MAXIMUM = 3
     MINIMUM = 4
     DATE = 5
-    UNKNOWN = 6
+    NOT_SPECIFIED = 6
 
 
 class IntentRecognizer:
@@ -36,7 +49,7 @@ class IntentRecognizer:
         self.stemmer = PorterStemmer()
         self.lemmatizer = WordNetLemmatizer()
 
-    def get_topic(self, sentence: str) -> Topic:
+    def get_topic(self, sentence: str) -> (Topic, dict):
         vaccine_triggers = {self.stemmer.stem(word) for word in ["shot", "vaccine", "catch"]}
         case_triggers = {self.stemmer.stem(word) for word in ["case", "infection", "test", "positive"]}
 
@@ -50,20 +63,39 @@ class IntentRecognizer:
 
         if len(vaccine_overlaps) == 0:
             if len(case_overlaps) == 0:
-                return Topic.UNKNOWN
+                return Topic.NOT_SPECIFIED, None
             else:
-                return Topic.POSITIVE_CASE
+                return Topic.SINGLE_TOPIC, {"topic": "cases"}
         else:
             if len(case_overlaps) == 0:
-                return Topic.VACCINATION
+                return Topic.SINGLE_TOPIC, {"topic": "vaccinations"}
             else:
-                return Topic.UNSURE
+                return Topic.MULTIPLE_TOPICS, {"topics": ["cases", "vaccinations"]}
+
+    def get_date(self, sentence: str) -> (TimeFrame, datetime.date):
+        annotated_sentence = self.spacy(sentence)
+        dates = [ent.text for ent in annotated_sentence.ents if ent.label_ == "DATE"]
+
+        def convert_date(date: str) -> typing.Union[datetime.date, None]:
+            try:
+                return parse(date).date()
+            except ParserError:
+                return None
+
+        converted_dates = [actual_date for actual_date in
+                           [convert_date(date) for date in dates] if actual_date is not None]
+
+        if len(converted_dates) == 0:
+            return TimeFrame.NOT_SPECIFIED, None
+        else:
+            #TODO: Distinguish more cases
+            return TimeFrame.SINGLE_DAY, {"date": converted_dates[0]}
 
     def _get_stemmed_tokens(self, pos_tagged_tokens: list) -> list:
         stemmed_tokens = []
         for word, tag in pos_tagged_tokens:
             wntag = tag[0].lower()
-            wntag = wntag if wntag in ['a', 'r', 'n', 'v'] else None
+            wntag = wntag if wntag in ["a", "r", "n", "v"] else None
             if not wntag:
                 lemma = word
             else:
@@ -73,9 +105,9 @@ class IntentRecognizer:
 
 
 if __name__ == '__main__':
-    sent1 = "How many people were infected on the 27th of November 2021 in Austria"
+    sent1 = "How many people were infected on 27th of November 2021 in Austria"
     sent2 = "How many people caught COVID two days ago in Germany?"
 
     ir = IntentRecognizer()
-    print(ir.get_topic(sent1))
-    print(ir.get_topic(sent2))
+    print(ir.get_date(sent1))
+    print(ir.get_date(sent2))
