@@ -2,7 +2,6 @@ import datetime
 import typing
 from enum import Enum
 
-import nltk
 from nltk import pos_tag
 import spacy
 from nltk.stem import PorterStemmer, WordNetLemmatizer
@@ -35,9 +34,8 @@ class TimeFrame(Enum):
     NOT_SPECIFIED = 3
 
 
-class Intention(Enum):
+class Datapoint(Enum):
     NUMBER = 1
-    REPORT = 2
     MAXIMUM = 3
     MINIMUM = 4
     DATE = 5
@@ -51,7 +49,20 @@ class IntentRecognizer:
         self.lemmatizer = WordNetLemmatizer()
         self.nlp_pipeline = NLPPipeline()
 
-    def get_topic(self, sentence: str) -> (Topic, dict):
+    def get_intention(self, sentence: str) -> dict:
+        topic = self.get_topic(sentence)
+        date = self.get_date(sentence)
+        area = self.get_area(sentence)
+        datapoint = self.get_datapoint(sentence)
+
+        return {
+            "topic": topic,
+            "date": date,
+            "area": area,
+            "datapoint": datapoint
+        }
+
+    def get_topic(self, sentence: str) -> dict:
         vaccine_triggers = {self.stemmer.stem(word) for word in ["shot", "vaccine", "catch"]}
         case_triggers = {self.stemmer.stem(word) for word in ["case", "infection", "test", "positive"]}
 
@@ -65,16 +76,16 @@ class IntentRecognizer:
 
         if len(vaccine_overlaps) == 0:
             if len(case_overlaps) == 0:
-                return Topic.NOT_SPECIFIED, None
+                return {"type": Topic.NOT_SPECIFIED}
             else:
-                return Topic.SINGLE_TOPIC, {"topic": "cases"}
+                return {"type": Topic.SINGLE_TOPIC, "topic": "cases"}
         else:
             if len(case_overlaps) == 0:
-                return Topic.SINGLE_TOPIC, {"topic": "vaccinations"}
+                return {"type": Topic.SINGLE_TOPIC, "topic": "vaccinations"}
             else:
-                return Topic.MULTIPLE_TOPICS, {"topics": ["cases", "vaccinations"]}
+                return {"type": Topic.MULTIPLE_TOPICS, "topic": ["cases", "vaccinations"]}
 
-    def get_date(self, sentence: str) -> (TimeFrame, datetime.date):
+    def get_date(self, sentence: str) -> dict:
         annotated_sentence = self.spacy(sentence)
         dates = [ent.text for ent in annotated_sentence.ents if ent.label_ == "DATE"]
 
@@ -88,19 +99,28 @@ class IntentRecognizer:
                            [convert_date(date) for date in dates] if actual_date is not None]
 
         if len(converted_dates) == 0:
-            return TimeFrame.NOT_SPECIFIED, None
+            return {"type": TimeFrame.NOT_SPECIFIED}
         else:
-            return TimeFrame.SINGLE_DAY, {"date": converted_dates[0]}
+            return {"type": TimeFrame.NOT_SPECIFIED, "date": converted_dates[0]}
 
-    def get_area(self, sentence: str) -> (TimeFrame, datetime.date):
+    def get_area(self, sentence: str) -> (Area, dict):
         annotated_sentence = self.spacy(sentence)
         locations = [self.nlp_pipeline.normalize_country_name(ent.text)
                      for ent in annotated_sentence.ents if ent.label_ == "GPE"]
 
         if len(locations) == 0:
-            return Area.NOT_SPECIFIED, None
+            return {"type": Area.NOT_SPECIFIED}
         else:
-            return Area.ONE_COUNTRY, {"country": locations[0]}
+            return {"type": Area.ONE_COUNTRY, "country": locations[0]}
+
+    def get_datapoint(self, sentence: str) -> dict:
+        number_triggers = {"many"}
+        tokenized_sentence = word_tokenize(sentence)
+
+        if len(number_triggers.intersection(tokenized_sentence)) != 0:
+            return {"type": Datapoint.NUMBER}
+        else:
+            return {"type": Datapoint.NOT_SPECIFIED}
 
     def _get_stemmed_tokens(self, pos_tagged_tokens: list) -> list:
         stemmed_tokens = []
@@ -120,5 +140,5 @@ if __name__ == '__main__':
     sent2 = "How many people caught COVID two days ago in Germany?"
 
     ir = IntentRecognizer()
-    print(ir.get_area(sent1))
-    print(ir.get_area(sent2))
+    print(ir.get_intention(sent1))
+    print(ir.get_intention(sent2))
