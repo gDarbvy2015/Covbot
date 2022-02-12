@@ -1,27 +1,24 @@
 import os
 import sys
 
-from sqlalchemy import create_engine, MetaData, Table, Column, Integer, DATE, String, BigInteger
+from sqlalchemy import MetaData, Table, Column, Integer, DATE, String, BigInteger
 from sqlalchemy.exc import DatabaseError
 from lib.util.logger import Logger
 
 from lib.database.dataset_handler import DatasetHandler
+from lib.database.database_connection import DatabaseConnection
 
 
 class DatabaseManager:
     def __init__(self):
         self.logger = Logger(__name__)
-        self.host = os.environ.get("COVBOT_DB_HOST")
-        self.port = os.environ.get("COVBOT_DB_PORT")
-        self.user = os.environ.get("COVBOT_USER")
-        self.password = os.environ.get("COVBOT_PASSWORD")
-        self.db_server_link = f"mysql://{self.user}:{self.password}@{self.host}:{self.port}/"
+        self.connection = DatabaseConnection()
         self.db_name = "covbot"
         self.dataset_handler = DatasetHandler()
 
     def create_database(self) -> None:
         self.logger.info("Creating the database for Covbot...")
-        engine = create_engine(self.db_server_link)
+        engine = self.connection.create_engine()
 
         try:
             engine.execute(f"CREATE DATABASE {self.db_name}")
@@ -44,7 +41,7 @@ class DatabaseManager:
     def update_covid_cases(self) -> None:
         covid_cases = self.dataset_handler.load_covid_cases()
 
-        engine = create_engine(self.db_server_link + f"{self.db_name}")
+        engine = self.connection.create_engine(self.db_name)
         db_connection = engine.connect()
 
         self.logger.info("Updating the daily detected covid cases...")
@@ -55,7 +52,7 @@ class DatabaseManager:
     def update_vaccinations(self) -> None:
         vaccinations = self.dataset_handler.load_vaccinations()
 
-        engine = create_engine(self.db_server_link + f"{self.db_name}")
+        engine = self.connection.create_engine(self.db_name)
         db_connection = engine.connect()
 
         self.logger.info("Updating daily vaccinations...")
@@ -67,7 +64,7 @@ class DatabaseManager:
 
     def _create_tables(self) -> None:
         metadata = MetaData()
-        engine = create_engine(self.db_server_link + f"{self.db_name}")
+        engine = self.connection.create_engine(self.db_name)
 
         Table(
             "cases", metadata,
