@@ -22,10 +22,6 @@ class DatasetHandler:
         data["country_normalized"] = data.apply(lambda row:
                                                 self.nlp_pipeline.normalize_country_name(row["country"]), axis=1)
 
-        # Increase by one so that cases from yesterday are shown as today
-        #data["date"] = data.apply(lambda row:
-        #                          self._increase_date_by_one(row["date"]), axis=1)
-
         exclude_countries = ["upper middle income", "summer olympics 2020", "lower middle income",
                              "low income", "international", "world", "high income"]
         data = data[~data["country_normalized"].isin(exclude_countries)]
@@ -42,10 +38,6 @@ class DatasetHandler:
 
         data["country_normalized"] = data.apply(lambda row:
                                                 self.nlp_pipeline.normalize_country_name(row["country"]), axis=1)
-
-        # Increase by one so that vaccinations from yesterday are shown as today
-        #data["date"] = data.apply(lambda row:
-        #                          self._increase_date_by_one(row["date"]), axis=1)
 
         exclude_countries = ["world", "lower middle income", "low income", "high income", "upper middle income"]
         data = data[~data["country_normalized"].isin(exclude_countries)]
