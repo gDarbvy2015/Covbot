@@ -1,6 +1,5 @@
 import datetime
 import typing
-from enum import Enum
 
 from nltk import pos_tag
 import spacy
@@ -8,38 +7,7 @@ from nltk.stem import PorterStemmer, WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 from dateutil.parser import *
 from lib.nlp.nlp_pipeline import NLPPipeline
-
-#from spacy.cli import download as spacy_download
-#spacy_download('en')
-
-#nltk.download('punkt')
-
-
-class Topic(Enum):
-    SINGLE_TOPIC = 1
-    MULTIPLE_TOPICS = 2
-    NOT_SPECIFIED = 3
-
-
-class Area(Enum):
-    ONE_COUNTRY = 1
-    MANY_COUNTRIES = 2
-    NOT_SPECIFIED = 3
-    WORLDWIDE = 4
-
-
-class TimeFrame(Enum):
-    SINGLE_DAY = 1
-    TIME_FRAME = 2
-    NOT_SPECIFIED = 3
-
-
-class Datapoint(Enum):
-    NUMBER = 1
-    MAXIMUM = 3
-    MINIMUM = 4
-    DATE = 5
-    NOT_SPECIFIED = 6
+from lib.intention.intention import Topic, TimeFrame, Datapoint, Area
 
 
 class IntentRecognizer:
