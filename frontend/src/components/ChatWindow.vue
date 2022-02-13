@@ -11,7 +11,7 @@
     </n-scrollbar>
     <div class="message-compose-container">
       <n-input v-model:value="currentMessage" @keyup.enter="sendMessage" size="large" type="text"
-               placeholder="Write something..."/>
+               placeholder="Write something..." :disabled="!consent" />
       <Icon size="35" color="black" @click="sendMessage" class="sendIcon">
         <Send/>
       </Icon>
@@ -24,6 +24,7 @@ import {Send} from '@vicons/ionicons5'
 import {Icon} from '@vicons/utils'
 import ChatBubble from "@/components/ChatBubble";
 import { v4 as uuidv4 } from 'uuid';
+import {useDialog} from "naive-ui";
 
 export default {
   name: "ChatWindow",
@@ -48,13 +49,43 @@ export default {
         // {id: 6, self: false, message: "**26th of September 2021** was the day were the most people were vaccinated in Austria."},
 
       ],
-      currentMessage: null
+      currentMessage: null,
+      consent: null
     }
   },
   mounted() {
-    this.addWelcomeMessage()
+    if(localStorage.getItem("information_consent") === null) {
+      this.askConsent();
+    } else {
+      this.consent = JSON.parse(localStorage.getItem("information_consent"));
+    }
   },
   methods: {
+    askConsent() {
+      if(localStorage.getItem("information_consent") == null) {
+        const dialog = useDialog()
+        dialog.create({
+          title: 'Storing conversations',
+          content: 'Do you agree to saving this conversation history on the server in order to improve ' +
+              'the bot?',
+          negativeText: 'Refuse',
+          positiveText: 'Allow',
+          closable: false,
+          onPositiveClick: () => {
+            localStorage.setItem("information_consent", "true");
+            this.setConsent(true);
+          },
+          onNegativeClick: () => {
+            localStorage.setItem("information_consent", "false");
+            this.setConsent(false);
+          }
+        })
+      }
+    },
+    setConsent(value) {
+      this.consent = value;
+      this.addWelcomeMessage()
+    },
     addMessage(self, message, loading) {
       var id = uuidv4();
       this.messages.push({

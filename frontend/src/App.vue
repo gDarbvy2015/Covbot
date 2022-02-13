@@ -1,7 +1,9 @@
 <template>
-  <div class="wrapper">
-    <chat-window></chat-window>
-  </div>
+  <n-dialog-provider>
+    <div class="wrapper">
+      <chat-window></chat-window>
+    </div>
+  </n-dialog-provider>
 </template>
 
 <script>
