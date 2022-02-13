@@ -4,7 +4,7 @@ from lib.database.database_connection import DatabaseConnection
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from sqlalchemy.sql.selectable import Select
-from entities import Case, Vaccination
+from lib.database.entities import Case, Vaccination
 from lib.intention.intent_recognizer import IntentRecognizer
 from lib.intention.intent import Intent, Topic, Area, TimeFrame, Datapoint
 
@@ -23,15 +23,7 @@ class Querier:
         filtered_time = self._filter_time_frame(intent, filtered_location)
         results = self.session.execute(filtered_time).scalars().all()
 
-        wanted_value = self._get_wanted_value(intent, results)
-
-        return wanted_value
-
-    def _get_wanted_value(self, intent: Intent, results: List) -> Any:
-        if intent.datapoint["type"] == Datapoint.NUMBER:
-            return results[0].cases
-        else:
-            raise NotImplementedError()
+        return results
 
     def _filter_time_frame(self, intent: Intent, selection: Select) -> Select:
         if intent.time_frame["type"] == TimeFrame.SINGLE_DAY:
