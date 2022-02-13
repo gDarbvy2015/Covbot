@@ -64,7 +64,7 @@ class IntentRecognizer:
         if len(converted_dates) == 0:
             return {"type": TimeFrame.NOT_SPECIFIED}
         else:
-            return {"type": TimeFrame.NOT_SPECIFIED, "date": converted_dates[0]}
+            return {"type": TimeFrame.SINGLE_DAY, "date": converted_dates[0]}
 
     def get_area(self, sentence: str) -> (Area, dict):
         annotated_sentence = self.spacy(sentence)
@@ -99,9 +99,7 @@ class IntentRecognizer:
 
 
 if __name__ == '__main__':
-    sent1 = "How many people were infected on 27th of November 2021 in Austria, the USA, the U.S.A"
-    sent2 = "How many people caught COVID two days ago in Germany?"
+    sent1 = "How many people were infected on 27th of November 2021 in Austria"
 
     ir = IntentRecognizer()
     print(ir.get_intent(sent1))
-    print(ir.get_intent(sent2))
