@@ -1,2 +1,0 @@
-Add readme to the repository
-Add documentation to the various classes
