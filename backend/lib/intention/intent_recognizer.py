@@ -26,8 +26,8 @@ class IntentRecognizer:
         return Intent(topic, area, time_frame, datapoint)
 
     def get_topic(self, sentence: str) -> dict:
-        vaccine_triggers = {self.stemmer.stem(word) for word in ["shot", "vaccine", "catch"]}
-        case_triggers = {self.stemmer.stem(word) for word in ["case", "infection", "test", "positive"]}
+        vaccine_triggers = {self.stemmer.stem(word) for word in ["shot", "vaccine",]}
+        case_triggers = {self.stemmer.stem(word) for word in ["case", "infection", "test", "positive", "catch"]}
 
         tokenized_sentence = word_tokenize(sentence)
         pos_tagged_sentence = pos_tag(tokenized_sentence)
