@@ -3,7 +3,8 @@ from lib.util.logger import Logger
 import hashlib
 import requests
 from lib.database.database_manager import DatabaseManager
-from lib.util.config import Config
+import os
+import pathlib
 
 
 class DatasetUpdater:
@@ -15,20 +16,19 @@ class DatasetUpdater:
     files accordingly.
     """
     def __init__(self):
-        self.config = Config()
         self.db_manager = DatabaseManager()
 
         self.tracked_files = [
             {
                 "name": "vaccinations",
                 "url": "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv",
-                "local_path": self.config.get_vaccinations_path(),
+                "local_path": pathlib.Path(os.environ.get("COVBOT_VACCINATIONS_PATH")),
                 "on_update": self.db_manager.update_vaccinations
             },
             {
                 "name": "cases",
                 "url": "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/jhu/new_cases.csv",
-                "local_path": self.config.get_cases_path(),
+                "local_path": pathlib.Path(os.environ.get("COVBOT_CASES_PATH")),
                 "on_update": self.db_manager.update_covid_cases
             }
         ]
