@@ -2,20 +2,19 @@ from datetime import datetime, timedelta
 
 import pandas
 import pandas as pd
+import os
 
 from lib.nlp.nlp_pipeline import NLPPipeline
 from lib.util.logger import Logger
-from lib.util.config import Config
 
 
 class DatasetHandler:
     def __init__(self):
         self.nlp_pipeline = NLPPipeline()
         self.logger = Logger(__name__)
-        self.config = Config()
 
     def load_covid_cases(self) -> pd.DataFrame:
-        path = self.config.get_cases_path()
+        path = os.environ.get("COVBOT_CASES_PATH")
         data = pd.read_csv(path).set_index("date").stack().reset_index()
         data.columns = ["date", "country", "cases"]
 
@@ -31,7 +30,7 @@ class DatasetHandler:
         return data
 
     def load_vaccinations(self) -> pd.DataFrame:
-        path = self.config.get_vaccinations_path()
+        path = os.environ.get("COVBOT_VACCINATIONS_PATH")
         relevant_columns = ["location", "date", "total_vaccinations", "people_vaccinated", "daily_vaccinations",
                             "daily_people_vaccinated"]
         data = pd.read_csv(path)[relevant_columns]
@@ -64,3 +63,4 @@ class DatasetHandler:
 if __name__ == '__main__':
     dataset_handler = DatasetHandler()
     print(dataset_handler.load_vaccinations())
+    print(dataset_handler.load_covid_cases())
