@@ -33,6 +33,12 @@ class Vaccination(Base):
 
 
 def create_tables(engine: Engine) -> None:
-    Base.metadata.drop_all(engine)
+    drop_tables(engine)
     Base.metadata.create_all(engine)
+
+
+def drop_tables(engine: Engine, tables=None) -> None:
+    if tables is None:
+        tables = [Vaccination.__table__, Case.__tablename__]
+    Base.metadata.drop_all(engine, tables)
 
