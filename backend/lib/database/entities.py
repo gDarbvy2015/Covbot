@@ -15,18 +15,8 @@ class Case(Base):
     date = Column(Date)
     country = Column(String(256))
     country_normalized = Column(String(256))
-    positive_cases = Column(BigInteger)
-    cumulative_positive_cases = Column(BigInteger)
-
-    @staticmethod
-    def from_pandas_row(row: pandas.Series) -> Case:
-        return Case(
-            country=row["country"],
-            date=row["date"],
-            positive_cases=row["cases"],
-            country_normalized=row["country_normalized"],
-            cumulative_positive_cases=row["cumulative_cases"]
-        )
+    cases = Column(BigInteger)
+    cumulative_cases = Column(BigInteger)
 
 
 class Vaccination(Base):
