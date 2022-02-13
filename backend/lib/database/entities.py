@@ -32,9 +32,11 @@ class Vaccination(Base):
     daily_people_vaccinated = Column(Integer)
 
 
-def create_tables(engine: Engine) -> None:
-    drop_tables(engine)
-    Base.metadata.create_all(engine)
+def create_tables(engine: Engine, tables=None) -> None:
+    if tables is None:
+        tables = [Vaccination.__table__, Case.__tablename__]
+    drop_tables(engine, tables)
+    Base.metadata.create_all(engine, tables)
 
 
 def drop_tables(engine: Engine, tables=None) -> None:

@@ -42,6 +42,7 @@ class DatabaseManager:
 
         self.logger.info("Deleting previous covid cases entries...")
         drop_tables(engine, [Case.__table__])
+        create_tables(engine, [Case.__table__])
         self.logger.info("Updating the daily detected covid cases...")
         covid_cases.to_sql(name="cases", con=db_connection, if_exists="append", index=False)
         self.logger.info("Daily detected covid cases were updated.")
@@ -54,6 +55,7 @@ class DatabaseManager:
 
         self.logger.info("Deleting previous vaccinations entries...")
         drop_tables(engine, [Vaccination.__table__])
+        create_tables(engine, [Vaccination.__table__])
         self.logger.info("Updating daily vaccinations...")
         vaccinations.to_sql(name="vaccinations", con=db_connection, if_exists="append", index=False)
         self.logger.info("Daily vaccinations were updated.")
