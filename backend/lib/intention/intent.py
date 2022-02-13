@@ -29,8 +29,11 @@ class Datapoint(Enum):
 
 
 class Intent:
-    def __init__(self, topic: Topic, area: Area, time_frame: TimeFrame, datapoint: Datapoint):
+    def __init__(self, topic: dict, area: dict, time_frame: dict, datapoint: dict):
         self.topic = topic
         self.area = area
         self.time_frame = time_frame
         self.datapoint = datapoint
+
+    def __repr__(self):
+        return str(self.__dict__)

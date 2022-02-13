@@ -7,7 +7,7 @@ from nltk.stem import PorterStemmer, WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 from dateutil.parser import *
 from lib.nlp.nlp_pipeline import NLPPipeline
-from lib.intention.intention import Topic, TimeFrame, Datapoint, Area
+from lib.intention.intent import Topic, TimeFrame, Datapoint, Area, Intent
 
 
 class IntentRecognizer:
@@ -17,18 +17,13 @@ class IntentRecognizer:
         self.lemmatizer = WordNetLemmatizer()
         self.nlp_pipeline = NLPPipeline()
 
-    def get_intention(self, sentence: str) -> dict:
+    def get_intent(self, sentence: str) -> Intent:
         topic = self.get_topic(sentence)
-        date = self.get_date(sentence)
+        time_frame = self.get_time_frame(sentence)
         area = self.get_area(sentence)
         datapoint = self.get_datapoint(sentence)
 
-        return {
-            "topic": topic,
-            "date": date,
-            "area": area,
-            "datapoint": datapoint
-        }
+        return Intent(topic, area, time_frame, datapoint)
 
     def get_topic(self, sentence: str) -> dict:
         vaccine_triggers = {self.stemmer.stem(word) for word in ["shot", "vaccine", "catch"]}
@@ -53,7 +48,7 @@ class IntentRecognizer:
             else:
                 return {"type": Topic.MULTIPLE_TOPICS, "topic": ["cases", "vaccinations"]}
 
-    def get_date(self, sentence: str) -> dict:
+    def get_time_frame(self, sentence: str) -> dict:
         annotated_sentence = self.spacy(sentence)
         dates = [ent.text for ent in annotated_sentence.ents if ent.label_ == "DATE"]
 
@@ -108,5 +103,5 @@ if __name__ == '__main__':
     sent2 = "How many people caught COVID two days ago in Germany?"
 
     ir = IntentRecognizer()
-    print(ir.get_intention(sent1))
-    print(ir.get_intention(sent2))
+    print(ir.get_intent(sent1))
+    print(ir.get_intent(sent2))
