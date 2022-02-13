@@ -96,6 +96,7 @@ export default {
 
         setTimeout(() => {
           this.messages.filter(msg => msg.id === id)[0].loading = false;
+          this.$nextTick(this.scrollChatToBottom)
         }, 2000)
 
         this.$nextTick(this.scrollChatToBottom);
