@@ -26,6 +26,8 @@ class DatasetHandler:
                              "low income", "international", "world", "high income"]
         data = data[~data["country_normalized"].isin(exclude_countries)]
         data = self._add_cumulative_cases(data)
+
+        data["id"] = data.index + 1
         return data
 
     def load_vaccinations(self) -> pd.DataFrame:
@@ -41,6 +43,8 @@ class DatasetHandler:
 
         exclude_countries = ["world", "lower middle income", "low income", "high income", "upper middle income"]
         data = data[~data["country_normalized"].isin(exclude_countries)]
+
+        data["id"] = data.index + 1
         return data
 
     def _increase_date_by_one(self, date: str) -> str:
@@ -59,3 +63,4 @@ class DatasetHandler:
 
 if __name__ == '__main__':
     dataset_handler = DatasetHandler()
+    print(dataset_handler.load_vaccinations())
