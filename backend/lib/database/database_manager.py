@@ -41,7 +41,7 @@ class DatabaseManager:
         db_connection = engine.connect()
 
         self.logger.info("Updating the daily detected covid cases...")
-        covid_cases.to_sql(name="cases", con=db_connection, if_exists="replace", index=False)
+        covid_cases.to_sql(name="cases", con=db_connection, if_exists="append", index=False)
         self.logger.info("Daily detected covid cases were updated.")
 
     def update_vaccinations(self) -> None:
@@ -51,7 +51,7 @@ class DatabaseManager:
         db_connection = engine.connect()
 
         self.logger.info("Updating daily vaccinations...")
-        vaccinations.to_sql(name="vaccinations", con=db_connection, if_exists="replace", index=False)
+        vaccinations.to_sql(name="vaccinations", con=db_connection, if_exists="append", index=False)
         self.logger.info("Daily vaccinations were updated.")
 
     def _create_tables(self) -> None:
