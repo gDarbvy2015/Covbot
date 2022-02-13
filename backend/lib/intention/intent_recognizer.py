@@ -6,7 +6,7 @@ import spacy
 from nltk.stem import PorterStemmer, WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 from dateutil.parser import *
-from lib.nlp.nlp_pipeline import NLPPipeline
+from lib.nlp.nlp_processor import NLPProcessor
 from lib.intention.intent import Topic, TimeFrame, Datapoint, Area, Intent
 
 
@@ -15,7 +15,7 @@ class IntentRecognizer:
         self.spacy = spacy.load("en_core_web_sm")
         self.stemmer = PorterStemmer()
         self.lemmatizer = WordNetLemmatizer()
-        self.nlp_pipeline = NLPPipeline()
+        self.nlp_pipeline = NLPProcessor()
 
     def get_intent(self, sentence: str) -> Intent:
         topic = self.get_topic(sentence)

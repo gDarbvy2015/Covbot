@@ -4,13 +4,13 @@ import pandas
 import pandas as pd
 import os
 
-from lib.nlp.nlp_pipeline import NLPPipeline
+from lib.nlp.nlp_processor import NLPProcessor
 from lib.util.logger import Logger
 
 
 class DatasetHandler:
     def __init__(self):
-        self.nlp_pipeline = NLPPipeline()
+        self.nlp_pipeline = NLPProcessor()
         self.logger = Logger(__name__)
 
     def load_covid_cases(self) -> pd.DataFrame:
