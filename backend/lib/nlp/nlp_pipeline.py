@@ -11,7 +11,7 @@ class NLPPipeline:
 
     def _map_country_abbreviations(self, string: str) -> str:
         # TODO: Extend this
-        map = {
+        country_name_map = {
             "macedonia": "north macedonia",
             "hk": "hong kong",
             "nz": "new zealand",
@@ -28,4 +28,4 @@ class NLPPipeline:
             "united states of america": "united states"
         }
 
-        return map[string] if string in map else string
+        return country_name_map[string] if string in country_name_map else string
