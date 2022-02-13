@@ -7,6 +7,8 @@ from lib.util.logger import Logger
 
 from lib.database.dataset_handler import DatasetHandler
 from lib.database.database_connection import DatabaseConnection
+from lib.database.entities import create_tables, Vaccination, Case
+from sqlalchemy.orm import sessionmaker, Session
 
 
 class DatabaseManager:
@@ -36,17 +38,18 @@ class DatabaseManager:
     def update_database(self) -> None:
         self.logger.info("Updating the data in the database...")
         self.update_covid_cases()
-        self.update_vaccinations()
+        #self.update_vaccinations()
 
     def update_covid_cases(self) -> None:
         covid_cases = self.dataset_handler.load_covid_cases()
 
         engine = self.connection.create_engine(self.db_name)
-        db_connection = engine.connect()
+        session = Session(bind=engine)
 
+        db_objects = [Case.from_pandas_row(row=row) for index, row in covid_cases.iterrows()]
         self.logger.info("Updating the daily detected covid cases...")
-        covid_cases_dtypes = {"date": DATE, "country": String(256), "cases": BigInteger}
-        covid_cases.to_sql(name="cases", con=db_connection, if_exists="replace", index=False, dtype=covid_cases_dtypes)
+        session.bulk_save_objects(db_objects, )
+        session.commit()
         self.logger.info("Daily detected covid cases were updated.")
 
     def update_vaccinations(self) -> None:
@@ -63,18 +66,8 @@ class DatabaseManager:
         self.logger.info("Daily vaccinations were updated.")
 
     def _create_tables(self) -> None:
-        metadata = MetaData()
         engine = self.connection.create_engine(self.db_name)
-
-        Table(
-            "cases", metadata,
-            Column("id", Integer, primary_key=True),
-            Column("date", DATE),
-            Column("country", String(256)),
-            Column("cases", BigInteger)
-        )
-
-        metadata.create_all(engine)
+        create_tables(engine)
 
 
 if __name__ == '__main__':
