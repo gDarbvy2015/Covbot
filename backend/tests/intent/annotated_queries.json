@@ -433,5 +433,80 @@
       },
       "location": "Russia"
     }
+  },
+  {
+    "id": 31,
+    "query": "What is the peak number of confirmed cases in Hong Kong",
+    "topic": "CASES",
+    "intent": "MAXIMUM_NUMBER_POSITIVE_CASES",
+    "slots": {
+      "location": "Hong Kong"
+    }
+  },
+  {
+    "id": 32,
+    "query": "What is the peak number of vaccinated people in a day of Hong Kong",
+    "topic": "VACCINATIONS",
+    "intent": "MAXIMUM_NUMBER_DAILY_VACCINATIONS",
+    "slots": {
+      "location": "Hong Kong"
+    }
+  },
+  {
+    "id": 33,
+    "query": "How many new cases of COVID are there today in Hong Kong?",
+    "topic": "CASES",
+    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "slots": {
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "today"
+        }
+      },
+      "location": "Hong Kong"
+    }
+  },
+  {
+    "id": 34,
+    "query": "How many new cases of COVID are this week in Hong Kong?",
+    "topic": "CASES",
+    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "slots": {
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "this week"
+        }
+      },
+      "location": "Hong Kong"
+    }
+  },
+  {
+    "id": 35,
+    "query": "Which country has had the most corona cases?",
+    "topic": "CASES",
+    "intent": "COUNTRY_MAXIMUM_NUMBER_POSITIVE_CASES",
+    "slots": {
+      "timeframe": null
+    }
+  },
+  {
+    "id": 36,
+    "query": "On which day were the most cases reported?",
+    "topic": "CASES",
+    "intent": "DAY_MOST_POSITIVE_CASES",
+    "slots": {
+      "countries": null
+    }
+  },
+  {
+    "id": 37,
+    "query": "In which country did most people get vaccinated?",
+    "topic": "VACCINATIONS",
+    "intent": "COUNTRY_HIGHEST_CUMULATIVE_VACCINATIONS",
+    "slots": {
+      "timeframe": null
+    }
   }
 ]
