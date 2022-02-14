@@ -22,7 +22,7 @@ class TopicRecognizer:
         tokenized_sentence = word_tokenize(sentence)
         pos_tagged_sentence = pos_tag(tokenized_sentence)
 
-        stemmed_tokens = [self.stemmer.stem(word) for word in self._get_stemmed_tokens(pos_tagged_sentence)]
+        stemmed_tokens = [self.stemmer.stem(word) for word in self._get_lemmatized_tokens(pos_tagged_sentence)]
 
         vaccine_overlaps = vaccine_triggers.intersection(stemmed_tokens)
         case_overlaps = case_triggers.intersection(stemmed_tokens)
@@ -38,8 +38,19 @@ class TopicRecognizer:
             else:
                 return Topic.AMBIGUOUS
 
-    def _get_stemmed_tokens(self, pos_tagged_tokens: list) -> list:
-        stemmed_tokens = list()
+    @staticmethod
+    def from_string(topic_string: str) -> Topic:
+        if topic_string.lower() == "cases":
+            return Topic.CASES
+        elif topic_string.lower() == "vaccinations":
+            return Topic.VACCINATIONS
+        elif topic_string.lower() == "ambiguous":
+            return Topic.AMBIGUOUS
+        else:
+            return Topic.UNKNOWN
+
+    def _get_lemmatized_tokens(self, pos_tagged_tokens: list) -> list:
+        lemmatized_tokens = list()
         for word, tag in pos_tagged_tokens:
             # We need to include pos tags so that verbs are lemmatized correctly (for example 'caught' -> 'catch')
             wntag = tag[0].lower()
@@ -48,5 +59,5 @@ class TopicRecognizer:
                 lemma = word
             else:
                 lemma = self.lemmatizer.lemmatize(word, wntag)
-            stemmed_tokens.append(lemma)
-        return stemmed_tokens
+            lemmatized_tokens.append(lemma)
+        return lemmatized_tokens
