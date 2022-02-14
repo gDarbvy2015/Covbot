@@ -1,10 +1,13 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 
 from lib.database.querier import Querier
 from lib.intention.intent_recognizer import IntentRecognizer
 from lib.nlp.answer_generator import AnswerGenerator
 
 app = Flask(__name__)
+cors = CORS(app)
+
 intent_recognizer = IntentRecognizer()
 querier = Querier()
 answer_generator = AnswerGenerator()
