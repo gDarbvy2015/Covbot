@@ -9,8 +9,6 @@ class TestQueryTopics(unittest.TestCase):
         with open("annotated_queries.json") as query_file:
             self.queries = json.load(query_file)
 
-        print(self.queries)
-
     def test_topics(self):
         for query in self.queries:
             with self.subTest(query=query):
