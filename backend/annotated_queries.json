@@ -1,0 +1,231 @@
+[
+  {
+    "query": "How many new cases have been reported in Austria today?",
+    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "slots": {
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "today"
+        }
+      },
+      "location": "Austria"
+    }
+  },
+  {
+    "query": "How many new Covid cases are there in the UK today?",
+    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "slots": {
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "today"
+        }
+      },
+      "location": "UK"
+    }
+  },
+  {
+    "query": "How many vaccinations were administered on the 25.01.2022 in Austria?",
+    "intent": "NUMBER_OF_PERFORMED_VACCINATIONS",
+    "slots": {
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "25.01.2022"
+        }
+      },
+      "location": "Austria"
+    }
+  },
+  {
+    "query": "How many people have been vaccinated so far in Austria?",
+    "intent": "NUMBER_OF_PERFORMED_VACCINATIONS",
+    "slots": {
+      "timeframe": {
+        "type": "UP_UNTIL",
+        "value": {
+          "day": "today"
+        }
+      },
+      "location": "Austria"
+    }
+  },
+  {
+    "query": "How many people have tested positive for Covid in Germany today?",
+    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "slots": {
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "today"
+        }
+      },
+      "location": "Germany"
+    }
+  },
+  {
+    "query": "How many cases in denmark today",
+    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "slots": {
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "today"
+        }
+      },
+      "location": "denmark"
+    }
+  },
+  {
+    "query": "how many vaccines in denmark today?",
+    "intent": "NUMBER_OF_PERFORMED_VACCINATIONS",
+    "slots": {
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "today"
+        }
+      },
+      "location": "denmark"
+    }
+  },
+  {
+    "query": "Tell me the number of positive cases in denmark",
+    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "slots": {
+      "timeframe": {
+        "type": "UP_UNTIL",
+        "value": {
+          "day": "today"
+        }
+      },
+      "location": "denmark"
+    }
+  },
+  {
+    "query": "how many people where infected in denmark in the past week",
+    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "slots": {
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "past week"
+        }
+      },
+      "location": "denmark"
+    }
+  },
+  {
+    "query": "how many people where vaccinated in egypt in the past week",
+    "intent": "NUMBER_OF_PERFORMED_VACCINATIONS",
+    "slots": {
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "past week"
+        }
+      },
+      "location": "egypt"
+    }
+  },
+  {
+    "query": "How many people from Finland have tested positive for Covid in the last year?",
+    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "slots": {
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "last year"
+        }
+      },
+      "location": "Finland"
+    }
+  },
+  {
+    "query": "How many cases are there today?",
+    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "slots": {
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "today"
+        }
+      },
+      "location": null
+    }
+  },
+  {
+    "query": "How many cases did we have yesterday?",
+    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "slots": {
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "yesterday"
+        }
+      },
+      "location": null
+    }
+  },
+  {
+    "query": "How many people got vaccinated today?",
+    "intent": "NUMBER_OF_PERFORMED_VACCINATIONS",
+    "slots": {
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "today"
+        }
+      },
+      "location": null
+    }
+  },
+  {
+    "query": "How many people will get vaccinated tomorrow? :P",
+    "intent": "NUMBER_OF_PERFORMED_VACCINATIONS",
+    "slots": {
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "tomorrow"
+        }
+      },
+      "location": null
+    }
+  },
+  {
+    "query": "How many vaccines were administered a week ago?",
+    "intent": "NUMBER_OF_PERFORMED_VACCINATIONS",
+    "slots": {
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "a week ago"
+        }
+      },
+      "location": null
+    }
+  },
+  {
+    "query": "What is the total number of vaccinated people in Sweden?",
+    "intent": "NUMBER_OF_VACCINATED_PEOPLE",
+    "slots": {
+      "timeframe": null,
+      "location": "Sweden"
+    }
+  },
+  {
+    "query": "Give me the number of jabs administered in England in the last year",
+    "intent": "NUMBER_OF_PERFORMED_VACCINATIONS",
+    "slots": {
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "a year ago"
+        }
+      },
+      "location": null
+    }
+  }
+]
