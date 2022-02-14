@@ -383,10 +383,55 @@
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
         "value": {
-          "day": "last year"
+          "day": "July 2nd, 2021"
         }
       },
-      "location": "Spain"
+      "location": "Uganda"
+    }
+  },
+  {
+    "id": 28,
+    "query": "How many vaccinations were performed in Hungary on July 2nd, 2019?",
+    "topic": "VACCINATIONS",
+    "intent": "NUMBER_OF_PERFORMED_VACCINATIONS",
+    "slots": {
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "July 2nd, 2019"
+        }
+      },
+      "location": "Hungary"
+    }
+  },
+  {
+    "id": 29,
+    "query": "How many new cases were discovered in Serbia in 2021?",
+    "topic": "CASES",
+    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "slots": {
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "2021"
+        }
+      },
+      "location": "Hungary"
+    }
+  },
+  {
+    "id": 30,
+    "query": "How many new cases were discovered in Russia in 2018?",
+    "topic": "CASES",
+    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "slots": {
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "2018"
+        }
+      },
+      "location": "Russia"
     }
   }
 ]
