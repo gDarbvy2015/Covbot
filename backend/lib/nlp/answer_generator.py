@@ -11,7 +11,7 @@ class AnswerGenerator:
 
     def generate_answer(self, intent: Intent, result: Any) -> str:
         result = result[0]
-        answer = "On {date}, **{cases}** have been reported in {country}.".format(
+        answer = "On {date}, **{cases}** new cases have been reported in {country}.".format(
             date=f"{result.date:%B %d, %Y}",
             cases=result.cases,
             country=result.country
