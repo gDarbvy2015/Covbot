@@ -28,8 +28,8 @@ class TopicRecognizer:
         self.lemmatizer = WordNetLemmatizer()
 
     def recognize_topic(self, sentence: str) -> Topic:
-        vaccine_triggers = {self.stemmer.stem(word) for word in ["shot", "vaccine", "jab"]}
-        case_triggers = {self.stemmer.stem(word) for word in ["case", "infection", "test", "positive", "catch"]}
+        vaccine_triggers = self.get_vaccine_triggers()
+        case_triggers = self.get_cases_triggers()
 
         tokenized_sentence = word_tokenize(sentence)
         pos_tagged_sentence = pos_tag(tokenized_sentence)
@@ -49,6 +49,12 @@ class TopicRecognizer:
                 return Topic.VACCINATIONS
             else:
                 return Topic.AMBIGUOUS
+
+    def get_vaccine_triggers(self):
+        return {self.stemmer.stem(word) for word in ["shot", "vaccine", "jab"]}
+
+    def get_cases_triggers(self):
+        return {self.stemmer.stem(word) for word in ["case", "infection", "test", "positive", "catch"]}
 
     def _get_lemmatized_tokens(self, pos_tagged_tokens: list) -> list:
         lemmatized_tokens = list()
