@@ -12,7 +12,7 @@ from lib.intention.intent import Topic, TimeFrame, Datapoint, Area, Intent
 
 class IntentRecognizer:
     def __init__(self):
-        self.spacy = spacy.load("en_core_web_sm")
+        self.spacy = spacy.load("en_core_web_trf")
         self.stemmer = PorterStemmer()
         self.lemmatizer = WordNetLemmatizer()
         self.nlp_pipeline = NLPProcessor()
