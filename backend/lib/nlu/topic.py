@@ -1,3 +1,4 @@
+from __future__ import annotations
 from enum import Enum
 
 from nltk import PorterStemmer, WordNetLemmatizer, word_tokenize, pos_tag
@@ -8,6 +9,17 @@ class Topic(Enum):
     CASES = 2
     VACCINATIONS = 3
     AMBIGUOUS = 4
+
+    @staticmethod
+    def from_str(topic_string: str) -> Topic:
+        if topic_string.lower() == "cases":
+            return Topic.CASES
+        elif topic_string.lower() == "vaccinations":
+            return Topic.VACCINATIONS
+        elif topic_string.lower() == "ambiguous":
+            return Topic.AMBIGUOUS
+        else:
+            return Topic.UNKNOWN
 
 
 class TopicRecognizer:
@@ -37,17 +49,6 @@ class TopicRecognizer:
                 return Topic.VACCINATIONS
             else:
                 return Topic.AMBIGUOUS
-
-    @staticmethod
-    def from_string(topic_string: str) -> Topic:
-        if topic_string.lower() == "cases":
-            return Topic.CASES
-        elif topic_string.lower() == "vaccinations":
-            return Topic.VACCINATIONS
-        elif topic_string.lower() == "ambiguous":
-            return Topic.AMBIGUOUS
-        else:
-            return Topic.UNKNOWN
 
     def _get_lemmatized_tokens(self, pos_tagged_tokens: list) -> list:
         lemmatized_tokens = list()
