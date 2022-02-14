@@ -1,8 +1,17 @@
+import unittest
 import json
+from lib.nlu.intent import Intent, IntentRecognizer
 
-file_content = None
 
-with open("annotated_queries.json") as file:
-    file_content = json.load(file)
+class TestQueryIntents(unittest.TestCase):
+    def setUp(self):
+        self.intent_recognizer = IntentRecognizer()
+        with open("annotated_queries.json") as query_file:
+            self.queries = [query for query in json.load(query_file)
+                            if Intent.from_str(query["intent"]) == Intent.NUMBER_OF_POSITIVE_CASES]
 
-print(file_content)
+    def test_intents(self):
+        for query in self.queries:
+            with self.subTest(query=query):
+                predicted_intent = self.intent_recognizer.recognize_intent(query["query"])
+                self.assertEqual(Intent.from_str(query['intent']), predicted_intent)
