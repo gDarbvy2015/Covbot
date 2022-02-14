@@ -1,0 +1,52 @@
+from enum import Enum
+
+from nltk import PorterStemmer, WordNetLemmatizer, word_tokenize, pos_tag
+
+
+class Topic(Enum):
+    UNKNOWN = 1
+    CASES = 2
+    VACCINATIONS = 3
+    AMBIGUOUS = 4
+
+
+class TopicRecognizer:
+    def __init__(self):
+        self.stemmer = PorterStemmer()
+        self.lemmatizer = WordNetLemmatizer()
+
+    def recognize_topic(self, sentence: str) -> Topic:
+        vaccine_triggers = {self.stemmer.stem(word) for word in ["shot", "vaccine", "jab"]}
+        case_triggers = {self.stemmer.stem(word) for word in ["case", "infection", "test", "positive", "catch"]}
+
+        tokenized_sentence = word_tokenize(sentence)
+        pos_tagged_sentence = pos_tag(tokenized_sentence)
+
+        stemmed_tokens = [self.stemmer.stem(word) for word in self._get_stemmed_tokens(pos_tagged_sentence)]
+
+        vaccine_overlaps = vaccine_triggers.intersection(stemmed_tokens)
+        case_overlaps = case_triggers.intersection(stemmed_tokens)
+
+        if len(vaccine_overlaps) == 0:
+            if len(case_overlaps) == 0:
+                return Topic.UNKNOWN
+            else:
+                return Topic.CASES
+        else:
+            if len(case_overlaps) == 0:
+                return Topic.VACCINATIONS
+            else:
+                return Topic.AMBIGUOUS
+
+    def _get_stemmed_tokens(self, pos_tagged_tokens: list) -> list:
+        stemmed_tokens = list()
+        for word, tag in pos_tagged_tokens:
+            # We need to include pos tags so that verbs are lemmatized correctly (for example 'caught' -> 'catch')
+            wntag = tag[0].lower()
+            wntag = wntag if wntag in ["a", "r", "n", "v"] else None
+            if not wntag:
+                lemma = word
+            else:
+                lemma = self.lemmatizer.lemmatize(word, wntag)
+            stemmed_tokens.append(lemma)
+        return stemmed_tokens
