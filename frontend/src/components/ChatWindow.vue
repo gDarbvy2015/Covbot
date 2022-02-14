@@ -58,6 +58,7 @@ export default {
       this.askConsent();
     } else {
       this.consent = JSON.parse(localStorage.getItem("information_consent"));
+      this.addWelcomeMessage();
     }
   },
   methods: {
@@ -119,17 +120,18 @@ export default {
     },
     sendMessage() {
       if (this.currentMessage != null && this.currentMessage.trim() !== "") {
-        this.addMessage(true, this.currentMessage, false)
-        this.currentMessage = null;
+        this.addMessage(true, this.currentMessage, false);
 
         // Simulate response
-        let id = this.addMessage(false, "I successfully received your message. This will be the answer!", true);
-
-        setTimeout(() => {
-          this.messages.filter(msg => msg.id === id)[0].loading = false;
+        let id = this.addMessage(false, "", true);
+        this.axios.get("http://127.0.0.1:5000/", {params: {message: this.currentMessage}}).then((response) => {
+          let msg = this.messages.filter(msg => msg.id === id)[0];
+          msg.message = response.data.msg;
+          msg.loading = false;
           this.$nextTick(this.scrollChatToBottom)
-        }, 2000)
+        });
 
+        this.currentMessage = null
         this.$nextTick(this.scrollChatToBottom);
       }
     },
