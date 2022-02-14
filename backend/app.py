@@ -1,11 +1,22 @@
-from flask import Flask
+from flask import Flask, jsonify, request
+
+from lib.database.querier import Querier
+from lib.intention.intent_recognizer import IntentRecognizer
+from lib.nlp.answer_generator import AnswerGenerator
 
 app = Flask(__name__)
+intent_recognizer = IntentRecognizer()
+querier = Querier()
+answer_generator = AnswerGenerator()
 
 
 @app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!'
+def get_reply():  # put application's code here
+    message = request.args.get("message", default="")
+    intent = intent_recognizer.get_intent(message)
+    result = querier.get_results(intent)
+    answer = answer_generator.generate_answer(intent, result)
+    return jsonify({"msg": answer})
 
 
 if __name__ == '__main__':
