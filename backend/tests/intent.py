@@ -8,7 +8,7 @@ class TestQueryIntents(unittest.TestCase):
         self.intent_recognizer = IntentRecognizer()
         with open("annotated_queries.json") as query_file:
             self.queries = [query for query in json.load(query_file)
-                            if Intent.from_str(query["intent"]) == Intent.NUMBER_OF_POSITIVE_CASES]
+                            if Intent.from_str(query["intent"]) == Intent.DAILY_POSITIVE_CASES]
 
     def test_intents(self):
         for query in self.queries:

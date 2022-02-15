@@ -3,7 +3,8 @@
     "id": 1,
     "query": "How many new cases have been reported in Austria today?",
     "topic": "CASES",
-    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -18,7 +19,8 @@
     "id": 2,
     "query": "How many new Covid cases are there in the UK today?",
     "topic": "CASES",
-    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -33,7 +35,8 @@
     "id": 3,
     "query": "How many vaccinations were administered on the 25.01.2022 in Austria?",
     "topic": "VACCINATIONS",
-    "intent": "NUMBER_OF_ADMINISTERED_VACCINES",
+    "intent": "DAILY_ADMINISTERED_VACCINES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -48,7 +51,8 @@
     "id": 4,
     "query": "How many people have been vaccinated so far in Austria?",
     "topic": "VACCINATIONS",
-    "intent": "NUMBER_OF_ADMINISTERED_VACCINES",
+    "intent": "DAILY_ADMINISTERED_VACCINES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "UP_UNTIL",
@@ -63,7 +67,8 @@
     "id": 5,
     "query": "How many people have tested positive for Covid in Germany today?",
     "topic": "CASES",
-    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -78,7 +83,8 @@
     "id": 6,
     "query": "How many cases in denmark today",
     "topic": "CASES",
-    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -93,7 +99,8 @@
     "id": 7,
     "query": "how many vaccines in denmark today?",
     "topic": "VACCINATIONS",
-    "intent": "NUMBER_OF_ADMINISTERED_VACCINES",
+    "intent": "DAILY_ADMINISTERED_VACCINES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -108,7 +115,8 @@
     "id": 8,
     "query": "Tell me the number of positive cases in denmark",
     "topic": "CASES",
-    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "UP_UNTIL",
@@ -123,7 +131,8 @@
     "id": 9,
     "query": "how many people where infected in denmark in the past week",
     "topic": "CASES",
-    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -138,7 +147,8 @@
     "id": 10,
     "query": "how many people where vaccinated in egypt in the past week",
     "topic": "VACCINATIONS",
-    "intent": "NUMBER_OF_ADMINISTERED_VACCINES",
+    "intent": "DAILY_ADMINISTERED_VACCINES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -153,7 +163,8 @@
     "id": 11,
     "query": "How many people from Finland have tested positive for Covid in the last year?",
     "topic": "CASES",
-    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -168,7 +179,8 @@
     "id": 12,
     "query": "How many cases are there today?",
     "topic": "CASES",
-    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -183,7 +195,8 @@
     "id": 13,
     "query": "How many cases did we have yesterday?",
     "topic": "CASES",
-    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -198,7 +211,8 @@
     "id": 14,
     "query": "How many people got vaccinated today?",
     "topic": "VACCINATIONS",
-    "intent": "NUMBER_OF_ADMINISTERED_VACCINES",
+    "intent": "DAILY_ADMINISTERED_VACCINES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -213,7 +227,8 @@
     "id": 15,
     "query": "How many people will get vaccinated tomorrow? :P",
     "topic": "VACCINATIONS",
-    "intent": "NUMBER_OF_ADMINISTERED_VACCINES",
+    "intent": "DAILY_ADMINISTERED_VACCINES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -228,7 +243,8 @@
     "id": 16,
     "query": "How many vaccines were administered a week ago?",
     "topic": "VACCINATIONS",
-    "intent": "NUMBER_OF_ADMINISTERED_VACCINES",
+    "intent": "DAILY_ADMINISTERED_VACCINES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -243,7 +259,8 @@
     "id": 17,
     "query": "What is the total number of vaccinated people in Sweden?",
     "topic": "VACCINATIONS",
-    "intent": "NUMBER_OF_VACCINATED_PEOPLE",
+    "intent": "DAILY_VACCINATED_PEOPLE",
+    "request": "SUM",
     "slots": {
       "timeframe": null,
       "location": "Sweden"
@@ -253,7 +270,8 @@
     "id": 18,
     "query": "Give me the number of jabs administered in England in the last year",
     "topic": "VACCINATIONS",
-    "intent": "NUMBER_OF_ADMINISTERED_VACCINES",
+    "intent": "DAILY_ADMINISTERED_VACCINES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -268,7 +286,8 @@
     "id": 19,
     "query": "number of vaccinations worldwide",
     "topic": "VACCINATIONS",
-    "intent": "NUMBER_OF_ADMINISTERED_VACCINES",
+    "intent": "DAILY_ADMINISTERED_VACCINES",
+    "request": "SUM",
     "slots": {
       "timeframe": null,
       "location": null
@@ -278,7 +297,8 @@
     "id": 20,
     "query": "vaccinations worldwide today",
     "topic": "VACCINATIONS",
-    "intent": "NUMBER_OF_ADMINISTERED_VACCINES",
+    "intent": "DAILY_ADMINISTERED_VACCINES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -293,7 +313,8 @@
     "id": 21,
     "query": "How many vaccines have been given to people over the course of the last month in the country of Belgium?",
     "topic": "VACCINATIONS",
-    "intent": "NUMBER_OF_ADMINISTERED_VACCINES",
+    "intent": "DAILY_ADMINISTERED_VACCINES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -308,7 +329,8 @@
     "id": 22,
     "query": "How many positive tests have there been today in Italy?",
     "topic": "CASES",
-    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -323,7 +345,8 @@
     "id": 23,
     "query": "new cases today austria",
     "topic": "CASES",
-    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -338,7 +361,8 @@
     "id": 24,
     "query": "corona tested positive yesterday europe",
     "topic": "CASES",
-    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -353,7 +377,8 @@
     "id": 25,
     "query": "Number of positive tests in russia",
     "topic": "CASES",
-    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "SUM",
     "slots": {
       "timeframe": null,
       "location": "russia"
@@ -363,7 +388,8 @@
     "id": 26,
     "query": "Last year, how many people tested positive for the coronavirus in Spain alone?",
     "topic": "CASES",
-    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -378,7 +404,8 @@
     "id": 27,
     "query": "How many vaccinations were performed in Uganda on July 2nd, 2021?",
     "topic": "VACCINATIONS",
-    "intent": "NUMBER_OF_ADMINISTERED_VACCINES",
+    "intent": "DAILY_ADMINISTERED_VACCINES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -393,7 +420,8 @@
     "id": 28,
     "query": "How many vaccinations were performed in Hungary on July 2nd, 2019?",
     "topic": "VACCINATIONS",
-    "intent": "NUMBER_OF_ADMINISTERED_VACCINES",
+    "intent": "DAILY_ADMINISTERED_VACCINES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -408,7 +436,8 @@
     "id": 29,
     "query": "How many new cases were discovered in Serbia in 2021?",
     "topic": "CASES",
-    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -423,7 +452,8 @@
     "id": 30,
     "query": "How many new cases were discovered in Russia in 2018?",
     "topic": "CASES",
-    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -438,7 +468,8 @@
     "id": 31,
     "query": "What is the peak number of confirmed cases in Hong Kong",
     "topic": "CASES",
-    "intent": "MAXIMUM_NUMBER_POSITIVE_CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "MAXIMUM",
     "slots": {
       "location": "Hong Kong"
     }
@@ -447,7 +478,8 @@
     "id": 32,
     "query": "What is the peak number of vaccinated people in a day of Hong Kong",
     "topic": "VACCINATIONS",
-    "intent": "MAXIMUM_NUMBER_DAILY_VACCINATIONS",
+    "intent": "DAILY_ADMINISTERED_VACCINES",
+    "request": "MAXIMUM",
     "slots": {
       "location": "Hong Kong"
     }
@@ -456,7 +488,8 @@
     "id": 33,
     "query": "How many new cases of COVID are there today in Hong Kong?",
     "topic": "CASES",
-    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -471,7 +504,8 @@
     "id": 34,
     "query": "How many new cases of COVID are this week in Hong Kong?",
     "topic": "CASES",
-    "intent": "NUMBER_OF_POSITIVE_CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "SUM",
     "slots": {
       "timeframe": {
         "type": "SINGLE_POINT_IN_TIME",
@@ -486,7 +520,8 @@
     "id": 35,
     "query": "Which country has had the most corona cases?",
     "topic": "CASES",
-    "intent": "COUNTRY_MAXIMUM_NUMBER_POSITIVE_CASES",
+    "intent": "CUMULATIVE_POSITIVE_CASES",
+    "request": "COUNTRY_MAXIMUM",
     "slots": {
       "timeframe": null
     }
@@ -495,7 +530,8 @@
     "id": 36,
     "query": "On which day were the most cases reported?",
     "topic": "CASES",
-    "intent": "DAY_MOST_POSITIVE_CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "DAY_MAXIMUM",
     "slots": {
       "countries": null
     }
@@ -504,7 +540,8 @@
     "id": 37,
     "query": "In which country did most people get vaccinated?",
     "topic": "VACCINATIONS",
-    "intent": "COUNTRY_HIGHEST_CUMULATIVE_VACCINATIONS",
+    "intent": "CUMULATIVE_ADMINISTERED_VACCINES",
+    "request": "COUNTRY_MAXIMUM",
     "slots": {
       "timeframe": null
     }
