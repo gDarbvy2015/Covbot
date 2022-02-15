@@ -2,6 +2,8 @@ from __future__ import annotations
 from enum import Enum
 
 import spacy
+from nltk import PorterStemmer
+
 from lib.nlu.topic import TopicRecognizer, Topic
 
 
@@ -30,6 +32,7 @@ class Intent(Enum):
 class IntentRecognizer:
     def __init__(self):
         self.topic_recognizer = TopicRecognizer()
+        self.stemmer = PorterStemmer()
         self.spacy = spacy.load("en_core_web_lg")
 
     def recognize_intent(self, sentence: str) -> Intent:
@@ -47,13 +50,17 @@ class IntentRecognizer:
         for token in processed_sentence:
             if token.lower_ == "how":
                 if token.head.lower_ == "many":
-                    if token.head.head.lemma_ in self.topic_recognizer.get_cases_triggers():
+                    if self.stemmer.stem(token.head.head.lemma_) in self.topic_recognizer.get_cases_triggers():
                         return Intent.NUMBER_OF_POSITIVE_CASES
 
             if token.lemma_ == "test":
-                if "positive" in [child_token.lemma_ for child_token in token.children]:
+                adjectives = {self.stemmer.stem(word) for word in ["positive", "confirmed"]}
+                if len(adjectives.intersection({self.stemmer.stem(child_token.lemma_) for child_token in token.children})) > 0:
                     return Intent.NUMBER_OF_POSITIVE_CASES
 
         return Intent.UNKNOWN
 
 
+if __name__ == '__main__':
+    recognizer = IntentRecognizer()
+    recognizer.recognize_intent("")
