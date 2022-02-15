@@ -3,6 +3,7 @@ from enum import Enum
 
 import spacy
 from nltk import PorterStemmer
+from spacy.tokens import Token
 
 from lib.nlu.topic import TopicRecognizer, Topic
 
@@ -76,7 +77,25 @@ class IntentRecognizer:
                 if len(adjectives.intersection({self.stemmer.stem(child_token.lemma_) for child_token in token.children})) > 0:
                     return Intent.DAILY_POSITIVE_CASES
 
+            if token.lemma_ in ["number", "amount"]:
+                if self._check_for_trigger_word_recursively(token):
+                    return Intent.DAILY_POSITIVE_CASES
+
         return Intent.UNKNOWN
+
+    def _check_for_trigger_word_recursively(self, token: Token) -> bool:
+        stemmed_token = self.stemmer.stem(token.lemma_)
+
+        if stemmed_token in self.topic_recognizer.get_cases_triggers():
+            return True
+
+        for child_token in token.children:
+            stemmed_child_token = self.stemmer.stem(child_token.lemma_)
+            if stemmed_token != stemmed_child_token:
+                if self._check_for_trigger_word_recursively(child_token):
+                    return True
+        return False
+
 
 
 if __name__ == '__main__':
