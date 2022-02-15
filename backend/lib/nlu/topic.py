@@ -1,6 +1,7 @@
 from __future__ import annotations
 from enum import Enum
 
+import spacy
 from nltk import PorterStemmer, WordNetLemmatizer, word_tokenize, pos_tag
 
 
@@ -25,16 +26,15 @@ class Topic(Enum):
 class TopicRecognizer:
     def __init__(self):
         self.stemmer = PorterStemmer()
-        self.lemmatizer = WordNetLemmatizer()
+        self.spacy = spacy.load("en_core_web_lg")
 
     def recognize_topic(self, sentence: str) -> Topic:
         vaccine_triggers = self.get_vaccine_triggers()
         case_triggers = self.get_cases_triggers()
 
-        tokenized_sentence = word_tokenize(sentence)
-        pos_tagged_sentence = pos_tag(tokenized_sentence)
+        processed_sentence = self.spacy(sentence)
 
-        stemmed_tokens = [self.stemmer.stem(word) for word in self._get_lemmatized_tokens(pos_tagged_sentence)]
+        stemmed_tokens = [self.stemmer.stem(word) for word in [token.lemma_ for token in processed_sentence]]
 
         vaccine_overlaps = vaccine_triggers.intersection(stemmed_tokens)
         case_overlaps = case_triggers.intersection(stemmed_tokens)
@@ -53,18 +53,6 @@ class TopicRecognizer:
     def get_vaccine_triggers(self):
         return {self.stemmer.stem(word) for word in ["shot", "vaccine", "jab"]}
 
+    #TODO: Add better parsing for test and catch
     def get_cases_triggers(self):
         return {self.stemmer.stem(word) for word in ["case", "infection", "test", "positive", "catch"]}
-
-    def _get_lemmatized_tokens(self, pos_tagged_tokens: list) -> list:
-        lemmatized_tokens = list()
-        for word, tag in pos_tagged_tokens:
-            # We need to include pos tags so that verbs are lemmatized correctly (for example 'caught' -> 'catch')
-            wntag = tag[0].lower()
-            wntag = wntag if wntag in ["a", "r", "n", "v"] else None
-            if not wntag:
-                lemma = word
-            else:
-                lemma = self.lemmatizer.lemmatize(word, wntag)
-            lemmatized_tokens.append(lemma)
-        return lemmatized_tokens
