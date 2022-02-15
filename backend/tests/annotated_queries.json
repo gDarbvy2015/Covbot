@@ -545,5 +545,108 @@
     "slots": {
       "timeframe": null
     }
+  },
+  {
+    "id": 38,
+    "query": "How many people are vaccinated?",
+    "topic": "VACCINATIONS",
+    "intent": "CUMULATIVE_VACCINATED_PEOPLE",
+    "request": "SUM",
+    "slots": {
+      "timeframe": null,
+      "location": null
+    }
+  },
+  {
+    "id": 39,
+    "query": "How many people were vaccinated today?",
+    "topic": "VACCINATIONS",
+    "intent": "DAILY_ADMINISTERED_VACCINATIONS",
+    "request": "SUM",
+    "slots": {
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "today"
+        }
+      },
+      "location": null
+    }
+  },
+  {
+    "id": 40,
+    "query": "How many corona cases got reported today?",
+    "topic": "CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "SUM",
+    "slots": {
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "today"
+        }
+      },
+      "location": null
+    }
+  },
+  {
+    "id": 41,
+    "query": "when did austria have the highest number of infections?",
+    "topic": "CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "WHEN_MAXIMUM",
+    "slots": {
+      "country": "austria"
+    }
+  },
+  {
+    "id": 42,
+    "query": "On which day was the highest number of new cases reported in Brazil?",
+    "topic": "CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "WHEN_MAXIMUM",
+    "slots": {
+      "country": "Brazil"
+    }
+  },
+  {
+    "id": 43,
+    "query": "How many vaccine shots were administered in Austria on the 9th February 2022?",
+    "topic": "VACCINATIONS",
+    "intent": "DAILY_ADMINISTERED_VACCINES",
+    "request": "SUM",
+    "slots": {
+      "country": "Austria",
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "9th February 2022"
+        }
+      }
+    }
+  },
+  {
+    "id": 44,
+    "query": "Could you tell me which how many new COVID cases were reported in Austria on 2nd February 2022?",
+    "topic": "CASES",
+    "intent": "DAILY_POSITIVE_CASES",
+    "request": "SUM",
+    "slots": {
+      "country": "Austria",
+      "timeframe": {
+        "type": "SINGLE_POINT_IN_TIME",
+        "value": {
+          "day": "2nd February 2022"
+        }
+      }
+    }
+  },
+  {
+    "id": 45,
+    "query": "How you doin'?",
+    "topic": "UNKNOWN",
+    "intent": "UNKNOWN",
+    "request": "UNKNOWN",
+    "slots": null
   }
 ]
