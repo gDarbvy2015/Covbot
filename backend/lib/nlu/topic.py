@@ -1,8 +1,8 @@
 from __future__ import annotations
 from enum import Enum
 
-import spacy
-from nltk import PorterStemmer, WordNetLemmatizer, word_tokenize, pos_tag
+from lib.spacy_components.spacy import get_spacy
+from nltk import PorterStemmer
 
 
 class Topic(Enum):
@@ -26,7 +26,7 @@ class Topic(Enum):
 class TopicRecognizer:
     def __init__(self):
         self.stemmer = PorterStemmer()
-        self.spacy = spacy.load("en_core_web_lg")
+        self.spacy = get_spacy()
 
     def recognize_topic(self, sentence: str) -> Topic:
         vaccine_triggers = self.get_vaccine_triggers()
@@ -34,7 +34,7 @@ class TopicRecognizer:
 
         processed_sentence = self.spacy(sentence)
 
-        stemmed_tokens = [self.stemmer.stem(word) for word in [token.lemma_ for token in processed_sentence]]
+        stemmed_tokens = [token._.stem for token in processed_sentence]
 
         vaccine_overlaps = vaccine_triggers.intersection(stemmed_tokens)
         case_overlaps = case_triggers.intersection(stemmed_tokens)

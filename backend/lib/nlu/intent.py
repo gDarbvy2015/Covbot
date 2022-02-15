@@ -1,7 +1,7 @@
 from __future__ import annotations
 from enum import Enum
 
-import spacy
+from lib.spacy_components.spacy import get_spacy
 from nltk import PorterStemmer
 from spacy.tokens import Token
 
@@ -50,9 +50,9 @@ class Intent(Enum):
 
 class IntentRecognizer:
     def __init__(self):
-        self.topic_recognizer = TopicRecognizer()
         self.stemmer = PorterStemmer()
-        self.spacy = spacy.load("en_core_web_lg")
+        self.topic_recognizer = TopicRecognizer()
+        self.spacy = get_spacy()
 
     def recognize_intent(self, sentence: str) -> Intent:
         topic = self.topic_recognizer.recognize_topic(sentence)
@@ -69,12 +69,12 @@ class IntentRecognizer:
         for token in processed_sentence:
             if token.lower_ == "how":
                 if token.head.lower_ == "many":
-                    if self.stemmer.stem(token.head.head.lemma_) in self.topic_recognizer.get_cases_triggers():
+                    if token.head.head._.stem in self.topic_recognizer.get_cases_triggers():
                         return Intent.DAILY_POSITIVE_CASES
 
             if token.lemma_ == "test":
                 adjectives = {self.stemmer.stem(word) for word in ["positive", "confirmed"]}
-                if len(adjectives.intersection({self.stemmer.stem(child_token.lemma_) for child_token in token.children})) > 0:
+                if len(adjectives.intersection({child_token._.stem for child_token in token.children})) > 0:
                     return Intent.DAILY_POSITIVE_CASES
 
             if token.lemma_ in ["number", "amount"]:
@@ -84,13 +84,13 @@ class IntentRecognizer:
         return Intent.UNKNOWN
 
     def _check_for_trigger_word_recursively(self, token: Token) -> bool:
-        stemmed_token = self.stemmer.stem(token.lemma_)
+        stemmed_token = token._.stem
 
         if stemmed_token in self.topic_recognizer.get_cases_triggers():
             return True
 
         for child_token in token.children:
-            stemmed_child_token = self.stemmer.stem(child_token.lemma_)
+            stemmed_child_token = child_token._.stem
             if stemmed_token != stemmed_child_token:
                 if self._check_for_trigger_word_recursively(child_token):
                     return True
