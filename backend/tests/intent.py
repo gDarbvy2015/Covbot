@@ -10,7 +10,7 @@ class TestQueryIntents(unittest.TestCase):
             self.queries = [query for query in json.load(query_file)
                             if Intent.from_str(query["intent"]) == Intent.DAILY_POSITIVE_CASES]
 
-    def test_intents(self):
+    def test_daily_positive_cases_intents(self):
         for query in self.queries:
             with self.subTest(query=query):
                 predicted_intent = self.intent_recognizer.recognize_intent(query["query"])
