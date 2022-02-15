@@ -8,8 +8,14 @@ from lib.nlu.topic import TopicRecognizer, Topic
 class Intent(Enum):
     NUMBER_OF_POSITIVE_CASES = 1
     NUMBER_OF_ADMINISTERED_VACCINES = 2
-    UNKNOWN = 3
-    AMBIGUOUS = 4
+    NUMBER_OF_VACCINATED_PEOPLE = 3
+    MAXIMUM_NUMBER_POSITIVE_CASES = 4
+    MAXIMUM_NUMBER_DAILY_VACCINATIONS = 5
+    COUNTRY_MAXIMUM_NUMBER_POSITIVE_CASES = 6
+    DAY_MOST_POSITIVE_CASES = 7
+    COUNTRY_HIGHEST_CUMULATIVE_VACCINATIONS = 8
+    UNKNOWN = 9
+    AMBIGUOUS = 10
 
     @staticmethod
     def from_str(topic_string: str) -> Intent:
