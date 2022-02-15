@@ -129,7 +129,7 @@
   },
   {
     "id": 9,
-    "query": "how many people where infected in denmark in the past week",
+    "query": "how many people were infected in denmark in the past week",
     "topic": "CASES",
     "intent": "DAILY_POSITIVE_CASES",
     "request": "SUM",
