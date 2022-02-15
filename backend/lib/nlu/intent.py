@@ -69,7 +69,7 @@ class IntentRecognizer:
         for token in processed_sentence:
             if token.lower_ == "how":
                 if token.head.lower_ == "many":
-                    if token.head.head._.stem in self.topic_recognizer.get_cases_triggers():
+                    if token.head.head._.stem in self.topic_recognizer.get_cases_trigger_words():
                         return Intent.DAILY_POSITIVE_CASES
 
             if token.lemma_ == "test":
@@ -86,7 +86,7 @@ class IntentRecognizer:
     def _check_for_trigger_word_recursively(self, token: Token) -> bool:
         stemmed_token = token._.stem
 
-        if stemmed_token in self.topic_recognizer.get_cases_triggers():
+        if stemmed_token in self.topic_recognizer.get_cases_trigger_words():
             return True
 
         for child_token in token.children:

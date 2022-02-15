@@ -1,7 +1,7 @@
 from __future__ import annotations
 from enum import Enum
 
-from lib.spacy_components.spacy import get_spacy
+from spacy.tokens import Token
 from nltk import PorterStemmer
 
 
@@ -26,33 +26,42 @@ class Topic(Enum):
 class TopicRecognizer:
     def __init__(self):
         self.stemmer = PorterStemmer()
-        self.spacy = get_spacy()
 
-    def recognize_topic(self, sentence: str) -> Topic:
-        vaccine_triggers = self.get_vaccine_triggers()
-        case_triggers = self.get_cases_triggers()
+    def recognize_topic(self, token: Token) -> Topic:
 
-        processed_sentence = self.spacy(sentence)
+        is_topic_vaccine = self.is_topic_vaccine(token)
+        is_topic_cases = self.is_topic_cases(token)
 
-        stemmed_tokens = [token._.stem for token in processed_sentence]
-
-        vaccine_overlaps = vaccine_triggers.intersection(stemmed_tokens)
-        case_overlaps = case_triggers.intersection(stemmed_tokens)
-
-        if len(vaccine_overlaps) == 0:
-            if len(case_overlaps) == 0:
-                return Topic.UNKNOWN
-            else:
-                return Topic.CASES
-        else:
-            if len(case_overlaps) == 0:
-                return Topic.VACCINATIONS
-            else:
+        if is_topic_vaccine:
+            if is_topic_cases:
                 return Topic.AMBIGUOUS
+            else:
+                return Topic.VACCINATIONS
+        else:
+            if is_topic_cases:
+                return Topic.CASES
+            else:
+                return Topic.UNKNOWN
 
-    def get_vaccine_triggers(self):
-        return {self.stemmer.stem(word) for word in ["shot", "vaccine", "jab"]}
+    def is_topic_vaccine(self, token: Token) -> bool:
+        vaccine_triggers = self.get_vaccine_trigger_words()
+        related_tokens = [iter_token._.stem for iter_token in list(token.subtree)]
+        vaccine_overlaps = vaccine_triggers.intersection(related_tokens)
 
-    #TODO: Add better parsing for test and catch
-    def get_cases_triggers(self):
-        return {self.stemmer.stem(word) for word in ["case", "infection", "test", "positive", "catch"]}
+        is_right_topic = len(vaccine_overlaps) >= 1
+        return is_right_topic
+
+    def is_topic_cases(self, token: Token) -> bool:
+        case_triggers = self.get_cases_trigger_words()
+        related_tokens = [iter_token._.stem for iter_token in list(token.subtree)]
+        case_overlaps = case_triggers.intersection(related_tokens)
+
+        is_right_topic = len(case_overlaps) >= 1
+        return is_right_topic
+
+    def get_vaccine_trigger_words(self):
+        return {self.stemmer.stem(word) for word in ["shot", "vaccine", "jab", "inoculation", "immunization",
+                                                     "administer"]}
+
+    def get_cases_trigger_words(self):
+        return {self.stemmer.stem(word) for word in ["case", "infection", "test", "positive", "negative"]}
