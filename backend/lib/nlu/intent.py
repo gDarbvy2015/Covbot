@@ -44,6 +44,10 @@ class IntentRecognizer:
                     if token.head.head.lemma_ in self.topic_recognizer.get_cases_triggers():
                         return Intent.NUMBER_OF_POSITIVE_CASES
 
+            if token.lemma_ == "test":
+                if "positive" in [child_token.lemma_ for child_token in token.children]:
+                    return Intent.NUMBER_OF_POSITIVE_CASES
+
         return Intent.UNKNOWN
 
 
