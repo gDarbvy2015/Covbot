@@ -1,5 +1,8 @@
+from datetime import datetime
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, Union
+import re
+from dateutil.parser import parse
 
 from sutime import SUTime
 
@@ -9,6 +12,7 @@ class Date:
     type: str
     original_string: str
     value_string: str
+    value: dict
 
 
 class DateRecognizer:
@@ -21,9 +25,21 @@ class DateRecognizer:
             if result[0]["value"] == "P1D":
                 return None
             else:
-                return Date(result[0]["type"], result[0]["text"], result[0]["value"])
+                return Date(result[0]["type"], result[0]["text"], result[0]["value"], self._parse_date(result[0]["value"]))
         else:
             return None
+
+    def _parse_date(self, date_string: str) -> Optional[dict]:
+        if re.match(r"^\d{4}$", date_string):
+            return {"time": "YEAR", "value": parse(date_string)}
+        elif re.match(r"^\d{4}-\d{2}$", date_string):
+            return {"time": "MONTH", "value": parse(date_string)}
+        elif re.match(r"^\d{4}-\d{2}-\d{2}$", date_string):
+            return {"time": "DAY", "value": parse(date_string)}
+        elif re.match(r"^\d{4}-W\d{2}$", date_string):
+            return {"time": "WEEK", "value": datetime.strptime(date_string + ' 1', "%Y-W%W %w")}
+
+        return None
 
 
 recognizer = DateRecognizer()
