@@ -18,7 +18,10 @@ class DateRecognizer:
     def recognize_date(self, sentence: str) -> Optional[Date]:
         result = self.sutime.parse(sentence)
         if len(result) > 0:
-            return Date(result[0]["type"], result[0]["text"], result[0]["value"])
+            if result[0]["value"] == "P1D":
+                return None
+            else:
+                return Date(result[0]["type"], result[0]["text"], result[0]["value"])
         else:
             return None
 

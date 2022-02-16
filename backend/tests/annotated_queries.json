@@ -461,7 +461,8 @@
     "intent": "DAILY_POSITIVE_CASES",
     "request": "MAXIMUM",
     "slots": {
-      "location": "Hong Kong"
+      "location": "Hong Kong",
+      "timeframe": null
     }
   },
   {
@@ -471,7 +472,8 @@
     "intent": "DAILY_ADMINISTERED_VACCINES",
     "request": "MAXIMUM",
     "slots": {
-      "location": "Hong Kong"
+      "location": "Hong Kong",
+      "timeframe": null
     }
   },
   {
@@ -513,7 +515,8 @@
     "intent": "CUMULATIVE_POSITIVE_CASES",
     "request": "COUNTRY_MAXIMUM",
     "slots": {
-      "timeframe": null
+      "timeframe": null,
+      "location": null
     }
   },
   {
@@ -523,7 +526,8 @@
     "intent": "DAILY_POSITIVE_CASES",
     "request": "DAY_MAXIMUM",
     "slots": {
-      "countries": null
+      "countries": null,
+      "timeframe": null
     }
   },
   {
@@ -533,7 +537,8 @@
     "intent": "CUMULATIVE_ADMINISTERED_VACCINES",
     "request": "COUNTRY_MAXIMUM",
     "slots": {
-      "timeframe": null
+      "timeframe": null,
+      "location": null
     }
   },
   {
@@ -586,7 +591,8 @@
     "intent": "DAILY_POSITIVE_CASES",
     "request": "WHEN_MAXIMUM",
     "slots": {
-      "country": "austria"
+      "location": "austria",
+      "timeframe": null
     }
   },
   {
@@ -596,7 +602,8 @@
     "intent": "DAILY_POSITIVE_CASES",
     "request": "WHEN_MAXIMUM",
     "slots": {
-      "country": "Brazil"
+      "location": "Brazil",
+      "timeframe": null
     }
   },
   {
@@ -606,11 +613,11 @@
     "intent": "DAILY_ADMINISTERED_VACCINES",
     "request": "SUM",
     "slots": {
-      "country": "Austria",
+      "location": "Austria",
       "timeframe": {
         "type": "DATE",
         "value": {
-          "day": "9th February 2022"
+          "day": "the 9th February 2022"
         }
       }
     }
@@ -622,7 +629,7 @@
     "intent": "DAILY_POSITIVE_CASES",
     "request": "SUM",
     "slots": {
-      "country": "Austria",
+      "location": "Austria",
       "timeframe": {
         "type": "DATE",
         "value": {
@@ -637,6 +644,9 @@
     "topic": "UNKNOWN",
     "intent": "UNKNOWN",
     "request": "UNKNOWN",
-    "slots": null
+    "slots": {
+      "location": null,
+      "timeframe": null
+    }
   }
 ]

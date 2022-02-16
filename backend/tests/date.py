@@ -17,7 +17,7 @@ class TestQueryTopics(unittest.TestCase):
             with self.subTest(query=query):
                 predicted_date = self.date_recognizer.recognize_date(query["query"])
                 if predicted_date is None:
-                    self.assertTrue(query["slots"] is None or query["slots"]["timeframe"] is None)
+                    self.assertEqual(query["slots"]["timeframe"], None)
                 else:
                     self.assertEqual(query["slots"]["timeframe"]["type"], predicted_date.type)
                     self.assertEqual(query["slots"]["timeframe"]["value"]["day"], predicted_date.original_string)
