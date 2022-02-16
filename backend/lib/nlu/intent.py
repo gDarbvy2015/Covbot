@@ -74,6 +74,10 @@ class IntentRecognizer:
             if sub_token._.stem in self.topic_recognizer.get_cases_trigger_words():
                 if len({"number", "of"}.intersection(ancestors)) >= 2:
                     return Intent.DAILY_POSITIVE_CASES
+
+            if sub_token._.stem == "new":
+                if len(ancestors.intersection(self.topic_recognizer.get_cases_trigger_words())) > 0:
+                    return Intent.DAILY_POSITIVE_CASES
         return Intent.UNKNOWN
 
 

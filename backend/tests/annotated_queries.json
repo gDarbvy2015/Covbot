@@ -7,7 +7,7 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "today"
         }
@@ -23,7 +23,7 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "today"
         }
@@ -39,7 +39,7 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "25.01.2022"
         }
@@ -54,12 +54,7 @@
     "intent": "DAILY_ADMINISTERED_VACCINES",
     "request": "SUM",
     "slots": {
-      "timeframe": {
-        "type": "UP_UNTIL",
-        "value": {
-          "day": "today"
-        }
-      },
+      "timeframe": null,
       "location": "Austria"
     }
   },
@@ -71,7 +66,7 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "today"
         }
@@ -87,7 +82,7 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "today"
         }
@@ -103,7 +98,7 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "today"
         }
@@ -118,12 +113,7 @@
     "intent": "DAILY_POSITIVE_CASES",
     "request": "SUM",
     "slots": {
-      "timeframe": {
-        "type": "UP_UNTIL",
-        "value": {
-          "day": "today"
-        }
-      },
+      "timeframe": null,
       "location": "denmark"
     }
   },
@@ -135,9 +125,9 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
-          "day": "past week"
+          "day": "the past week"
         }
       },
       "location": "denmark"
@@ -151,9 +141,9 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
-          "day": "past week"
+          "day": "the past week"
         }
       },
       "location": "egypt"
@@ -167,9 +157,9 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
-          "day": "last year"
+          "day": "the last year"
         }
       },
       "location": "Finland"
@@ -183,7 +173,7 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "today"
         }
@@ -199,7 +189,7 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "yesterday"
         }
@@ -215,7 +205,7 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "today"
         }
@@ -231,7 +221,7 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "tomorrow"
         }
@@ -247,7 +237,7 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "a week ago"
         }
@@ -274,9 +264,9 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
-          "day": "a year ago"
+          "day": "the last year"
         }
       },
       "location": null
@@ -301,7 +291,7 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "today"
         }
@@ -317,9 +307,9 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
-          "day": "last month"
+          "day": "the last month"
         }
       },
       "location": "Belgium"
@@ -333,7 +323,7 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "today"
         }
@@ -349,7 +339,7 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "today"
         }
@@ -365,7 +355,7 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "yesterday"
         }
@@ -392,9 +382,9 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
-          "day": "last year"
+          "day": "Last year"
         }
       },
       "location": "Spain"
@@ -408,7 +398,7 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "July 2nd, 2021"
         }
@@ -424,7 +414,7 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "July 2nd, 2019"
         }
@@ -440,7 +430,7 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "2021"
         }
@@ -456,7 +446,7 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "2018"
         }
@@ -492,7 +482,7 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "today"
         }
@@ -508,7 +498,7 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "this week"
         }
@@ -565,7 +555,7 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "today"
         }
@@ -581,7 +571,7 @@
     "request": "SUM",
     "slots": {
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "today"
         }
@@ -618,7 +608,7 @@
     "slots": {
       "country": "Austria",
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "9th February 2022"
         }
@@ -634,7 +624,7 @@
     "slots": {
       "country": "Austria",
       "timeframe": {
-        "type": "SINGLE_POINT_IN_TIME",
+        "type": "DATE",
         "value": {
           "day": "2nd February 2022"
         }
