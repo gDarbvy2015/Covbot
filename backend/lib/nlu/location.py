@@ -39,6 +39,7 @@ _locations = {'micronesia', 'poland', 'philippines', 'portugal', 'anguilla', 'ni
 class LocationRecognizer:
     def __init__(self):
         self.nlp_processor = NLPProcessor()
+
     def recognize_location(self, doc: Doc) -> Optional[str]:
         location_ents = [ent.text for ent in doc.ents
                          if ent.label_ == "GPE"]
