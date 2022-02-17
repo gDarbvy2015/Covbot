@@ -1,26 +1,23 @@
 from __future__ import annotations
 from enum import Enum
+from typing import Optional
 
 from spacy.tokens import Token
 from nltk import PorterStemmer
 
 
 class Topic(Enum):
-    UNKNOWN = 1
-    CASES = 2
-    VACCINATIONS = 3
-    AMBIGUOUS = 4
+    CASES = 1
+    VACCINATIONS = 2
+    AMBIGUOUS = 3
+    UNKNOWN = 4
 
     @staticmethod
-    def from_str(topic_string: str) -> Topic:
-        if topic_string.lower() == "cases":
-            return Topic.CASES
-        elif topic_string.lower() == "vaccinations":
-            return Topic.VACCINATIONS
-        elif topic_string.lower() == "ambiguous":
-            return Topic.AMBIGUOUS
-        else:
-            return Topic.UNKNOWN
+    def from_str(topic: str) -> Optional[Topic]:
+        try:
+            return Topic[topic.upper()]
+        except KeyError:
+            return Topic["UNKNOWN"]
 
 
 class TopicRecognizer:
