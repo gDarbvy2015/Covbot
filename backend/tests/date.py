@@ -20,5 +20,5 @@ class TestQueryTopics(unittest.TestCase):
                     self.assertEqual(query["slots"]["timeframe"], None)
                 else:
                     self.assertEqual(query["slots"]["timeframe"]["type"], predicted_date.type)
-                    self.assertEqual(query["slots"]["timeframe"]["value"]["day"], predicted_date.original_string)
+                    self.assertEqual(query["slots"]["timeframe"]["value"], predicted_date.original_string)
                     self.assertNotEqual(predicted_date.value, None)

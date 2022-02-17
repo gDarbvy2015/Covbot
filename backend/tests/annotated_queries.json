@@ -3,14 +3,14 @@
     "id": 1,
     "query": "How many new cases have been reported in Austria today?",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "today"
-        }
+        "value": "today"
       },
       "location": "Austria"
     }
@@ -19,14 +19,14 @@
     "id": 2,
     "query": "How many new Covid cases are there in the UK today?",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "today"
-        }
+        "value": "today"
       },
       "location": "UK"
     }
@@ -35,14 +35,14 @@
     "id": 3,
     "query": "How many vaccinations were administered on the 25.01.2022 in Austria?",
     "topic": "VACCINATIONS",
-    "intent": "DAILY_ADMINISTERED_VACCINES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_ADMINISTERED_VACCINES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "25.01.2022"
-        }
+        "value": "25.01.2022"
       },
       "location": "Austria"
     }
@@ -51,8 +51,10 @@
     "id": 4,
     "query": "How many people have been vaccinated so far in Austria?",
     "topic": "VACCINATIONS",
-    "intent": "DAILY_ADMINISTERED_VACCINES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_ADMINISTERED_VACCINES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": null,
       "location": "Austria"
@@ -62,14 +64,14 @@
     "id": 5,
     "query": "How many people have tested positive for Covid in Germany today?",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "today"
-        }
+        "value": "today"
       },
       "location": "Germany"
     }
@@ -78,14 +80,14 @@
     "id": 6,
     "query": "How many cases in denmark today",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "today"
-        }
+        "value": "today"
       },
       "location": "denmark"
     }
@@ -94,14 +96,14 @@
     "id": 7,
     "query": "how many vaccines in denmark today?",
     "topic": "VACCINATIONS",
-    "intent": "DAILY_ADMINISTERED_VACCINES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_ADMINISTERED_VACCINES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "today"
-        }
+        "value": "today"
       },
       "location": "denmark"
     }
@@ -110,8 +112,10 @@
     "id": 8,
     "query": "Tell me the number of positive cases in denmark",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": null,
       "location": "denmark"
@@ -121,14 +125,14 @@
     "id": 9,
     "query": "how many people were infected in denmark in the past week",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "the past week"
-        }
+        "value": "the past week"
       },
       "location": "denmark"
     }
@@ -137,14 +141,14 @@
     "id": 10,
     "query": "how many people where vaccinated in egypt in the past week",
     "topic": "VACCINATIONS",
-    "intent": "DAILY_ADMINISTERED_VACCINES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_ADMINISTERED_VACCINES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "the past week"
-        }
+        "value": "the past week"
       },
       "location": "egypt"
     }
@@ -153,14 +157,14 @@
     "id": 11,
     "query": "How many people from Finland have tested positive for Covid in the last year?",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "the last year"
-        }
+        "value": "the last year"
       },
       "location": "Finland"
     }
@@ -169,14 +173,14 @@
     "id": 12,
     "query": "How many cases are there today?",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "today"
-        }
+        "value": "today"
       },
       "location": null
     }
@@ -185,14 +189,14 @@
     "id": 13,
     "query": "How many cases did we have yesterday?",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "yesterday"
-        }
+        "value": "yesterday"
       },
       "location": null
     }
@@ -201,14 +205,14 @@
     "id": 14,
     "query": "How many people got vaccinated today?",
     "topic": "VACCINATIONS",
-    "intent": "DAILY_ADMINISTERED_VACCINES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_ADMINISTERED_VACCINES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "today"
-        }
+        "value": "today"
       },
       "location": null
     }
@@ -217,14 +221,14 @@
     "id": 15,
     "query": "How many people will get vaccinated tomorrow? :P",
     "topic": "VACCINATIONS",
-    "intent": "DAILY_ADMINISTERED_VACCINES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_ADMINISTERED_VACCINES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "tomorrow"
-        }
+        "value": "tomorrow"
       },
       "location": null
     }
@@ -233,14 +237,14 @@
     "id": 16,
     "query": "How many vaccines were administered a week ago?",
     "topic": "VACCINATIONS",
-    "intent": "DAILY_ADMINISTERED_VACCINES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_ADMINISTERED_VACCINES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "a week ago"
-        }
+        "value": "a week ago"
       },
       "location": null
     }
@@ -249,8 +253,10 @@
     "id": 17,
     "query": "What is the total number of vaccinated people in Sweden?",
     "topic": "VACCINATIONS",
-    "intent": "DAILY_VACCINATED_PEOPLE",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_VACCINATED_PEOPLE",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": null,
       "location": "Sweden"
@@ -260,14 +266,14 @@
     "id": 18,
     "query": "Give me the number of jabs administered in England in the last year",
     "topic": "VACCINATIONS",
-    "intent": "DAILY_ADMINISTERED_VACCINES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_ADMINISTERED_VACCINES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "the last year"
-        }
+        "value": "the last year"
       },
       "location": "England"
     }
@@ -276,8 +282,10 @@
     "id": 19,
     "query": "number of vaccinations worldwide",
     "topic": "VACCINATIONS",
-    "intent": "DAILY_ADMINISTERED_VACCINES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_ADMINISTERED_VACCINES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": null,
       "location": null
@@ -287,14 +295,14 @@
     "id": 20,
     "query": "vaccinations worldwide today",
     "topic": "VACCINATIONS",
-    "intent": "DAILY_ADMINISTERED_VACCINES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_ADMINISTERED_VACCINES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "today"
-        }
+        "value": "today"
       },
       "location": null
     }
@@ -303,14 +311,14 @@
     "id": 21,
     "query": "How many vaccines have been given to people over the course of the last month in the country of Belgium?",
     "topic": "VACCINATIONS",
-    "intent": "DAILY_ADMINISTERED_VACCINES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_ADMINISTERED_VACCINES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "the last month"
-        }
+        "value": "the last month"
       },
       "location": "Belgium"
     }
@@ -319,14 +327,14 @@
     "id": 22,
     "query": "How many positive tests have there been today in Italy?",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "today"
-        }
+        "value": "today"
       },
       "location": "Italy"
     }
@@ -335,14 +343,14 @@
     "id": 23,
     "query": "new cases today austria",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "today"
-        }
+        "value": "today"
       },
       "location": "austria"
     }
@@ -351,14 +359,14 @@
     "id": 24,
     "query": "corona tested positive yesterday europe",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "yesterday"
-        }
+        "value": "yesterday"
       },
       "location": "europe"
     }
@@ -367,8 +375,10 @@
     "id": 25,
     "query": "Number of positive tests in russia",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": null,
       "location": "russia"
@@ -378,14 +388,14 @@
     "id": 26,
     "query": "Last year, how many people tested positive for the coronavirus in Spain alone?",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "Last year"
-        }
+        "value": "Last year"
       },
       "location": "Spain"
     }
@@ -394,14 +404,14 @@
     "id": 27,
     "query": "How many vaccinations were performed in Uganda on July 2nd, 2021?",
     "topic": "VACCINATIONS",
-    "intent": "DAILY_ADMINISTERED_VACCINES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_ADMINISTERED_VACCINES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "July 2nd, 2021"
-        }
+        "value": "July 2nd, 2021"
       },
       "location": "Uganda"
     }
@@ -410,14 +420,14 @@
     "id": 28,
     "query": "How many vaccinations were performed in Hungary on July 2nd, 2019?",
     "topic": "VACCINATIONS",
-    "intent": "DAILY_ADMINISTERED_VACCINES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_ADMINISTERED_VACCINES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "July 2nd, 2019"
-        }
+        "value": "July 2nd, 2019"
       },
       "location": "Hungary"
     }
@@ -426,14 +436,14 @@
     "id": 29,
     "query": "How many new cases were discovered in Serbia in 2021?",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "2021"
-        }
+        "value": "2021"
       },
       "location": "Serbia"
     }
@@ -442,14 +452,14 @@
     "id": 30,
     "query": "How many new cases were discovered in Russia in 2018?",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "2018"
-        }
+        "value": "2018"
       },
       "location": "Russia"
     }
@@ -458,8 +468,10 @@
     "id": 31,
     "query": "What is the peak number of confirmed cases in Hong Kong",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "MAXIMUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "MAXIMUM"
+    },
     "slots": {
       "location": "Hong Kong",
       "timeframe": null
@@ -469,8 +481,10 @@
     "id": 32,
     "query": "What is the peak number of vaccinated people in a day of Hong Kong",
     "topic": "VACCINATIONS",
-    "intent": "DAILY_ADMINISTERED_VACCINES",
-    "request": "MAXIMUM",
+    "intent": {
+      "datapoint": "DAILY_ADMINISTERED_VACCINES",
+      "request": "MAXIMUM"
+    },
     "slots": {
       "location": "Hong Kong",
       "timeframe": null
@@ -480,14 +494,14 @@
     "id": 33,
     "query": "How many new cases of COVID are there today in Hong Kong?",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "today"
-        }
+        "value": "today"
       },
       "location": "Hong Kong"
     }
@@ -496,14 +510,14 @@
     "id": 34,
     "query": "How many new cases of COVID are this week in Hong Kong?",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "this week"
-        }
+        "value": "this week"
       },
       "location": "Hong Kong"
     }
@@ -512,8 +526,10 @@
     "id": 35,
     "query": "Which country has had the most corona cases?",
     "topic": "CASES",
-    "intent": "CUMULATIVE_POSITIVE_CASES",
-    "request": "COUNTRY_MAXIMUM",
+    "intent": {
+      "datapoint": "CUMULATIVE_POSITIVE_CASES",
+      "request": "COUNTRY_MAXIMUM"
+    },
     "slots": {
       "timeframe": null,
       "location": null
@@ -523,8 +539,10 @@
     "id": 36,
     "query": "On which day were the most cases reported?",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "DAY_MAXIMUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "DAY_MAXIMUM"
+    },
     "slots": {
       "location": null,
       "timeframe": null
@@ -534,8 +552,10 @@
     "id": 37,
     "query": "In which country did most people get vaccinated?",
     "topic": "VACCINATIONS",
-    "intent": "CUMULATIVE_ADMINISTERED_VACCINES",
-    "request": "COUNTRY_MAXIMUM",
+    "intent": {
+      "datapoint": "CUMULATIVE_ADMINISTERED_VACCINES",
+      "request": "COUNTRY_MAXIMUM"
+    },
     "slots": {
       "timeframe": null,
       "location": null
@@ -545,8 +565,10 @@
     "id": 38,
     "query": "How many people are vaccinated?",
     "topic": "VACCINATIONS",
-    "intent": "CUMULATIVE_VACCINATED_PEOPLE",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "CUMULATIVE_VACCINATED_PEOPLE",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": null,
       "location": null
@@ -556,14 +578,14 @@
     "id": 39,
     "query": "How many people were vaccinated today?",
     "topic": "VACCINATIONS",
-    "intent": "DAILY_ADMINISTERED_VACCINATIONS",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_ADMINISTERED_VACCINATIONS",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "today"
-        }
+        "value": "today"
       },
       "location": null
     }
@@ -572,14 +594,14 @@
     "id": 40,
     "query": "How many corona cases got reported today?",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "SUM"
+    },
     "slots": {
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "today"
-        }
+        "value": "today"
       },
       "location": null
     }
@@ -588,8 +610,10 @@
     "id": 41,
     "query": "when did austria have the highest number of infections?",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "WHEN_MAXIMUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "WHEN_MAXIMUM"
+    },
     "slots": {
       "location": "austria",
       "timeframe": null
@@ -599,8 +623,10 @@
     "id": 42,
     "query": "On which day was the highest number of new cases reported in Brazil?",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "WHEN_MAXIMUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "WHEN_MAXIMUM"
+    },
     "slots": {
       "location": "Brazil",
       "timeframe": null
@@ -610,15 +636,15 @@
     "id": 43,
     "query": "How many vaccine shots were administered in Austria on the 9th February 2022?",
     "topic": "VACCINATIONS",
-    "intent": "DAILY_ADMINISTERED_VACCINES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_ADMINISTERED_VACCINES",
+      "request": "SUM"
+    },
     "slots": {
       "location": "Austria",
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "the 9th February 2022"
-        }
+        "value": "the 9th February 2022"
       }
     }
   },
@@ -626,15 +652,15 @@
     "id": 44,
     "query": "Could you tell me which how many new COVID cases were reported in Austria on 2nd February 2022?",
     "topic": "CASES",
-    "intent": "DAILY_POSITIVE_CASES",
-    "request": "SUM",
+    "intent": {
+      "datapoint": "DAILY_POSITIVE_CASES",
+      "request": "SUM"
+    },
     "slots": {
       "location": "Austria",
       "timeframe": {
         "type": "DATE",
-        "value": {
-          "day": "2nd February 2022"
-        }
+        "value": "2nd February 2022"
       }
     }
   },
@@ -642,8 +668,10 @@
     "id": 45,
     "query": "How you doin'?",
     "topic": "UNKNOWN",
-    "intent": "UNKNOWN",
-    "request": "UNKNOWN",
+    "intent": {
+      "datapoint": "UNKNOWN",
+      "request": "UNKNOWN"
+    },
     "slots": {
       "location": null,
       "timeframe": null
