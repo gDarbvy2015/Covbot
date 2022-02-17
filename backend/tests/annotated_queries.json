@@ -269,7 +269,7 @@
           "day": "the last year"
         }
       },
-      "location": null
+      "location": "England"
     }
   },
   {
@@ -435,7 +435,7 @@
           "day": "2021"
         }
       },
-      "location": "Hungary"
+      "location": "Serbia"
     }
   },
   {
@@ -526,7 +526,7 @@
     "intent": "DAILY_POSITIVE_CASES",
     "request": "DAY_MAXIMUM",
     "slots": {
-      "countries": null,
+      "location": null,
       "timeframe": null
     }
   },
