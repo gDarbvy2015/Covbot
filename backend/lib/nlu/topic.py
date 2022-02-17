@@ -28,7 +28,6 @@ class TopicRecognizer:
         self.stemmer = PorterStemmer()
 
     def recognize_topic(self, token: Token) -> Topic:
-
         is_topic_vaccine = self.is_topic_vaccine(token)
         is_topic_cases = self.is_topic_cases(token)
 
