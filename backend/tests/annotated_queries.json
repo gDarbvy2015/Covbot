@@ -5,7 +5,7 @@
     "topic": "CASES",
     "intent": {
       "datapoint": "DAILY_POSITIVE_CASES",
-      "request": "SUM"
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": {
@@ -21,7 +21,7 @@
     "topic": "CASES",
     "intent": {
       "datapoint": "DAILY_POSITIVE_CASES",
-      "request": "SUM"
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": {
@@ -37,7 +37,7 @@
     "topic": "VACCINATIONS",
     "intent": {
       "datapoint": "DAILY_ADMINISTERED_VACCINES",
-      "request": "SUM"
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": {
@@ -52,8 +52,8 @@
     "query": "How many people have been vaccinated so far in Austria?",
     "topic": "VACCINATIONS",
     "intent": {
-      "datapoint": "DAILY_ADMINISTERED_VACCINES",
-      "request": "SUM"
+      "datapoint": "CUMULATIVE_ADMINISTERED_VACCINES",
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": null,
@@ -66,7 +66,7 @@
     "topic": "CASES",
     "intent": {
       "datapoint": "DAILY_POSITIVE_CASES",
-      "request": "SUM"
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": {
@@ -82,7 +82,7 @@
     "topic": "CASES",
     "intent": {
       "datapoint": "DAILY_POSITIVE_CASES",
-      "request": "SUM"
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": {
@@ -98,7 +98,7 @@
     "topic": "VACCINATIONS",
     "intent": {
       "datapoint": "DAILY_ADMINISTERED_VACCINES",
-      "request": "SUM"
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": {
@@ -113,8 +113,8 @@
     "query": "Tell me the number of positive cases in denmark",
     "topic": "CASES",
     "intent": {
-      "datapoint": "DAILY_POSITIVE_CASES",
-      "request": "SUM"
+      "datapoint": "CUMULATIVE_POSITIVE_CASES",
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": null,
@@ -139,10 +139,10 @@
   },
   {
     "id": 10,
-    "query": "how many people where vaccinated in egypt in the past week",
+    "query": "how many people were vaccinated in egypt in the past week",
     "topic": "VACCINATIONS",
     "intent": {
-      "datapoint": "DAILY_ADMINISTERED_VACCINES",
+      "datapoint": "DAILY_VACCINATED_PEOPLE",
       "request": "SUM"
     },
     "slots": {
@@ -175,7 +175,7 @@
     "topic": "CASES",
     "intent": {
       "datapoint": "DAILY_POSITIVE_CASES",
-      "request": "SUM"
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": {
@@ -191,7 +191,7 @@
     "topic": "CASES",
     "intent": {
       "datapoint": "DAILY_POSITIVE_CASES",
-      "request": "SUM"
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": {
@@ -206,8 +206,8 @@
     "query": "How many people got vaccinated today?",
     "topic": "VACCINATIONS",
     "intent": {
-      "datapoint": "DAILY_ADMINISTERED_VACCINES",
-      "request": "SUM"
+      "datapoint": "DAILY_VACCINATED_PEOPLE",
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": {
@@ -222,8 +222,8 @@
     "query": "How many people will get vaccinated tomorrow? :P",
     "topic": "VACCINATIONS",
     "intent": {
-      "datapoint": "DAILY_ADMINISTERED_VACCINES",
-      "request": "SUM"
+      "datapoint": "DAILY_VACCINATED_PEOPLE",
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": {
@@ -239,7 +239,7 @@
     "topic": "VACCINATIONS",
     "intent": {
       "datapoint": "DAILY_ADMINISTERED_VACCINES",
-      "request": "SUM"
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": {
@@ -254,8 +254,8 @@
     "query": "What is the total number of vaccinated people in Sweden?",
     "topic": "VACCINATIONS",
     "intent": {
-      "datapoint": "DAILY_VACCINATED_PEOPLE",
-      "request": "SUM"
+      "datapoint": "CUMULATIVE_VACCINATED_PEOPLE",
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": null,
@@ -283,8 +283,8 @@
     "query": "number of vaccinations worldwide",
     "topic": "VACCINATIONS",
     "intent": {
-      "datapoint": "DAILY_ADMINISTERED_VACCINES",
-      "request": "SUM"
+      "datapoint": "CUMULATIVE_ADMINISTERED_VACCINES",
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": null,
@@ -297,7 +297,7 @@
     "topic": "VACCINATIONS",
     "intent": {
       "datapoint": "DAILY_ADMINISTERED_VACCINES",
-      "request": "SUM"
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": {
@@ -329,7 +329,7 @@
     "topic": "CASES",
     "intent": {
       "datapoint": "DAILY_POSITIVE_CASES",
-      "request": "SUM"
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": {
@@ -345,7 +345,7 @@
     "topic": "CASES",
     "intent": {
       "datapoint": "DAILY_POSITIVE_CASES",
-      "request": "SUM"
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": {
@@ -361,7 +361,7 @@
     "topic": "CASES",
     "intent": {
       "datapoint": "DAILY_POSITIVE_CASES",
-      "request": "SUM"
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": {
@@ -376,8 +376,8 @@
     "query": "Number of positive tests in russia",
     "topic": "CASES",
     "intent": {
-      "datapoint": "DAILY_POSITIVE_CASES",
-      "request": "SUM"
+      "datapoint": "CUMULATIVE_POSITIVE_CASES",
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": null,
@@ -406,7 +406,7 @@
     "topic": "VACCINATIONS",
     "intent": {
       "datapoint": "DAILY_ADMINISTERED_VACCINES",
-      "request": "SUM"
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": {
@@ -422,7 +422,7 @@
     "topic": "VACCINATIONS",
     "intent": {
       "datapoint": "DAILY_ADMINISTERED_VACCINES",
-      "request": "SUM"
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": {
@@ -482,7 +482,7 @@
     "query": "What is the peak number of vaccinated people in a day of Hong Kong",
     "topic": "VACCINATIONS",
     "intent": {
-      "datapoint": "DAILY_ADMINISTERED_VACCINES",
+      "datapoint": "DAILY_VACCINATED_PEOPLE",
       "request": "MAXIMUM"
     },
     "slots": {
@@ -496,7 +496,7 @@
     "topic": "CASES",
     "intent": {
       "datapoint": "DAILY_POSITIVE_CASES",
-      "request": "SUM"
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": {
@@ -567,7 +567,7 @@
     "topic": "VACCINATIONS",
     "intent": {
       "datapoint": "CUMULATIVE_VACCINATED_PEOPLE",
-      "request": "SUM"
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": null,
@@ -580,7 +580,7 @@
     "topic": "VACCINATIONS",
     "intent": {
       "datapoint": "DAILY_ADMINISTERED_VACCINATIONS",
-      "request": "SUM"
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": {
@@ -596,7 +596,7 @@
     "topic": "CASES",
     "intent": {
       "datapoint": "DAILY_POSITIVE_CASES",
-      "request": "SUM"
+      "request": "VALUE"
     },
     "slots": {
       "timeframe": {
@@ -612,7 +612,7 @@
     "topic": "CASES",
     "intent": {
       "datapoint": "DAILY_POSITIVE_CASES",
-      "request": "WHEN_MAXIMUM"
+      "request": "DAY_MAXIMUM"
     },
     "slots": {
       "location": "austria",
@@ -625,7 +625,7 @@
     "topic": "CASES",
     "intent": {
       "datapoint": "DAILY_POSITIVE_CASES",
-      "request": "WHEN_MAXIMUM"
+      "request": "DAY_MAXIMUM"
     },
     "slots": {
       "location": "Brazil",
@@ -638,7 +638,7 @@
     "topic": "VACCINATIONS",
     "intent": {
       "datapoint": "DAILY_ADMINISTERED_VACCINES",
-      "request": "SUM"
+      "request": "VALUE"
     },
     "slots": {
       "location": "Austria",
@@ -650,7 +650,7 @@
   },
   {
     "id": 44,
-    "query": "Could you tell me which how many new COVID cases were reported in Austria on 2nd February 2022?",
+    "query": "Could you tell me how many new COVID cases were reported in Austria on 2nd February 2022?",
     "topic": "CASES",
     "intent": {
       "datapoint": "DAILY_POSITIVE_CASES",
