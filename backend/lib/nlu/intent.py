@@ -12,9 +12,10 @@ from lib.nlu.topic import TopicRecognizer, Topic
 
 class CalculationType(Enum):
     RAW_VALUE = 1
-    MAXIMUM = 2
-    MINIMUM = 3
-    UNKNOWN = 4
+    SUM = 2
+    MAXIMUM = 3
+    MINIMUM = 4
+    UNKNOWN = 5
 
     @staticmethod
     def from_str(calculation_type: str) -> Optional[CalculationType]:
@@ -25,7 +26,7 @@ class CalculationType(Enum):
 
 
 class ValueType(Enum):
-    VALUE = 1
+    NUMBER = 1
     DAY = 2
     LOCATION = 3
     UNKNOWN = 4
