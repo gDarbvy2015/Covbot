@@ -4,7 +4,7 @@ import re
 class NLPProcessor:
     def normalize_country_name(self, country_name: str) -> str:
         country_name = country_name.lower()
-        country_name = re.sub(r"-|'|\s*\([^)]+\)", "", country_name)
+        country_name = re.sub(r"\.|-|'|\s*\([^)]+\)", "", country_name)
         country_name = self._map_country_abbreviations(country_name)
 
         return country_name
