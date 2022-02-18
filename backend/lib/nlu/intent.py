@@ -80,7 +80,10 @@ class IntentRecognizer:
         self.topic_recognizer = TopicRecognizer()
 
     def recognize_intent(self, token: Token) -> Optional[Intent]:
-        return None
+
+        value_domain = self.recognize_value_domain(token)
+
+        return Intent(CalculationType.UNKNOWN, ValueType.UNKNOWN, value_domain, MeasurementType.UNKNOWN)
         # topic = self.topic_recognizer.recognize_topic(token)
         # if topic == Topic.UNKNOWN:
         #     return Intent.UNKNOWN
@@ -89,23 +92,17 @@ class IntentRecognizer:
         # elif topic == Topic.CASES:
         #     return self.recognize_cases_intent(token)
 
-    def recognize_cases_intent(self, token: Token) -> Intent:
+    def recognize_value_domain(self, token: Token) -> ValueDomain:
+        if self.topic_recognizer.recognize_topic(token) == Topic.UNKNOWN:
+            return ValueDomain.UNKNOWN
+        elif self.topic_recognizer.recognize_topic(token) == Topic.AMBIGUOUS:
+            return ValueDomain.UNKNOWN
+        elif self.topic_recognizer.recognize_topic(token) == Topic.CASES:
+            return ValueDomain.POSITIVE_CASES
+        else:
+            people_trigger_words = {self.stemmer.stem(word)
+                                    for word in ["human", "people", "person", "individual"]}
         pass
-        # for sub_token in token.subtree:
-        #     ancestors = {parent._.stem.lower() for parent in sub_token.ancestors}
-        #
-        #     if sub_token.lower_ == "how":
-        #         if len({"mani"}.union(self.topic_recognizer.get_cases_trigger_words()).intersection(ancestors)) >= 2:
-        #             return Intent.DAILY_POSITIVE_CASES
-        #
-        #     if sub_token._.stem in self.topic_recognizer.get_cases_trigger_words():
-        #         if len({"number", "of"}.intersection(ancestors)) >= 2:
-        #             return Intent.DAILY_POSITIVE_CASES
-        #
-        #     if sub_token._.stem == "new":
-        #         if len(ancestors.intersection(self.topic_recognizer.get_cases_trigger_words())) > 0:
-        #             return Intent.DAILY_POSITIVE_CASES
-        # return Intent.UNKNOWN
 
 
 if __name__ == '__main__':

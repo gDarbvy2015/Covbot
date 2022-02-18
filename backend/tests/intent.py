@@ -1,6 +1,6 @@
 import unittest
 import json
-from lib.nlu.intent import Intent, IntentRecognizer
+from lib.nlu.intent import Intent, IntentRecognizer, ValueDomain
 from lib.spacy_components.spacy import get_spacy
 
 
@@ -9,11 +9,10 @@ class TestQueryIntents(unittest.TestCase):
         self.spacy = get_spacy()
         with open("annotated_queries.json") as query_file:
             self.queries = [query for query in json.load(query_file)
-                            if Intent.from_str(query["intent"]["datapoint"]) == Intent.DAILY_POSITIVE_CASES or
-                            Intent.from_str(query["intent"]["datapoint"]) == Intent.CUMULATIVE_POSITIVE_CASES]
+                            if query["intent"]["value_domain"] == "VACCINATED_PEOPLE"]
 
-    def test_daily_positive_cases_intents(self):
+    def test_value_domain(self):
         for query in self.queries:
             with self.subTest(query=query):
-                predicted_intent = self.spacy(query["query"])._.intent
-                self.assertEqual(Intent.from_str(query["intent"]["datapoint"]), predicted_intent)
+                predicted_value_domain = self.spacy(query["query"])._.intent.value_domain
+                self.assertEqual(ValueDomain.from_str(query["intent"]["value_domain"]), predicted_value_domain)

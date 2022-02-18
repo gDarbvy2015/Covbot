@@ -55,6 +55,12 @@ class TopicRecognizer:
         is_right_topic = len(case_overlaps) >= 1
         return is_right_topic
 
+    def is_vaccine_trigger_word(self, token: Token) -> bool:
+        return token._.stem in self.get_vaccine_trigger_words()
+
+    def is_cases_trigger_word(self, token: Token) -> bool:
+        return token._.stem in self.get_cases_trigger_words()
+
     def get_vaccine_trigger_words(self):
         return {self.stemmer.stem(word) for word in ["shot", "vaccine", "jab", "inoculation", "immunization",
                                                      "administer"]}
