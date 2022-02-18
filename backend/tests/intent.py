@@ -8,8 +8,7 @@ class TestQueryIntents(unittest.TestCase):
     def setUp(self):
         self.spacy = get_spacy()
         with open("annotated_queries.json") as query_file:
-            self.queries = [query for query in json.load(query_file)
-                            if query["intent"]["value_domain"] == "VACCINATED_PEOPLE"]
+            self.queries = [query for query in json.load(query_file)]
 
     def test_value_domain(self):
         for query in self.queries:

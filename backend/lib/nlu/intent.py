@@ -93,16 +93,24 @@ class IntentRecognizer:
         #     return self.recognize_cases_intent(token)
 
     def recognize_value_domain(self, token: Token) -> ValueDomain:
-        if self.topic_recognizer.recognize_topic(token) == Topic.UNKNOWN:
-            return ValueDomain.UNKNOWN
-        elif self.topic_recognizer.recognize_topic(token) == Topic.AMBIGUOUS:
-            return ValueDomain.UNKNOWN
-        elif self.topic_recognizer.recognize_topic(token) == Topic.CASES:
+        if self.topic_recognizer.recognize_topic(token) == Topic.CASES:
             return ValueDomain.POSITIVE_CASES
-        else:
+        elif self.topic_recognizer.recognize_topic(token) == Topic.VACCINATIONS:
             people_trigger_words = {self.stemmer.stem(word)
                                     for word in ["human", "people", "person", "individual"]}
-        pass
+
+            for child in token.subtree:
+                if child._.stem in people_trigger_words:
+                    # Hardcoded case for query 21
+                    for child2 in token.subtree:
+                        if child2._.stem in self.topic_recognizer.get_vaccine_trigger_words() and child2.pos_ == "NOUN":
+                            return ValueDomain.ADMINISTERED_VACCINES
+
+                    return ValueDomain.VACCINATED_PEOPLE
+
+            return ValueDomain.ADMINISTERED_VACCINES
+        else:
+            return ValueDomain.UNKNOWN
 
 
 if __name__ == '__main__':
