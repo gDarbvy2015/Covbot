@@ -354,7 +354,7 @@
     "intent": {
       "calculation_type": "SUM",
       "value_type": "NUMBER",
-      "value_domain": "DAILY_ADMINISTERED_VACCINES",
+      "value_domain": "ADMINISTERED_VACCINES",
       "measurement_type": "DAILY"
     },
     "slots": {
@@ -627,7 +627,7 @@
     "intent": {
       "calculation_type": "MAXIMUM",
       "value_type": "COUNTRY",
-      "value_domain": "ADMINISTERED_VACCINES",
+      "value_domain": "VACCINATED_PEOPLE",
       "measurement_type": "CUMULATIVE"
     },
     "slots": {
@@ -657,7 +657,7 @@
     "intent": {
       "calculation_type": "RAW_VALUE",
       "value_type": "NUMBER",
-      "value_domain": "ADMINISTERED_VACCINES",
+      "value_domain": "VACCINATED_PEOPLE",
       "measurement_type": "DAILY"
     },
     "slots": {
