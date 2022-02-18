@@ -693,7 +693,7 @@
     "intent": {
       "calculation_type": "MAXIMUM",
       "value_type": "DAY",
-      "value_domain": "POSITICE_CASES",
+      "value_domain": "POSITIVE_CASES",
       "measurement_type": "DAILY"
     },
     "slots": {
