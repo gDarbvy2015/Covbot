@@ -7,6 +7,7 @@ from typing import Optional
 from nltk import PorterStemmer
 from spacy.tokens import Token
 
+from lib.nlu.date import DateRecognizer
 from lib.nlu.topic import TopicRecognizer, Topic
 
 
@@ -78,12 +79,14 @@ class IntentRecognizer:
     def __init__(self):
         self.stemmer = PorterStemmer()
         self.topic_recognizer = TopicRecognizer()
+        self.time_recognizer = DateRecognizer()
 
     def recognize_intent(self, token: Token) -> Optional[Intent]:
 
         value_domain = self.recognize_value_domain(token)
+        measurement_type = self.recognize_measurement_type(token)
 
-        return Intent(CalculationType.UNKNOWN, ValueType.UNKNOWN, value_domain, MeasurementType.UNKNOWN)
+        return Intent(CalculationType.UNKNOWN, ValueType.UNKNOWN, value_domain, measurement_type)
         # topic = self.topic_recognizer.recognize_topic(token)
         # if topic == Topic.UNKNOWN:
         #     return Intent.UNKNOWN
@@ -93,9 +96,10 @@ class IntentRecognizer:
         #     return self.recognize_cases_intent(token)
 
     def recognize_value_domain(self, token: Token) -> ValueDomain:
-        if self.topic_recognizer.recognize_topic(token) == Topic.CASES:
+        topic = self.topic_recognizer.recognize_topic(token)
+        if  topic == Topic.CASES:
             return ValueDomain.POSITIVE_CASES
-        elif self.topic_recognizer.recognize_topic(token) == Topic.VACCINATIONS:
+        elif topic == Topic.VACCINATIONS:
             people_trigger_words = {self.stemmer.stem(word)
                                     for word in ["human", "people", "person", "individual"]}
 
@@ -111,6 +115,18 @@ class IntentRecognizer:
             return ValueDomain.ADMINISTERED_VACCINES
         else:
             return ValueDomain.UNKNOWN
+
+    def recognize_measurement_type(self, token: Token) -> MeasurementType:
+        timeframe = self.time_recognizer.recognize_date(str(token.sent))
+        topic = self.topic_recognizer.recognize_topic(token)
+
+        if topic in [Topic.CASES, Topic.VACCINATIONS]:
+            if timeframe is not None:
+                return MeasurementType.DAILY
+            else:
+                return MeasurementType.CUMULATIVE
+        else:
+            return MeasurementType.UNKNOWN
 
 
 if __name__ == '__main__':
