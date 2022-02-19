@@ -21,6 +21,17 @@ human_pattern: List[dict] = [{
     }
 }]
 
+country_pattern: List[dict] = [{
+    "RIGHT_ID": "country_pattern",
+    "RIGHT_ATTRS": {
+        "_": {
+            "stem": {
+                "IN": ["country", "nation"]
+            }
+        }
+    }
+}]
+
 vaccine_trigger_pattern: List[dict] = [{
     "RIGHT_ID": "vaccine_trigger_pattern",
     "RIGHT_ATTRS": {
@@ -43,12 +54,16 @@ case_trigger_pattern: List[dict] = [{
     }
 }]
 
-how_many_pattern: List[dict] = [{
+how_pattern: List[dict] = [
+{
     "RIGHT_ID": "how_pattern",
     "RIGHT_ATTRS": {
         "LEMMA": "how"
     }
-},
+    }
+]
+
+how_many_pattern: List[dict] = how_pattern + [
     {
         "LEFT_ID": "how_pattern",
         "REL_OP": "<",
@@ -57,6 +72,64 @@ how_many_pattern: List[dict] = [{
             "LEMMA": "many"
         }
     }]
+
+what_pattern: List[dict] = [
+    {
+        "RIGHT_ID": "what_pattern",
+        "RIGHT_ATTRS": {
+            "LEMMA": {
+                "IN": ["which", "what"]
+            }
+        }
+    }
+]
+
+what_day_pattern: List[dict] = what_pattern + [
+    {
+        "LEFT_ID": "what_pattern",
+        "REL_OP": "<<",
+        "RIGHT_ID": "what_day_pattern",
+        "RIGHT_ATTRS": {
+            "LEMMA": {
+                "IN": ["day", "time", "date"]
+            }
+        }
+    }
+]
+
+what_country_pattern: List[dict] = what_pattern + [
+    {
+        "LEFT_ID": "what_pattern",
+        "REL_OP": "<<",
+        **country_pattern[0]
+    }
+]
+
+what_is_country_pattern: List[dict] = what_pattern + [
+    {
+        "LEFT_ID": "what_pattern",
+        "REL_OP": "$++",
+        **country_pattern[0]
+    }
+]
+
+when_pattern: List[dict] = [
+    {
+        "RIGHT_ID": "when_pattern",
+        "RIGHT_ATTRS": {
+            "LEMMA": "when"
+        }
+    }
+]
+
+where_pattern: List[dict] = [
+    {
+        "RIGHT_ID": "where_pattern",
+        "RIGHT_ATTRS": {
+            "LEMMA": "where"
+        }
+    }
+]
 
 number_of_pattern: List[dict] = [{
     "RIGHT_ID": "number_pattern",
@@ -73,4 +146,4 @@ number_of_pattern: List[dict] = [{
         "RIGHT_ATTRS": {
             "LEMMA": "of"
         }
-}]
+    }]
