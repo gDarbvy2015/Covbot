@@ -4,8 +4,12 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
 
+import spacy
 from nltk import PorterStemmer
 from spacy.tokens import Token
+from spacy.tokens.span import Span
+
+from lib.nlu.patterns import human_pattern, vaccine_trigger_pattern, case_trigger_pattern, how_many_pattern
 
 from lib.nlu.date import DateRecognizer
 from lib.nlu.topic import TopicRecognizer, Topic
@@ -77,49 +81,51 @@ class Intent:
 
 
 class IntentRecognizer:
-    def __init__(self):
+    def __init__(self, vocab=None, pipeline=None):
+        if pipeline is None:
+            pipeline = [ValueDomain]
+
         self.stemmer = PorterStemmer()
+        self.pipeline = pipeline
         self.topic_recognizer = TopicRecognizer()
-        self.time_recognizer = DateRecognizer()
 
-    def recognize_intent(self, token: Token) -> Optional[Intent]:
+        if MeasurementType in pipeline:
+            self.date_recognizer = DateRecognizer()
 
-        value_domain = self.recognize_value_domain(token)
-        measurement_type = self.recognize_measurement_type(token)
-        value_type = self.recognize_value_type(token)
+        self.vocab = vocab
 
-        return Intent(CalculationType.UNKNOWN, value_type, value_domain, measurement_type)
-        # topic = self.topic_recognizer.recognize_topic(token)
-        # if topic == Topic.UNKNOWN:
-        #     return Intent.UNKNOWN
-        # elif topic == Topic.AMBIGUOUS:
-        #     return Intent.AMBIGUOUS
-        # elif topic == Topic.CASES:
-        #     return self.recognize_cases_intent(token)
+    def recognize_intent(self, span: Span) -> Optional[Intent]:
 
-    def recognize_value_domain(self, token: Token) -> ValueDomain:
-        topic = self.topic_recognizer.recognize_topic(token)
-        if  topic == Topic.CASES:
+        value_domain = self.recognize_value_domain(span) if ValueDomain in self.pipeline else ValueDomain.UNKNOWN
+        measurement_type = MeasurementType.UNKNOWN
+        value_type = ValueType.UNKNOWN
+        calculation_type = CalculationType.UNKNOWN
+
+        return Intent(calculation_type, value_type, value_domain, measurement_type)
+
+    def recognize_value_domain(self, span: Span) -> ValueDomain:
+        topic = self.topic_recognizer.recognize_topic(span)
+        if topic == Topic.CASES:
             return ValueDomain.POSITIVE_CASES
         elif topic == Topic.VACCINATIONS:
-            people_trigger_words = {self.stemmer.stem(word)
-                                    for word in ["human", "people", "person", "individual"]}
 
-            for child in token.subtree:
-                if child._.stem in people_trigger_words:
-                    # Hardcoded case for query 21
-                    for child2 in token.subtree:
-                        if child2._.stem in self.topic_recognizer.get_vaccine_trigger_words() and child2.pos_ == "NOUN":
-                            return ValueDomain.ADMINISTERED_VACCINES
+            matcher = DependencyMatcher(self.vocab)
+            matcher.add("human", [human_pattern])
+            matcher.add("vaccine", [vaccine_trigger_pattern])
+            result = matcher(span.as_doc())
 
-                    return ValueDomain.VACCINATED_PEOPLE
+            matched_patterns = {pattern_id for pattern_id, token_pos in result}
 
-            return ValueDomain.ADMINISTERED_VACCINES
+            if len(matched_patterns) > 1:
+                return ValueDomain.VACCINATED_PEOPLE
+            else:
+                return ValueDomain.ADMINISTERED_VACCINES
+
         else:
             return ValueDomain.UNKNOWN
 
     def recognize_measurement_type(self, token: Token) -> MeasurementType:
-        timeframe = self.time_recognizer.recognize_date(str(token.sent))
+        timeframe = self.date_recognizer.recognize_date(str(token.sent))
         topic = self.topic_recognizer.recognize_topic(token)
 
         if topic in [Topic.CASES, Topic.VACCINATIONS]:
@@ -148,6 +154,8 @@ class IntentRecognizer:
         else:
             return False
 
+        matcher = DependencyMatcher(self.vocab)
+
         pattern = [
             {
                 "RIGHT_ID": "how_pat",
@@ -164,18 +172,22 @@ class IntentRecognizer:
                 }
             },
             {
-                "LEFT_ID": "how_pat",
+                "LEFT_ID": "how_many_pat",
                 "REL_OP": "<<",
-                "RIGHT_ID": "numper_pat",
+                "RIGHT_ID": "trigger_pat",
                 "RIGHT_ATTRS": {
-                    #"_STEM":
+                    "LEMMA": {
+                        "IN": trigger_words
+                    }
                 }
             }
         ]
 
-        return False
+        matcher.add("TRIGGER_PAT", [pattern])
+        result = matcher(str(token.sent))
+
+        return len(result) > 0
 
 
 if __name__ == '__main__':
-    recognizer = IntentRecognizer()
-    recognizer.recognize_intent()
+    pass
