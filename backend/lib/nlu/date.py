@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from typing import Optional, Union
 import re
 from dateutil.parser import parse
+from spacy.tokens import Span
 
 from sutime import SUTime
 
@@ -19,8 +20,8 @@ class DateRecognizer:
     def __init__(self):
         self.sutime = SUTime(mark_time_ranges=True, include_range=True)
 
-    def recognize_date(self, sentence: str) -> Optional[Date]:
-        result = self.sutime.parse(sentence)
+    def recognize_date(self, span: Span) -> Optional[Date]:
+        result = self.sutime.parse(str(span))
         if len(result) > 0:
             if result[0]["value"] == "P1D":
                 return None
