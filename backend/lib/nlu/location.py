@@ -1,6 +1,6 @@
 from typing import Optional
 
-from spacy.tokens import Doc
+from spacy.tokens import Doc, Span
 
 from lib.nlp.nlp_processor import NLPProcessor
 
@@ -40,14 +40,13 @@ class LocationRecognizer:
     def __init__(self):
         self.nlp_processor = NLPProcessor()
 
-    def recognize_location(self, doc: Doc) -> Optional[str]:
-        location_ents = [ent.text for ent in doc.ents
+    def recognize_location(self, span: Span) -> Optional[str]:
+        location_ents = [ent.text for ent in span.ents
                          if ent.label_ == "GPE"]
         if len(location_ents) == 0:
             # If automated entity recognition doesn't work, try a manual approach
-            sentence = list(doc.sents)[0]
 
-            for token in sentence:
+            for token in span:
                 normalized_token = self.nlp_processor.normalize_country_name(token.text)
 
                 if normalized_token in _locations:
