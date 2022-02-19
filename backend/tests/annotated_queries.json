@@ -611,7 +611,7 @@
     "topic": "CASES",
     "intent": {
       "calculation_type": "MAXIMUM",
-      "value_type": "NUMBER",
+      "value_type": "DAY",
       "value_domain": "POSITIVE_CASES",
       "measurement_type": "DAILY"
     },
