@@ -1,6 +1,6 @@
 import unittest
 import json
-from lib.nlu.intent import Intent, IntentRecognizer, ValueDomain, MeasurementType
+from lib.nlu.intent import Intent, IntentRecognizer, ValueDomain, MeasurementType, ValueType
 from lib.spacy_components.spacy import get_spacy
 
 
@@ -22,3 +22,10 @@ class TestQueryIntents(unittest.TestCase):
                 predicted_measurement_type = self.spacy(query["query"])._.intent.measurement_type
                 self.assertEqual(MeasurementType.from_str(query["intent"]["measurement_type"]),
                                  predicted_measurement_type)
+
+    def test_value_type(self):
+        for query in self.queries:
+            with self.subTest(query=query):
+                predicted_value_type = self.spacy(query["query"])._.intent.value_type
+                self.assertEqual(ValueType.from_str(query["intent"]["value_type"]),
+                                 predicted_value_type)

@@ -9,6 +9,7 @@ from spacy.tokens import Token
 
 from lib.nlu.date import DateRecognizer
 from lib.nlu.topic import TopicRecognizer, Topic
+from spacy.matcher import DependencyMatcher
 
 
 class CalculationType(Enum):
@@ -85,8 +86,9 @@ class IntentRecognizer:
 
         value_domain = self.recognize_value_domain(token)
         measurement_type = self.recognize_measurement_type(token)
+        value_type = self.recognize_value_type(token)
 
-        return Intent(CalculationType.UNKNOWN, ValueType.UNKNOWN, value_domain, measurement_type)
+        return Intent(CalculationType.UNKNOWN, value_type, value_domain, measurement_type)
         # topic = self.topic_recognizer.recognize_topic(token)
         # if topic == Topic.UNKNOWN:
         #     return Intent.UNKNOWN
@@ -127,6 +129,51 @@ class IntentRecognizer:
                 return MeasurementType.CUMULATIVE
         else:
             return MeasurementType.UNKNOWN
+
+    def recognize_value_type(self, token: Token) -> ValueType:
+        topic = self.topic_recognizer.recognize_topic(token)
+        if topic in [Topic.CASES, Topic.VACCINATIONS]:
+            if self._has_valid_how_many_pattern(topic, token):
+                return ValueType.NUMBER
+            else:
+                return ValueType.UNKNOWN
+        else:
+            return ValueType.UNKNOWN
+
+    def _has_valid_how_many_pattern(self, topic: Topic, token: Token) -> bool:
+        if topic == Topic.CASES:
+            trigger_words = self.topic_recognizer.get_cases_trigger_words()
+        elif topic == Topic.VACCINATIONS:
+            trigger_words = self.topic_recognizer.get_vaccine_trigger_words()
+        else:
+            return False
+
+        pattern = [
+            {
+                "RIGHT_ID": "how_pat",
+                "RIGHT_ATTRS": {
+                    "LEMMA": "how"
+                }
+            },
+            {
+                "LEFT_ID": "how_pat",
+                "REL_OP": "<",
+                "RIGHT_ID": "how_many_pat",
+                "RIGHT_ATTRS": {
+                    "LEMMA": "many"
+                }
+            },
+            {
+                "LEFT_ID": "how_pat",
+                "REL_OP": "<<",
+                "RIGHT_ID": "numper_pat",
+                "RIGHT_ATTRS": {
+                    #"_STEM":
+                }
+            }
+        ]
+
+        return False
 
 
 if __name__ == '__main__':
