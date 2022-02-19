@@ -42,5 +42,6 @@ class DateRecognizer:
         return None
 
 
-recognizer = DateRecognizer()
-recognizer.recognize_date("This is my favorite thing at November 3rd, 2021")
+if __name__ == '__main__':
+    recognizer = DateRecognizer()
+    recognizer.recognize_date("This is my favorite thing at November 3rd, 2021")
