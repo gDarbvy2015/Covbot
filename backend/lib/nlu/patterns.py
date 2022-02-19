@@ -61,7 +61,9 @@ how_many_pattern: List[dict] = [{
 number_of_pattern: List[dict] = [{
     "RIGHT_ID": "number_pattern",
     "RIGHT_ATTRS": {
-        "LEMMA": "number"
+        "LEMMA": {
+            "IN": ["amount", "number"]
+        }
     }
 },
     {
