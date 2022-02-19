@@ -37,7 +37,7 @@ case_trigger_pattern: List[dict] = [{
     "RIGHT_ATTRS": {
         "_": {
             "stem": {
-                "IN": list(topic_recognizer.get_vaccine_trigger_words())
+                "IN": list(topic_recognizer.get_cases_trigger_words())
             }
         }
     }
@@ -57,3 +57,18 @@ how_many_pattern: List[dict] = [{
             "LEMMA": "many"
         }
     }]
+
+number_of_pattern: List[dict] = [{
+    "RIGHT_ID": "number_pattern",
+    "RIGHT_ATTRS": {
+        "LEMMA": "number"
+    }
+},
+    {
+        "LEFT_ID": "number_pattern",
+        "REL_OP": "<",
+        "RIGHT_ID": "number_of_pattern",
+        "RIGHT_ATTRS": {
+            "LEMMA": "of"
+        }
+}]

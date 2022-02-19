@@ -160,8 +160,8 @@
     "query": "how many people were vaccinated in egypt in the past week",
     "topic": "VACCINATIONS",
     "intent": {
-      "calculation_type": "RAW_VALUE",
-      "value_type": "SUM",
+      "calculation_type": "SUM",
+      "value_type": "NUMBER",
       "value_domain": "VACCINATED_PEOPLE",
       "measurement_type": "DAILY"
     },
@@ -178,8 +178,8 @@
     "query": "How many people from Finland have tested positive for Covid in the last year?",
     "topic": "CASES",
     "intent": {
-      "calculation_type": "RAW_VALUE",
-      "value_type": "SUM",
+      "calculation_type": "SUM",
+      "value_type": "NUMBER",
       "value_domain": "POSITIVE_CASES",
       "measurement_type": "DAILY"
     },

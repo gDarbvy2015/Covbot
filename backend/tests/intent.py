@@ -30,6 +30,7 @@ class TestQueryIntents(unittest.TestCase):
     def test_value_type(self):
         for query in self.queries:
             with self.subTest(query=query):
-                predicted_value_type = self.spacy(query["query"])._.intent.value_type
+                doc = self.spacy(query["query"])
+                predicted_value_type = self.intent_recognizer.recognize_value_type(list(doc.sents)[0])
                 self.assertEqual(ValueType.from_str(query["intent"]["value_type"]),
                                  predicted_value_type)

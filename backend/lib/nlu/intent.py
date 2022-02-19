@@ -136,56 +136,22 @@ class IntentRecognizer:
         else:
             return MeasurementType.UNKNOWN
 
-    def recognize_value_type(self, token: Token) -> ValueType:
-        topic = self.topic_recognizer.recognize_topic(token)
+    def recognize_value_type(self, span: Span) -> ValueType:
+        topic = self.topic_recognizer.recognize_topic(span)
         if topic in [Topic.CASES, Topic.VACCINATIONS]:
-            if self._has_valid_how_many_pattern(topic, token):
+            if self._has_valid_how_many_pattern(span):
                 return ValueType.NUMBER
             else:
                 return ValueType.UNKNOWN
         else:
             return ValueType.UNKNOWN
 
-    def _has_valid_how_many_pattern(self, topic: Topic, token: Token) -> bool:
-        if topic == Topic.CASES:
-            trigger_words = self.topic_recognizer.get_cases_trigger_words()
-        elif topic == Topic.VACCINATIONS:
-            trigger_words = self.topic_recognizer.get_vaccine_trigger_words()
-        else:
-            return False
-
+    def _has_valid_how_many_pattern(self, span: Span) -> bool:
         matcher = DependencyMatcher(self.vocab)
 
-        pattern = [
-            {
-                "RIGHT_ID": "how_pat",
-                "RIGHT_ATTRS": {
-                    "LEMMA": "how"
-                }
-            },
-            {
-                "LEFT_ID": "how_pat",
-                "REL_OP": "<",
-                "RIGHT_ID": "how_many_pat",
-                "RIGHT_ATTRS": {
-                    "LEMMA": "many"
-                }
-            },
-            {
-                "LEFT_ID": "how_many_pat",
-                "REL_OP": "<<",
-                "RIGHT_ID": "trigger_pat",
-                "RIGHT_ATTRS": {
-                    "LEMMA": {
-                        "IN": trigger_words
-                    }
-                }
-            }
-        ]
+        matcher.add("how_many", [how_many_pattern])
 
-        matcher.add("TRIGGER_PAT", [pattern])
-        result = matcher(str(token.sent))
-
+        result = matcher(span)
         return len(result) > 0
 
 
