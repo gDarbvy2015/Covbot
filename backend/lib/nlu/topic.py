@@ -2,7 +2,7 @@ from __future__ import annotations
 from enum import Enum
 from typing import Optional
 
-from spacy.tokens import Token
+from spacy.tokens import Token, Span
 from nltk import PorterStemmer
 
 
@@ -24,9 +24,9 @@ class TopicRecognizer:
     def __init__(self):
         self.stemmer = PorterStemmer()
 
-    def recognize_topic(self, token: Token) -> Topic:
-        is_topic_vaccine = self.is_topic_vaccine(token)
-        is_topic_cases = self.is_topic_cases(token)
+    def recognize_topic(self, span: Span) -> Topic:
+        is_topic_vaccine = self.is_topic_vaccine(span)
+        is_topic_cases = self.is_topic_cases(span)
 
         if is_topic_vaccine:
             if is_topic_cases:
@@ -39,17 +39,17 @@ class TopicRecognizer:
             else:
                 return Topic.UNKNOWN
 
-    def is_topic_vaccine(self, token: Token) -> bool:
+    def is_topic_vaccine(self, span: Span) -> bool:
         vaccine_triggers = self.get_vaccine_trigger_words()
-        related_tokens = [iter_token._.stem for iter_token in list(token.subtree)]
+        related_tokens = [token._.stem for token in span]
         vaccine_overlaps = vaccine_triggers.intersection(related_tokens)
 
         is_right_topic = len(vaccine_overlaps) >= 1
         return is_right_topic
 
-    def is_topic_cases(self, token: Token) -> bool:
+    def is_topic_cases(self, span: Span) -> bool:
         case_triggers = self.get_cases_trigger_words()
-        related_tokens = [iter_token._.stem for iter_token in list(token.subtree)]
+        related_tokens = [token._.stem for token in span]
         case_overlaps = case_triggers.intersection(related_tokens)
 
         is_right_topic = len(case_overlaps) >= 1

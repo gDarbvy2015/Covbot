@@ -15,5 +15,5 @@ class TestQueryTopics(unittest.TestCase):
         for query in self.queries:
             with self.subTest(query=query):
                 doc = self.spacy(query["query"])
-                predicted_topic = self.topic_recognizer.recognize_topic(list(doc.sents)[0].root)
+                predicted_topic = self.topic_recognizer.recognize_topic(list(doc.sents)[0])
                 self.assertEqual(Topic.from_str(query["topic"]), predicted_topic)
