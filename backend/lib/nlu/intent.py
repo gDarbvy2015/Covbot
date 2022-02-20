@@ -11,7 +11,8 @@ from spacy.tokens.span import Span
 
 from lib.nlu.patterns import human_pattern, vaccine_trigger_pattern, \
     how_many_pattern, what_day_pattern, when_pattern, where_pattern, what_country_pattern, what_is_country_pattern, \
-    number_of_pattern, case_trigger_pattern
+    number_of_pattern, case_trigger_pattern, maximum_number_pattern, minimum_number_pattern, most_trigger_word_pattern, \
+    least_trigger_word_pattern
 
 from lib.nlu.date import DateRecognizer
 from lib.nlu.topic import TopicRecognizer, Topic
@@ -85,25 +86,37 @@ class Intent:
 class IntentRecognizer:
     def __init__(self, vocab=None, pipeline=None):
         if pipeline is None:
-            pipeline = [ValueDomain]
+            pipeline = [ValueDomain, ValueType, MeasurementType, CalculationType]
 
         self.stemmer = PorterStemmer()
         self.pipeline = pipeline
         self.topic_recognizer = TopicRecognizer()
-
-        if MeasurementType in pipeline:
-            self.date_recognizer = DateRecognizer()
-
+        self.date_recognizer = DateRecognizer()
         self.vocab = vocab
 
-    def recognize_intent(self, span: Span) -> Optional[Intent]:
+    def recognize_intent(self, span: Span) -> Intent:
 
         value_domain = self.recognize_value_domain(span) if ValueDomain in self.pipeline else ValueDomain.UNKNOWN
-        measurement_type = MeasurementType.UNKNOWN
-        value_type = ValueType.UNKNOWN
-        calculation_type = CalculationType.UNKNOWN
+        measurement_type = self.recognize_measurement_type(span) if MeasurementType in self.pipeline \
+            else MeasurementType.UNKNOWN
+        value_type = self.recognize_value_type(span) if ValueType in self.pipeline else ValueType.UNKNOWN
+        calculation_type = self.recognize_calculation_type(span) if CalculationType in self.pipeline else \
+            CalculationType.UNKNOWN
 
         return Intent(calculation_type, value_type, value_domain, measurement_type)
+
+    def recognize_calculation_type(self, span: Span):
+        value_type = self.recognize_value_type(span)
+        timeframe = self.date_recognizer.recognize_date(span)
+
+        if value_type == ValueType.UNKNOWN:
+            return CalculationType.UNKNOWN
+        if self._has_valid_pattern(span, [maximum_number_pattern, most_trigger_word_pattern]):
+            return CalculationType.MAXIMUM
+        if self._has_valid_pattern(span, [minimum_number_pattern, least_trigger_word_pattern]):
+            return CalculationType.MINIMUM
+
+        return CalculationType.UNKNOWN
 
     def recognize_value_domain(self, span: Span) -> ValueDomain:
         topic = self.topic_recognizer.recognize_topic(span)
@@ -126,9 +139,9 @@ class IntentRecognizer:
         else:
             return ValueDomain.UNKNOWN
 
-    def recognize_measurement_type(self, token: Token) -> MeasurementType:
-        timeframe = self.date_recognizer.recognize_date(str(token.sent))
-        topic = self.topic_recognizer.recognize_topic(token)
+    def recognize_measurement_type(self, span: Span) -> MeasurementType:
+        timeframe = self.date_recognizer.recognize_date(span)
+        topic = self.topic_recognizer.recognize_topic(span)
 
         if topic in [Topic.CASES, Topic.VACCINATIONS]:
             if timeframe is not None:
@@ -158,7 +171,7 @@ class IntentRecognizer:
         else:
             return ValueType.UNKNOWN
 
-    def _has_valid_pattern(self, span: Span, pattern: list):
+    def _has_valid_pattern(self, span: Span, pattern: list) -> bool:
         matcher = DependencyMatcher(self.vocab)
 
         matcher.add("pattern", pattern)

@@ -7,16 +7,13 @@ from lib.nlu.topic import TopicRecognizer
 stemmer = PorterStemmer()
 topic_recognizer = TopicRecognizer()
 
-people_trigger_words = [stemmer.stem(word)
-                        for word in ["human", "people", "person", "individual"]]
+people_trigger_words = ["human", "people", "person", "individual"]
 
 human_pattern: List[dict] = [{
     "RIGHT_ID": "human_pattern",
     "RIGHT_ATTRS": {
-        "_": {
-            "stem": {
-                "IN": people_trigger_words
-            }
+        "LEMMA": {
+            "IN": people_trigger_words
         }
     }
 }]
@@ -53,11 +50,11 @@ case_trigger_pattern: List[dict] = [{
 }]
 
 how_pattern: List[dict] = [
-{
-    "RIGHT_ID": "how_pattern",
-    "RIGHT_ATTRS": {
-        "LEMMA": "how"
-    }
+    {
+        "RIGHT_ID": "how_pattern",
+        "RIGHT_ATTRS": {
+            "LEMMA": "how"
+        }
     }
 ]
 
@@ -129,14 +126,16 @@ where_pattern: List[dict] = [
     }
 ]
 
-number_of_pattern: List[dict] = [{
+number_pattern: List[dict] = [{
     "RIGHT_ID": "number_pattern",
     "RIGHT_ATTRS": {
         "LEMMA": {
             "IN": ["amount", "number"]
         }
     }
-},
+}]
+
+number_of_pattern: List[dict] = number_pattern + [
     {
         "LEFT_ID": "number_pattern",
         "REL_OP": ">",
@@ -144,4 +143,77 @@ number_of_pattern: List[dict] = [{
         "RIGHT_ATTRS": {
             "LEMMA": "of"
         }
-    }]
+    }
+]
+
+maximum_number_pattern: List[dict] = number_pattern + [
+    {
+        "LEFT_ID": "number_pattern",
+        "REL_OP": ">",
+        "RIGHT_ID": "maximum_number_pattern",
+        "RIGHT_ATTRS": {
+            "LEMMA": {
+                "IN": ["maximum", "maximal", "high", "peak"]
+            }
+        }
+    }
+]
+
+most_pattern: List[dict] = [{
+    "RIGHT_ID": "most_pattern",
+    "RIGHT_ATTRS": {
+        "LEMMA": {
+            "IN": ["most"]
+        }
+    }
+}]
+
+least_pattern: List[dict] = [{
+    "RIGHT_ID": "least_pattern",
+    "RIGHT_ATTRS": {
+        "LEMMA": {
+            "IN": ["few", "least"]
+        }
+    }
+}]
+
+most_trigger_word_pattern: List[dict] = most_pattern + [
+    {
+        "LEFT_ID": "most_pattern",
+        "REL_OP": "<<",
+        "RIGHT_ID": "most_trigger_word_pattern",
+        "RIGHT_ATTRS": {
+            "LEMMA": {
+                "IN": list(topic_recognizer.get_vaccine_trigger_words()) + list(topic_recognizer.get_cases_trigger_words())
+                      + people_trigger_words
+            }
+        }
+    }
+]
+
+least_trigger_word_pattern: List[dict] = least_pattern + [
+    {
+        "LEFT_ID": "least_pattern",
+        "REL_OP": "<<",
+        "RIGHT_ID": "least_trigger_word_pattern",
+        "RIGHT_ATTRS": {
+            "LEMMA": {
+                "IN": list(topic_recognizer.get_vaccine_trigger_words()) + list(topic_recognizer.get_cases_trigger_words())
+                      + people_trigger_words
+            }
+        }
+    }
+]
+
+minimum_number_pattern: List[dict] = number_pattern + [
+    {
+        "LEFT_ID": "number_pattern",
+        "REL_OP": ">",
+        "RIGHT_ID": "minimum_number_pattern",
+        "RIGHT_ATTRS": {
+            "LEMMA": {
+                "IN": ["minimum", "minmal", "low"]
+            }
+        }
+    }
+]

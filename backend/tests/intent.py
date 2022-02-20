@@ -1,6 +1,6 @@
 import unittest
 import json
-from lib.nlu.intent import Intent, IntentRecognizer, ValueDomain, MeasurementType, ValueType
+from lib.nlu.intent import Intent, IntentRecognizer, ValueDomain, MeasurementType, ValueType, CalculationType
 from lib.spacy_components.spacy import get_spacy
 
 
@@ -20,10 +20,20 @@ class TestQueryIntents(unittest.TestCase):
                     predicted_value_domain = self.intent_recognizer.recognize_value_domain(list(doc.sents)[0])
                     self.assertEqual(ValueDomain.from_str(query["intent"]["value_domain"]), predicted_value_domain)
 
+    def test_calculation_type(self):
+        for query in self.queries:
+            with self.subTest(query=query):
+                if query["intent"]["calculation_type"] == "MAXIMUM":
+                    doc = self.spacy(query["query"])
+                    predicted_calculation_type = self.intent_recognizer.recognize_calculation_type(list(doc.sents)[0])
+                    self.assertEqual(CalculationType.from_str(query["intent"]["calculation_type"]),
+                                     predicted_calculation_type)
+
     def test_measurement_type(self):
         for query in self.queries:
             with self.subTest(query=query):
-                predicted_measurement_type = self.spacy(query["query"])._.intent.measurement_type
+                doc = self.spacy(query["query"])
+                predicted_measurement_type = self.intent_recognizer.recognize_measurement_type(list(doc.sents)[0])
                 self.assertEqual(MeasurementType.from_str(query["intent"]["measurement_type"]),
                                  predicted_measurement_type)
 
