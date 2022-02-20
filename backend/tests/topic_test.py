@@ -1,7 +1,7 @@
 import pathlib
 import unittest
 import json
-from lib.nlu.topic import TopicRecognizer, Topic
+from lib.nlu.topic.topic import TopicRecognizer, Topic
 from lib.spacy_components.spacy import get_spacy
 
 

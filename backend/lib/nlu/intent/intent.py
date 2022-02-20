@@ -12,7 +12,7 @@ from lib.nlu.intent.value_type import ValueType
 from lib.nlu.patterns import Pattern
 
 from lib.nlu.slot.date import DateRecognizer
-from lib.nlu.topic import TopicRecognizer, Topic
+from lib.nlu.topic.topic import TopicRecognizer, Topic
 from spacy.matcher import DependencyMatcher
 
 
