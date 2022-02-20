@@ -14,11 +14,11 @@ class Slots:
 
 class SlotsFiller:
     def __init__(self):
-        self.date_recognizer = DateRecognizer()
-        self.location_recognizer = LocationRecognizer()
+        self._date_recognizer = DateRecognizer()
+        self._location_recognizer = LocationRecognizer()
 
     def fill_slots(self, span: Span) -> Slots:
-        date = self.date_recognizer.recognize_date(span)
-        location = self.location_recognizer.recognize_location(span)
+        date = self._date_recognizer.recognize_date(span)
+        location = self._location_recognizer.recognize_location(span)
 
         return Slots(date, location)

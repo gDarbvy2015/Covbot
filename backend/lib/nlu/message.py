@@ -18,13 +18,13 @@ class Message:
 class MessageBuilder:
     def __init__(self):
         spacy = get_spacy()
-        self.topic_recognizer = TopicRecognizer()
-        self.intent_recognizer = IntentRecognizer(spacy.vocab)
-        self.slots_filler = SlotsFiller()
+        self._topic_recognizer = TopicRecognizer()
+        self._intent_recognizer = IntentRecognizer(spacy._vocab)
+        self._slots_filler = SlotsFiller()
 
     def create_message(self, span: Span) -> Message:
-        topic = self.topic_recognizer.recognize_topic(span)
-        intent = self.intent_recognizer.recognize_intent(span)
-        slots = self.slots_filler.fill_slots(span)
+        topic = self._topic_recognizer.recognize_topic(span)
+        intent = self._intent_recognizer.recognize_intent(span)
+        slots = self._slots_filler.fill_slots(span)
 
         return Message(topic, intent, slots)

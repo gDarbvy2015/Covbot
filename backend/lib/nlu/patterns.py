@@ -6,15 +6,15 @@ from lib.nlu.topic.topic import Topic, TopicRecognizer
 
 
 class Pattern:
-    stemmer = PorterStemmer()
-    topic_recognizer = TopicRecognizer()
-    people_trigger_words = ["human", "people", "person", "individual"]
+    _stemmer = PorterStemmer()
+    _topic_recognizer = TopicRecognizer()
+    _people_trigger_words = ["human", "people", "person", "individual"]
 
     human_pattern: List[dict] = [{
         "RIGHT_ID": "human_pattern",
         "RIGHT_ATTRS": {
             "LEMMA": {
-                "IN": people_trigger_words
+                "IN": _people_trigger_words
             }
         }
     }]
@@ -33,7 +33,7 @@ class Pattern:
         "RIGHT_ATTRS": {
             "_": {
                 "stem": {
-                    "IN": list(topic_recognizer.get_vaccine_trigger_words())
+                    "IN": list(_topic_recognizer.get_vaccine_trigger_words())
                 }
             }
         }
@@ -44,7 +44,7 @@ class Pattern:
         "RIGHT_ATTRS": {
             "_": {
                 "stem": {
-                    "IN": list(topic_recognizer.get_cases_trigger_words())
+                    "IN": list(_topic_recognizer.get_cases_trigger_words())
                 }
             }
         }
@@ -185,8 +185,8 @@ class Pattern:
             "RIGHT_ID": "most_trigger_word_pattern",
             "RIGHT_ATTRS": {
                 "LEMMA": {
-                    "IN": list(topic_recognizer.get_vaccine_trigger_words()) + list(topic_recognizer.get_cases_trigger_words())
-                          + people_trigger_words
+                    "IN": list(_topic_recognizer.get_vaccine_trigger_words()) + list(_topic_recognizer.get_cases_trigger_words())
+                          + _people_trigger_words
                 }
             }
         }
@@ -199,8 +199,8 @@ class Pattern:
             "RIGHT_ID": "least_trigger_word_pattern",
             "RIGHT_ATTRS": {
                 "LEMMA": {
-                    "IN": list(topic_recognizer.get_vaccine_trigger_words()) + list(topic_recognizer.get_cases_trigger_words())
-                          + people_trigger_words
+                    "IN": list(_topic_recognizer.get_vaccine_trigger_words()) + list(_topic_recognizer.get_cases_trigger_words())
+                          + _people_trigger_words
                 }
             }
         }

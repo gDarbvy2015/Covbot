@@ -38,7 +38,7 @@ _locations = {'micronesia', 'poland', 'philippines', 'portugal', 'anguilla', 'ni
 
 class LocationRecognizer:
     def __init__(self):
-        self.nlp_processor = NLPProcessor()
+        self._nlp_processor = NLPProcessor()
 
     def recognize_location(self, span: Span) -> Optional[str]:
         location_ents = [ent.text for ent in span.ents
@@ -47,7 +47,7 @@ class LocationRecognizer:
             # If automated entity recognition doesn't work, try a manual approach
 
             for token in span:
-                normalized_token = self.nlp_processor.normalize_country_name(token.text)
+                normalized_token = self._nlp_processor.normalize_country_name(token.text)
 
                 if normalized_token in _locations:
                     return token.text

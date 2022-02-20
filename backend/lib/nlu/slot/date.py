@@ -18,10 +18,6 @@ class Date:
 
 
 class DateRecognizer:
-    def __init__(self):
-        pass
-        #self.sutime = SUTime(mark_time_ranges=True, include_range=True)
-
     def recognize_date(self, span: Span) -> Optional[Date]:
         result = self._send_request(str(span))
         if len(result) > 0:

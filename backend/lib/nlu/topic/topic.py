@@ -22,7 +22,7 @@ class Topic(Enum):
 
 class TopicRecognizer:
     def __init__(self):
-        self.stemmer = PorterStemmer()
+        self._stemmer = PorterStemmer()
 
     def recognize_topic(self, span: Span) -> Topic:
         is_topic_vaccine = self.is_topic_vaccine(span)
@@ -62,8 +62,8 @@ class TopicRecognizer:
         return token._.stem in self.get_cases_trigger_words()
 
     def get_vaccine_trigger_words(self):
-        return {self.stemmer.stem(word) for word in ["shot", "vaccine", "jab", "inoculation", "immunization",
+        return {self._stemmer.stem(word) for word in ["shot", "vaccine", "jab", "inoculation", "immunization",
                                                      "administer"]}
 
     def get_cases_trigger_words(self):
-        return {self.stemmer.stem(word) for word in ["case", "infection", "test", "positive", "negative"]}
+        return {self._stemmer.stem(word) for word in ["case", "infection", "test", "positive", "negative"]}

@@ -26,10 +26,10 @@ class Intent:
 
 class IntentRecognizer:
     def __init__(self, vocab):
-        self.stemmer = PorterStemmer()
-        self.topic_recognizer = TopicRecognizer()
-        self.date_recognizer = DateRecognizer()
-        self.vocab = vocab
+        self._stemmer = PorterStemmer()
+        self._topic_recognizer = TopicRecognizer()
+        self._date_recognizer = DateRecognizer()
+        self._vocab = vocab
 
     def recognize_intent(self, span: Span) -> Intent:
         value_domain = self.recognize_value_domain(span)
@@ -41,7 +41,7 @@ class IntentRecognizer:
 
     def recognize_calculation_type(self, span: Span):
         value_type = self.recognize_value_type(span)
-        timeframe = self.date_recognizer.recognize_date(span)
+        timeframe = self._date_recognizer.recognize_date(span)
 
         if value_type == ValueType.UNKNOWN:
             return CalculationType.UNKNOWN
@@ -59,12 +59,12 @@ class IntentRecognizer:
             return CalculationType.SUM
 
     def recognize_value_domain(self, span: Span) -> ValueDomain:
-        topic = self.topic_recognizer.recognize_topic(span)
+        topic = self._topic_recognizer.recognize_topic(span)
         if topic == Topic.CASES:
             return ValueDomain.POSITIVE_CASES
         elif topic == Topic.VACCINATIONS:
 
-            matcher = DependencyMatcher(self.vocab)
+            matcher = DependencyMatcher(self._vocab)
             matcher.add("human", [Pattern.human_pattern])
             matcher.add("vaccine", [Pattern.vaccine_trigger_pattern])
             result = matcher(span.as_doc())
@@ -80,8 +80,8 @@ class IntentRecognizer:
             return ValueDomain.UNKNOWN
 
     def recognize_measurement_type(self, span: Span) -> MeasurementType:
-        timeframe = self.date_recognizer.recognize_date(span)
-        topic = self.topic_recognizer.recognize_topic(span)
+        timeframe = self._date_recognizer.recognize_date(span)
+        topic = self._topic_recognizer.recognize_topic(span)
         value_type = self.recognize_value_type(span)
         calculation_type = self.recognize_calculation_type(span)
 
@@ -103,7 +103,7 @@ class IntentRecognizer:
             return MeasurementType.UNKNOWN
 
     def recognize_value_type(self, span: Span) -> ValueType:
-        topic = self.topic_recognizer.recognize_topic(span)
+        topic = self._topic_recognizer.recognize_topic(span)
         if topic in [Topic.CASES, Topic.VACCINATIONS]:
             if self._has_valid_pattern(span, [Pattern.what_day_pattern, Pattern.when_pattern]):
                 return ValueType.DAY
@@ -123,7 +123,7 @@ class IntentRecognizer:
             return ValueType.UNKNOWN
 
     def _has_valid_pattern(self, span: Span, pattern: list) -> bool:
-        matcher = DependencyMatcher(self.vocab)
+        matcher = DependencyMatcher(self._vocab)
 
         matcher.add("pattern", pattern)
 
