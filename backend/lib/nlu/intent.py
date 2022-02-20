@@ -79,24 +79,17 @@ class Intent:
 
 
 class IntentRecognizer:
-    def __init__(self, vocab=None, pipeline=None):
-        if pipeline is None:
-            pipeline = [ValueDomain, ValueType, MeasurementType, CalculationType]
-
+    def __init__(self, vocab=None):
         self.stemmer = PorterStemmer()
-        self.pipeline = pipeline
         self.topic_recognizer = TopicRecognizer()
         self.date_recognizer = DateRecognizer()
         self.vocab = vocab
 
     def recognize_intent(self, span: Span) -> Intent:
-
-        value_domain = self.recognize_value_domain(span) if ValueDomain in self.pipeline else ValueDomain.UNKNOWN
-        measurement_type = self.recognize_measurement_type(span) if MeasurementType in self.pipeline \
-            else MeasurementType.UNKNOWN
-        value_type = self.recognize_value_type(span) if ValueType in self.pipeline else ValueType.UNKNOWN
-        calculation_type = self.recognize_calculation_type(span) if CalculationType in self.pipeline else \
-            CalculationType.UNKNOWN
+        value_domain = self.recognize_value_domain(span)
+        measurement_type = self.recognize_measurement_type(span)
+        value_type = self.recognize_value_type(span)
+        calculation_type = self.recognize_calculation_type(span)
 
         return Intent(calculation_type, value_type, value_domain, measurement_type)
 
