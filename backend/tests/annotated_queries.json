@@ -766,5 +766,50 @@
       "location": null,
       "timeframe": null
     }
+  },
+  {
+    "id": 46,
+    "query": "What was the highest amount of cases recorded?",
+    "topic": "CASES",
+    "intent": {
+      "calculation_type": "MAXIMUM",
+      "value_type": "NUMBER",
+      "value_domain": "POSITIVE_CASES",
+      "measurement_type": "DAILY"
+    },
+    "slots": {
+      "location": null,
+      "timeframe": null
+    }
+  },
+  {
+    "id": 47,
+    "query": "How many people are vaccinated in Europe?",
+    "topic": "VACCINATIONS",
+    "intent": {
+      "calculation_type": "RAW_VALUE",
+      "value_type": "NUMBER",
+      "value_domain": "VACCINATED_PEOPLE",
+      "measurement_type": "CUMULATIVE"
+    },
+    "slots": {
+      "location": "Europe",
+      "timeframe": null
+    }
+  },
+  {
+    "id": 48,
+    "query": "how many cases do we have in austria",
+    "topic": "CASES",
+    "intent": {
+      "calculation_type": "RAW_VALUE",
+      "value_type": "NUMBER",
+      "value_domain": "POSITIVE_CASES",
+      "measurement_type": "CUMULATIVE"
+    },
+    "slots": {
+      "location": "austria",
+      "timeframe": null
+    }
   }
 ]
