@@ -79,7 +79,7 @@ class Intent:
 
 
 class IntentRecognizer:
-    def __init__(self, vocab=None):
+    def __init__(self, vocab):
         self.stemmer = PorterStemmer()
         self.topic_recognizer = TopicRecognizer()
         self.date_recognizer = DateRecognizer()
