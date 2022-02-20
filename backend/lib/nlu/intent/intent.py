@@ -1,73 +1,19 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from enum import Enum
-from typing import Optional
 
 from nltk import PorterStemmer
 from spacy.tokens.span import Span
 
+from lib.nlu.intent.calculation_type import CalculationType
+from lib.nlu.intent.measurement_type import MeasurementType
+from lib.nlu.intent.value_domain import ValueDomain
+from lib.nlu.intent.value_type import ValueType
 from lib.nlu.patterns import Pattern
 
 from lib.nlu.date import DateRecognizer
 from lib.nlu.topic import TopicRecognizer, Topic
 from spacy.matcher import DependencyMatcher
-
-
-class CalculationType(Enum):
-    RAW_VALUE = 1
-    SUM = 2
-    MAXIMUM = 3
-    MINIMUM = 4
-    UNKNOWN = 5
-
-    @staticmethod
-    def from_str(calculation_type: str) -> Optional[CalculationType]:
-        try:
-            return CalculationType[calculation_type.upper()]
-        except KeyError:
-            return CalculationType["UNKNOWN"]
-
-
-class ValueType(Enum):
-    NUMBER = 1
-    DAY = 2
-    LOCATION = 3
-    UNKNOWN = 4
-
-    @staticmethod
-    def from_str(value_type: str) -> Optional[ValueType]:
-        try:
-            return ValueType[value_type.upper()]
-        except KeyError:
-            return ValueType["UNKNOWN"]
-
-
-class ValueDomain(Enum):
-    ADMINISTERED_VACCINES = 1
-    VACCINATED_PEOPLE = 2
-    POSITIVE_CASES = 3
-    UNKNOWN = 4
-
-    @staticmethod
-    def from_str(value_domain: str) -> Optional[ValueDomain]:
-        try:
-            return ValueDomain[value_domain.upper()]
-        except KeyError:
-            return ValueDomain["UNKNOWN"]
-
-
-class MeasurementType(Enum):
-    DAILY = 1
-    CUMULATIVE = 2
-    UNKNOWN = 3
-
-    @staticmethod
-    def from_str(measurement_type: str) -> Optional[MeasurementType]:
-        try:
-            return MeasurementType[measurement_type.upper()]
-        except KeyError:
-            return MeasurementType["UNKNOWN"]
 
 
 @dataclass

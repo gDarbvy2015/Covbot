@@ -5,13 +5,14 @@ from typing import Dict
 from lib.nlu.date import DateRecognizer
 from lib.nlu.topic import TopicRecognizer, Topic
 from lib.spacy_components.spacy import get_spacy
+import pathlib
 
 
 class TestQueryTopics(unittest.TestCase):
     def setUp(self):
         self.spacy = get_spacy()
         self.date_recognizer = DateRecognizer()
-        with open("annotated_queries.json") as query_file:
+        with open(pathlib.Path(__file__) / ".." / "annotated_queries.json") as query_file:
             self.queries = json.load(query_file)
 
     def test_topics(self):

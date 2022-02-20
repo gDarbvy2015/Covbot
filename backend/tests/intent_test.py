@@ -1,6 +1,12 @@
+import pathlib
 import unittest
 import json
-from lib.nlu.intent import Intent, IntentRecognizer, ValueDomain, MeasurementType, ValueType, CalculationType
+
+from lib.nlu.intent.calculation_type import CalculationType
+from lib.nlu.intent.intent import Intent, IntentRecognizer
+from lib.nlu.intent.measurement_type import MeasurementType
+from lib.nlu.intent.value_domain import ValueDomain
+from lib.nlu.intent.value_type import ValueType
 from lib.spacy_components.spacy import get_spacy
 
 
@@ -8,8 +14,8 @@ class TestQueryIntents(unittest.TestCase):
     def setUp(self):
         self.spacy = get_spacy()
         self.intent_recognizer = IntentRecognizer(self.spacy.vocab)
-        with open("annotated_queries.json") as query_file:
-            self.queries = [query for query in json.load(query_file)]
+        with open(pathlib.Path(__file__) / ".." / "annotated_queries.json") as query_file:
+            self.queries = json.load(query_file)
 
     def test_value_domain(self):
         for query in self.queries:
