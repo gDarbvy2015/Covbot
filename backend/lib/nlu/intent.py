@@ -9,10 +9,7 @@ from nltk import PorterStemmer
 from spacy.tokens import Token
 from spacy.tokens.span import Span
 
-from lib.nlu.patterns import human_pattern, vaccine_trigger_pattern, \
-    how_many_pattern, what_day_pattern, when_pattern, where_pattern, what_country_pattern, what_is_country_pattern, \
-    number_of_pattern, case_trigger_pattern, maximum_number_pattern, minimum_number_pattern, most_trigger_word_pattern, \
-    least_trigger_word_pattern
+from lib.nlu.patterns import Pattern
 
 from lib.nlu.date import DateRecognizer
 from lib.nlu.topic import TopicRecognizer, Topic
@@ -111,9 +108,9 @@ class IntentRecognizer:
 
         if value_type == ValueType.UNKNOWN:
             return CalculationType.UNKNOWN
-        if self._has_valid_pattern(span, [maximum_number_pattern, most_trigger_word_pattern]):
+        if self._has_valid_pattern(span, [Pattern.maximum_number_pattern, Pattern.most_trigger_word_pattern]):
             return CalculationType.MAXIMUM
-        if self._has_valid_pattern(span, [minimum_number_pattern, least_trigger_word_pattern]):
+        if self._has_valid_pattern(span, [Pattern.minimum_number_pattern, Pattern.least_trigger_word_pattern]):
             return CalculationType.MINIMUM
 
         return CalculationType.UNKNOWN
@@ -125,8 +122,8 @@ class IntentRecognizer:
         elif topic == Topic.VACCINATIONS:
 
             matcher = DependencyMatcher(self.vocab)
-            matcher.add("human", [human_pattern])
-            matcher.add("vaccine", [vaccine_trigger_pattern])
+            matcher.add("human", [Pattern.human_pattern])
+            matcher.add("vaccine", [Pattern.vaccine_trigger_pattern])
             result = matcher(span.as_doc())
 
             matched_patterns = {pattern_id for pattern_id, token_pos in result}
@@ -154,17 +151,17 @@ class IntentRecognizer:
     def recognize_value_type(self, span: Span) -> ValueType:
         topic = self.topic_recognizer.recognize_topic(span)
         if topic in [Topic.CASES, Topic.VACCINATIONS]:
-            if self._has_valid_pattern(span, [what_day_pattern, when_pattern]):
+            if self._has_valid_pattern(span, [Pattern.what_day_pattern, Pattern.when_pattern]):
                 return ValueType.DAY
-            elif self._has_valid_pattern(span, [where_pattern, what_country_pattern, what_is_country_pattern]):
+            elif self._has_valid_pattern(span, [Pattern.where_pattern, Pattern.what_country_pattern, Pattern.what_is_country_pattern]):
                 return ValueType.LOCATION
-            elif self._has_valid_pattern(span, [how_many_pattern]):
+            elif self._has_valid_pattern(span, [Pattern.how_many_pattern]):
                 return ValueType.NUMBER
-            elif self._has_valid_pattern(span, [number_of_pattern]):
+            elif self._has_valid_pattern(span, [Pattern.number_of_pattern]):
                 return ValueType.NUMBER
             # If we don't have any other clues but there are trigger words, we assume that we are asking for the number
             # (for example query 20, 23, 24)
-            elif self._has_valid_pattern(span, [case_trigger_pattern, vaccine_trigger_pattern]):
+            elif self._has_valid_pattern(span, [Pattern.case_trigger_pattern, Pattern.vaccine_trigger_pattern]):
                 return ValueType.NUMBER
             else:
                 return ValueType.UNKNOWN
