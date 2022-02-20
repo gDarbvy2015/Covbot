@@ -7,18 +7,18 @@ from lib.nlu.slot.location import LocationRecognizer
 
 
 @dataclass
-class Slot:
+class Slots:
     date: Date
     location: str
 
 
-class SlotFiller:
+class SlotsFiller:
     def __init__(self):
         self.date_recognizer = DateRecognizer()
         self.location_recognizer = LocationRecognizer()
 
-    def fill_slots(self, span: Span) -> Slot:
+    def fill_slots(self, span: Span) -> Slots:
         date = self.date_recognizer.recognize_date(span)
         location = self.location_recognizer.recognize_location(span)
 
-        return Slot(date, location)
+        return Slots(date, location)
