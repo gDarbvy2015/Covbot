@@ -2,8 +2,7 @@ import pathlib
 import unittest
 import json
 
-from lib.nlu.location import LocationRecognizer
-from lib.nlu.topic import Topic
+from lib.nlu.slot.location import LocationRecognizer
 from lib.spacy_components.spacy import get_spacy
 
 

@@ -1,9 +1,7 @@
 import unittest
 import json
-from typing import Dict
 
-from lib.nlu.date import DateRecognizer
-from lib.nlu.topic import TopicRecognizer, Topic
+from lib.nlu.slot.date import DateRecognizer
 from lib.spacy_components.spacy import get_spacy
 import pathlib
 
