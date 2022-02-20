@@ -10,7 +10,8 @@ from spacy.tokens import Token
 from spacy.tokens.span import Span
 
 from lib.nlu.patterns import human_pattern, vaccine_trigger_pattern, \
-    how_many_pattern, what_day_pattern, when_pattern, where_pattern, what_country_pattern, what_is_country_pattern
+    how_many_pattern, what_day_pattern, when_pattern, where_pattern, what_country_pattern, what_is_country_pattern, \
+    number_of_pattern, case_trigger_pattern
 
 from lib.nlu.date import DateRecognizer
 from lib.nlu.topic import TopicRecognizer, Topic
@@ -140,37 +141,27 @@ class IntentRecognizer:
     def recognize_value_type(self, span: Span) -> ValueType:
         topic = self.topic_recognizer.recognize_topic(span)
         if topic in [Topic.CASES, Topic.VACCINATIONS]:
-            if self._has_valid_when_pattern(span):
+            if self._has_valid_pattern(span, [what_day_pattern, when_pattern]):
                 return ValueType.DAY
-            if self._has_valid_where_pattern(span):
+            elif self._has_valid_pattern(span, [where_pattern, what_country_pattern, what_is_country_pattern]):
                 return ValueType.LOCATION
-            if self._has_valid_how_many_pattern(span):
+            elif self._has_valid_pattern(span, [how_many_pattern]):
+                return ValueType.NUMBER
+            elif self._has_valid_pattern(span, [number_of_pattern]):
+                return ValueType.NUMBER
+            # If we don't have any other clues but there are trigger words, we assume that we are asking for the number
+            # (for example query 20, 23, 24)
+            elif self._has_valid_pattern(span, [case_trigger_pattern, vaccine_trigger_pattern]):
                 return ValueType.NUMBER
             else:
                 return ValueType.UNKNOWN
         else:
             return ValueType.UNKNOWN
 
-    def _has_valid_when_pattern(self, span: Span) -> bool:
+    def _has_valid_pattern(self, span: Span, pattern: list):
         matcher = DependencyMatcher(self.vocab)
 
-        matcher.add("when", [what_day_pattern, when_pattern])
-
-        result = matcher(span)
-        return len(result) > 0
-
-    def _has_valid_how_many_pattern(self, span: Span) -> bool:
-        matcher = DependencyMatcher(self.vocab)
-
-        matcher.add("how_many", [how_many_pattern])
-
-        result = matcher(span)
-        return len(result) > 0
-
-    def _has_valid_where_pattern(self, span: Span) -> bool:
-        matcher = DependencyMatcher(self.vocab)
-
-        matcher.add("where", [where_pattern, what_country_pattern, what_is_country_pattern])
+        matcher.add("pattern", pattern)
 
         result = matcher(span)
         return len(result) > 0

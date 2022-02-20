@@ -24,10 +24,8 @@ human_pattern: List[dict] = [{
 country_pattern: List[dict] = [{
     "RIGHT_ID": "country_pattern",
     "RIGHT_ATTRS": {
-        "_": {
-            "stem": {
-                "IN": ["country", "nation"]
-            }
+        "LEMMA": {
+            "IN": ["country", "nation"]
         }
     }
 }]
@@ -141,7 +139,7 @@ number_of_pattern: List[dict] = [{
 },
     {
         "LEFT_ID": "number_pattern",
-        "REL_OP": "<",
+        "REL_OP": ">",
         "RIGHT_ID": "number_of_pattern",
         "RIGHT_ATTRS": {
             "LEMMA": "of"
