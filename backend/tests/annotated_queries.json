@@ -301,7 +301,7 @@
     "query": "Give me the number of jabs administered in England in the last year",
     "topic": "VACCINATIONS",
     "intent": {
-      "calculation_type": "RAW_VALUE",
+      "calculation_type": "SUM",
       "value_type": "NUMBER",
       "value_domain": "ADMINISTERED_VACCINES",
       "measurement_type": "DAILY"
@@ -739,7 +739,7 @@
     "query": "Could you tell me how many new COVID cases were reported in Austria on 2nd February 2022?",
     "topic": "CASES",
     "intent": {
-      "calculation_type": "SUM",
+      "calculation_type": "RAW_VALUE",
       "value_type": "NUMBER",
       "value_domain": "POSITIVE_CASES",
       "measurement_type": "DAILY"
