@@ -19,7 +19,7 @@ class MessageBuilder:
     def __init__(self):
         spacy = get_spacy()
         self._topic_recognizer = TopicRecognizer()
-        self._intent_recognizer = IntentRecognizer(spacy._vocab)
+        self._intent_recognizer = IntentRecognizer(spacy.vocab)
         self._slots_filler = SlotsFiller()
 
     def create_message(self, span: Span) -> Message:

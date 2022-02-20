@@ -30,13 +30,13 @@ class DateRecognizer:
 
     def _parse_date(self, date_string: str) -> Optional[dict]:
         if re.match(r"^\d{4}$", date_string):
-            return {"time": "YEAR", "value": parse(date_string)}
+            return {"time": "YEAR", "value": parse(date_string).date()}
         elif re.match(r"^\d{4}-\d{2}$", date_string):
-            return {"time": "MONTH", "value": parse(date_string)}
+            return {"time": "MONTH", "value": parse(date_string).date()}
         elif re.match(r"^\d{4}-\d{2}-\d{2}$", date_string):
-            return {"time": "DAY", "value": parse(date_string)}
+            return {"time": "DAY", "value": parse(date_string).date()}
         elif re.match(r"^\d{4}-W\d{2}$", date_string):
-            return {"time": "WEEK", "value": datetime.strptime(date_string + ' 1', "%Y-W%W %w")}
+            return {"time": "WEEK", "value": datetime.strptime(date_string + ' 1', "%Y-W%W %w").date()}
 
         return None
 
