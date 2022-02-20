@@ -1,18 +1,22 @@
-from spacy.matcher import DependencyMatcher
+import requests
+import json
+#from sutime import SUTime
 
-from lib.spacy_components.spacy import get_spacy
-from lib.nlu.patterns import human_pattern, how_many_pattern, vaccine_trigger_pattern, case_trigger_pattern, \
-    what_country_pattern, what_pattern, country_pattern
+#sutime = SUTime(mark_time_ranges=True, include_range=True)
+
+properties = {
+    "annotators": "tokenize,ner",
+    "outputFormat": "json",
+    "ner.docdate.usePresent": "true",
+    "sutime.includeRange": "true",
+    "sutime.markTimeRanges": "true"
+}
+
+print("Reached")
+#print(sutime.parse("How many people have been infected with COVID on the 30th of November?"))
+res = requests.post(f'http://localhost:9000/?properties={json.dumps(properties)}',
+                    data={'data': 'How many people have been infected with COVID on the 30th of November?'}).text
+
+print(res)
 
 
-nlp = get_spacy()
-sent = nlp("Which country has had the most corona cases?")
-
-
-matcher = DependencyMatcher(nlp.vocab)
-
-matcher.add("case", [what_pattern, country_pattern])
-
-result = matcher(sent)
-
-print(matcher(sent))

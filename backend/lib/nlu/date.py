@@ -1,11 +1,12 @@
+import json
 from datetime import datetime
 from dataclasses import dataclass
-from typing import Optional, Union
+from typing import Optional, List
 import re
+
+import requests
 from dateutil.parser import parse
 from spacy.tokens import Span
-
-from sutime import SUTime
 
 
 @dataclass
@@ -18,10 +19,11 @@ class Date:
 
 class DateRecognizer:
     def __init__(self):
-        self.sutime = SUTime(mark_time_ranges=True, include_range=True)
+        pass
+        #self.sutime = SUTime(mark_time_ranges=True, include_range=True)
 
     def recognize_date(self, span: Span) -> Optional[Date]:
-        result = self.sutime.parse(str(span))
+        result = self._send_request(str(span))
         if len(result) > 0:
             if result[0]["value"] == "P1D":
                 return None
@@ -42,7 +44,34 @@ class DateRecognizer:
 
         return None
 
+    def _send_request(self, sentence: str) -> List[dict]:
+        properties = {
+            "customAnnotatorClass.sutime": "edu.stanford.nlp.time.TimeAnnotator",
+            "annotators": "tokenize, ssplit, pos, lemma, ner, sutime",
+            "outputFormat": "json",
+            "ner.docdate.usePresent": "true",
+            "sutime.includeRange": "true",
+            "sutime.markTimeRanges": "true",
+        }
+
+        res = requests.post(f'http://localhost:9000/?properties={json.dumps(properties)}',
+                            data={
+                                'data': sentence}).json()
+
+        dates = list()
+        for sentence in res["sentences"]:
+            if "entitymentions" in sentence:
+                for entity in sentence["entitymentions"]:
+                    if entity["ner"] == "DATE":
+                        dates.append({
+                            "text": entity["text"],
+                            "type": entity["ner"],
+                            "value": entity["timex"]["value"]
+                        })
+
+        return dates
+
 
 if __name__ == '__main__':
     recognizer = DateRecognizer()
-    recognizer.recognize_date("This is my favorite thing at November 3rd, 2021")
+    print(recognizer._send_request("This is my favorite thing at November 3rd, 2021 as well as today. And tomorrow I am going to leave!"))
