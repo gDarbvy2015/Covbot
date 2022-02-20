@@ -143,12 +143,23 @@ class IntentRecognizer:
     def recognize_measurement_type(self, span: Span) -> MeasurementType:
         timeframe = self.date_recognizer.recognize_date(span)
         topic = self.topic_recognizer.recognize_topic(span)
+        value_type = self.recognize_value_type(span)
+        calculation_type = self.recognize_calculation_type(span)
 
         if topic in [Topic.CASES, Topic.VACCINATIONS]:
-            if timeframe is not None:
-                return MeasurementType.DAILY
+            if timeframe is None:
+                if calculation_type in [CalculationType.SUM]:
+                    return MeasurementType.DAILY
+                else:
+                    if value_type in [ValueType.NUMBER, ValueType.DAY] and calculation_type not in [CalculationType.RAW_VALUE]:
+                        return MeasurementType.DAILY
+                    else:
+                        return MeasurementType.CUMULATIVE
             else:
-                return MeasurementType.CUMULATIVE
+                if value_type == ValueType.LOCATION:
+                    return MeasurementType.CUMULATIVE
+                else:
+                    return MeasurementType.DAILY
         else:
             return MeasurementType.UNKNOWN
 
