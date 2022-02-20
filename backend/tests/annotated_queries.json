@@ -596,7 +596,7 @@
     "topic": "CASES",
     "intent": {
       "calculation_type": "MAXIMUM",
-      "value_type": "COUNTRY",
+      "value_type": "LOCATION",
       "value_domain": "POSITIVE_CASES",
       "measurement_type": "CUMULATIVE"
     },
@@ -626,7 +626,7 @@
     "topic": "VACCINATIONS",
     "intent": {
       "calculation_type": "MAXIMUM",
-      "value_type": "COUNTRY",
+      "value_type": "LOCATION",
       "value_domain": "VACCINATED_PEOPLE",
       "measurement_type": "CUMULATIVE"
     },
