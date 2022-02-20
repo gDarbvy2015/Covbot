@@ -23,11 +23,10 @@ class TestQueryIntents(unittest.TestCase):
     def test_calculation_type(self):
         for query in self.queries:
             with self.subTest(query=query):
-                if query["intent"]["calculation_type"] == "MAXIMUM":
-                    doc = self.spacy(query["query"])
-                    predicted_calculation_type = self.intent_recognizer.recognize_calculation_type(list(doc.sents)[0])
-                    self.assertEqual(CalculationType.from_str(query["intent"]["calculation_type"]),
-                                     predicted_calculation_type)
+                doc = self.spacy(query["query"])
+                predicted_calculation_type = self.intent_recognizer.recognize_calculation_type(list(doc.sents)[0])
+                self.assertEqual(CalculationType.from_str(query["intent"]["calculation_type"]),
+                                 predicted_calculation_type)
 
     def test_measurement_type(self):
         for query in self.queries:

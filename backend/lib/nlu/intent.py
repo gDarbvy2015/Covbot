@@ -4,9 +4,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
 
-import spacy
 from nltk import PorterStemmer
-from spacy.tokens import Token
 from spacy.tokens.span import Span
 
 from lib.nlu.patterns import Pattern
@@ -112,8 +110,14 @@ class IntentRecognizer:
             return CalculationType.MAXIMUM
         if self._has_valid_pattern(span, [Pattern.minimum_number_pattern, Pattern.least_trigger_word_pattern]):
             return CalculationType.MINIMUM
-
-        return CalculationType.UNKNOWN
+        # If we don't have any time indication, we automatically pick the cumulative value of the nearest date,
+        # so the raw value
+        if timeframe is None:
+            return CalculationType.RAW_VALUE
+        if timeframe.value["time"] == "DAY":
+            return CalculationType.RAW_VALUE
+        else:
+            return CalculationType.SUM
 
     def recognize_value_domain(self, span: Span) -> ValueDomain:
         topic = self.topic_recognizer.recognize_topic(span)
