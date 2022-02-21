@@ -1,20 +1,19 @@
+from datetime import datetime, timedelta
 from dataclasses import dataclass
-from typing import Union, Optional
+from typing import Union, Optional, List, Type
 
 from lib.database.database_connection import DatabaseConnection
 from sqlalchemy.orm import Session
 from enum import Enum
-from sqlalchemy import func, and_
+from sqlalchemy import and_
 
 from lib.database.entities import Case, Vaccination
 from lib.nlu.intent.calculation_type import CalculationType
-from lib.nlu.intent.intent import IntentRecognizer, Intent
 from lib.nlu.intent.measurement_type import MeasurementType
 from lib.nlu.intent.value_domain import ValueDomain
 from lib.nlu.intent.value_type import ValueType
 from lib.nlu.message import MessageBuilder, Message
-from lib.nlu.slot.slots import SlotsFiller, Slots
-from lib.nlu.topic.topic import TopicRecognizer, Topic
+from lib.nlu.topic.topic import Topic
 from lib.spacy_components.spacy import get_spacy
 
 
@@ -26,6 +25,7 @@ class QueryResultCode(Enum):
     UNKNOWN_VALUE_DOMAIN = 5
     UNKNOWN_CALCULATION_TYPE = 6
     UNKNOWN_VALUE_TYPE = 7
+    NO_WORLDWIDE_SUPPORTED = 8
 
 
 @dataclass
@@ -45,8 +45,9 @@ class Querier:
 
     def query_intent(self, msg: Message) -> QueryResult:
         validation_result = self._validate_msg(msg)
+        print(msg)
 
-        if not validation_result is None:
+        if validation_result:
             return validation_result
 
         table_dict = {
@@ -69,13 +70,41 @@ class Querier:
 
         table = table_dict[msg.topic]
         query = self.session.query(table)
-        column = column_dict[msg.intent.measurement_type][msg.intent.value_domain]
+        considered_column = column_dict[msg.intent.measurement_type][msg.intent.value_domain]
+        time_condition = self._get_time_from_condition(table, msg)
+        country_condition = self._get_country_from_condition(table, msg)
 
         query = query.where(and_(
-            table.date == msg.slots.date.value["value"],
-            table.country_normalized == msg.slots.location
+            *time_condition, *country_condition
         ))
-        print(len(query.all()))
+
+        for case in query.all():
+            print(case)
+
+
+
+    def _get_country_from_condition(self, table: Type[Union[Case, Vaccination]], msg: Message) -> List[bool]:
+        if msg.slots.location is None:
+            raise NotImplementedError()
+        else:
+            return [table.country_normalized == msg.slots.location]
+
+    def _get_time_from_condition(self, table: Type[Union[Case, Vaccination]], msg: Message) -> List[bool]:
+        if msg.slots.date is None:
+            return [table.date == datetime.now().date()]
+
+        date_type = msg.slots.date.value["time"]
+        date_value = msg.slots.date.value["value"]
+        if date_type == "DAY":
+            return [table.date == msg.slots.date.value["value"]]
+        elif date_type == "WEEK":
+            start = date_value - timedelta(days=date_value.weekday())
+            end = start + timedelta(days=6)
+            print(start)
+            print(end)
+            return [table.date >= start, table.date <= end]
+        else:
+            raise NotImplementedError()
 
 
     def _validate_msg(self, msg: Message) -> Optional[QueryResult]:
@@ -91,12 +120,14 @@ class Querier:
             return QueryResult(msg, QueryResultCode.UNKNOWN_CALCULATION_TYPE, None, None)
         if msg.intent.value_type == ValueType.UNKNOWN:
             return QueryResult(msg, QueryResultCode.UNKNOWN_VALUE_TYPE, None, None)
+        if msg.intent.value_type != ValueType.LOCATION and msg.slots.location is None:
+            return QueryResult(msg, QueryResultCode.NO_WORLDWIDE_SUPPORTED, None, None)
 
         return None
 
 
 if __name__ == '__main__':
-    sentence = "How many people have been vaccinated in Austria on August 25th 2021"
+    sentence = "How many positive cases were there in Germany last week?"
     spacy = get_spacy()
     doc = spacy(sentence)
     querier = Querier()
