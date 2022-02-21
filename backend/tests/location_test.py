@@ -10,7 +10,7 @@ class TestLocation(unittest.TestCase):
     def setUp(self):
         self.spacy = get_spacy()
         self.location_recognizer = LocationRecognizer()
-        with open(pathlib.Path(__file__) / ".." / "annotated_queries.json") as query_file:
+        with open(pathlib.Path(__file__).parent / "annotated_queries.json") as query_file:
             self.queries = json.load(query_file)
 
     def test_locations(self):

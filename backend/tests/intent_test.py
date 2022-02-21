@@ -9,12 +9,11 @@ from lib.nlu.intent.value_domain import ValueDomain
 from lib.nlu.intent.value_type import ValueType
 from lib.spacy_components.spacy import get_spacy
 
-
 class TestQueryIntents(unittest.TestCase):
     def setUp(self):
         self.spacy = get_spacy()
         self.intent_recognizer = IntentRecognizer(self.spacy.vocab)
-        with open(pathlib.Path(__file__) / ".." / "annotated_queries.json") as query_file:
+        with open(pathlib.Path(__file__).parent / "annotated_queries.json") as query_file:
             self.queries = json.load(query_file)
 
     def test_value_domain(self):
