@@ -58,7 +58,7 @@ class DateRecognizer:
                     if entity["ner"] in["DATE", "TIME"]:
                         dates.append({
                             "text": entity["text"],
-                            "type": entity["ner"],
+                            "type": "DATE",
                             "value": entity["timex"]["value"]
                         })
 
