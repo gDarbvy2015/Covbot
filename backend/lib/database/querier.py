@@ -1,6 +1,9 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from dataclasses import dataclass
 from typing import Union, Optional, List, Type
+from sqlalchemy.sql import func, functions
+
+import calendar
 
 from lib.database.database_connection import DatabaseConnection
 from sqlalchemy.orm import Session
@@ -69,17 +72,29 @@ class Querier:
         }
 
         table = table_dict[msg.topic]
-        query = self.session.query(table)
         considered_column = column_dict[msg.intent.measurement_type][msg.intent.value_domain]
         time_condition = self._get_time_from_condition(table, msg)
         country_condition = self._get_country_from_condition(table, msg)
+
+        if msg.intent.calculation_type == CalculationType.RAW_VALUE:
+            query = self.session.query(table).with_entities(considered_column)
+        elif msg.intent.calculation_type == CalculationType.SUM:
+            query = self.session.query(functions.sum(considered_column))
+        elif msg.intent.calculation_type == CalculationType.MAXIMUM:
+            query = self.session.query(functions.max(considered_column))
+        elif msg.intent.calculation_type == CalculationType.MINIMUM:
+            query = self.session.query(functions.min(considered_column))
+        else:
+            raise NotImplementedError()
+
 
         query = query.where(and_(
             *time_condition, *country_condition
         ))
 
-        for case in query.all():
-            print(case)
+        print(query.all())
+
+
 
 
 
@@ -90,6 +105,7 @@ class Querier:
             return [table.country_normalized == msg.slots.location]
 
     def _get_time_from_condition(self, table: Type[Union[Case, Vaccination]], msg: Message) -> List[bool]:
+        # We assume the user is asking for today if no timeframe is specified
         if msg.slots.date is None:
             return [table.date == datetime.now().date()]
 
@@ -100,8 +116,14 @@ class Querier:
         elif date_type == "WEEK":
             start = date_value - timedelta(days=date_value.weekday())
             end = start + timedelta(days=6)
-            print(start)
-            print(end)
+            return [table.date >= start, table.date <= end]
+        elif date_type == "MONTH":
+            start = date_value.replace(day=1)
+            end = date_value.replace(day=calendar.monthrange(date_value.year, date_value.month)[1])
+            return [table.date >= start, table.date <= end]
+        elif date_type == "YEAR":
+            start = date(date_value.year, 1, 1)
+            end = date(date_value.year, 12, 31)
             return [table.date >= start, table.date <= end]
         else:
             raise NotImplementedError()
@@ -127,7 +149,7 @@ class Querier:
 
 
 if __name__ == '__main__':
-    sentence = "How many positive cases were there in Germany last week?"
+    sentence = "What is the lowest number of vaccinated people in Germany last week?"
     spacy = get_spacy()
     doc = spacy(sentence)
     querier = Querier()
