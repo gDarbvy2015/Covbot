@@ -42,10 +42,9 @@ class DateRecognizer:
 
     def _send_request(self, sentence: str) -> List[dict]:
         properties = {
-            "customAnnotatorClass.sutime": "edu.stanford.nlp.time.TimeAnnotator",
-            "annotators": "tokenize, ssplit, pos, lemma, ner, sutime",
+            "date": datetime.now().isoformat(),
+            "annotators": "tokenize, ssplit, pos, lemma, ner",
             "outputFormat": "json",
-            "ner.docdate.usePresent": "true",
             "sutime.includeRange": "true",
             "sutime.markTimeRanges": "true",
         }
@@ -55,6 +54,7 @@ class DateRecognizer:
                                 'data': sentence}).json()
 
         dates = list()
+        print(res)
         for sentence in res["sentences"]:
             if "entitymentions" in sentence:
                 for entity in sentence["entitymentions"]:
@@ -70,4 +70,4 @@ class DateRecognizer:
 
 if __name__ == '__main__':
     recognizer = DateRecognizer()
-    print(recognizer._send_request("This is my favorite thing at November 3rd, 2021 as well as today. And tomorrow I am going to leave!"))
+    print(recognizer.recognize_date("I had to do it last week."))
