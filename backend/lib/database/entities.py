@@ -18,6 +18,11 @@ class Case(Base):
     cases = Column(BigInteger)
     cumulative_cases = Column(BigInteger)
 
+    def __repr__(self):
+        return f"Case(id={self.id}, date={self.date}, country={self.country}, " \
+               f"country_normalized={self.country_normalized}, cases={self.cases}, " \
+               f"cumulative_cases={self.cumulative_cases})"
+
 
 class Vaccination(Base):
     __tablename__ = "vaccinations"
@@ -31,6 +36,11 @@ class Vaccination(Base):
     daily_vaccinations = Column(Integer)
     daily_people_vaccinated = Column(Integer)
 
+    def __repr__(self):
+        return f"Case(id={self.id}, date={self.date}, country={self.country}, " \
+               f"country_normalized={self.country_normalized}, total_vaccinations={self.total_vaccinations}, " \
+               f"people_vaccinated={self.people_vaccinated}, daily_vaccinations={self.daily_vaccinations}, " \
+               f"daily_people_vaccinated={self.daily_people_vaccinated})"
 
 def create_tables(engine: Engine, tables=None) -> None:
     if tables is None:
