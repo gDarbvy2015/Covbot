@@ -54,7 +54,6 @@ class DateRecognizer:
                                 'data': sentence}).json()
 
         dates = list()
-        print(res)
         for sentence in res["sentences"]:
             if "entitymentions" in sentence:
                 for entity in sentence["entitymentions"]:
