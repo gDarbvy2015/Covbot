@@ -33,7 +33,7 @@ class DateRecognizer:
             return {"time": "YEAR", "value": parse(date_string).date()}
         elif re.match(r"^\d{4}-\d{2}$", date_string):
             return {"time": "MONTH", "value": parse(date_string).date()}
-        elif re.match(r"^\d{4}-\d{2}-\d{2}$", date_string):
+        elif re.match(r"^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2})?$", date_string):
             return {"time": "DAY", "value": parse(date_string).date()}
         elif re.match(r"^\d{4}-W\d{2}$", date_string):
             return {"time": "WEEK", "value": datetime.strptime(date_string + ' 1', "%Y-W%W %w").date()}
@@ -45,8 +45,6 @@ class DateRecognizer:
             "date": datetime.now().isoformat(),
             "annotators": "tokenize, ssplit, pos, lemma, ner",
             "outputFormat": "json",
-            "sutime.includeRange": "true",
-            "sutime.markTimeRanges": "true",
         }
 
         res = requests.post(f'http://localhost:9000/?properties={json.dumps(properties)}',
@@ -57,7 +55,7 @@ class DateRecognizer:
         for sentence in res["sentences"]:
             if "entitymentions" in sentence:
                 for entity in sentence["entitymentions"]:
-                    if entity["ner"] == "DATE":
+                    if entity["ner"] in["DATE", "TIME"]:
                         dates.append({
                             "text": entity["text"],
                             "type": entity["ner"],
@@ -69,4 +67,4 @@ class DateRecognizer:
 
 if __name__ == '__main__':
     recognizer = DateRecognizer()
-    print(recognizer.recognize_date("I had to do it last week."))
+    print(recognizer.recognize_date("How many positive cases were there in Germany yesterday?"))
