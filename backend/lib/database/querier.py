@@ -40,9 +40,9 @@ class QueryResult:
 
 
 class Querier:
-    def __init__(self, db_name="covbot"):
-        self.engine = DatabaseConnection().create_engine(db_name)
-        self.session = Session(self.engine, future=True)
+    def __init__(self, db_name="covbot", engine=None, session=None):
+        self.engine = DatabaseConnection().create_engine(db_name) if engine is None else engine
+        self.session = Session(self.engine, future=True) if session is None else session
         self.case_query = self.session.query(Case)
         self.vaccination_query = self.session.query(Vaccination)
 
