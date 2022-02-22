@@ -7,27 +7,27 @@ from lib.database.entities import create_tables, Vaccination, Case, drop_tables
 
 
 class DatabaseManager:
-    def __init__(self):
+    def __init__(self, db_name="covbot"):
         self.logger = Logger(__name__)
         self.connection = DatabaseConnection()
-        self.db_name = "covbot"
+        self.db_name = db_name
+        self.engine = self.connection.create_engine(self.db_name)
         self.dataset_handler = DatasetHandler()
 
     def create_database(self) -> None:
-        self.logger.info("Creating the database for Covbot...")
-        engine = self.connection.create_engine()
+        self.logger.info(f"Creating the database {self.db_name}...")
 
         try:
-            engine.execute(f"CREATE DATABASE {self.db_name}")
+            self.engine.execute(f"CREATE DATABASE {self.db_name}")
             self.logger.info("Database was created successfully.")
         except DatabaseError as e:
             if "1007" in str(e):
                 self.logger.info("Couldn't create the database because it already exists.")
             else:
-                self.logger.error("Unexpected error occurred while creating the database for Covbot: ", str(e))
+                self.logger.error(f"Unexpected error occurred while creating the database for {self.db_name}: ", str(e))
                 return
 
-        self._create_tables()
+        self.create_tables()
 
     def update_database(self) -> None:
         self.logger.info("Updating the data in the database...")
@@ -36,33 +36,31 @@ class DatabaseManager:
 
     def update_covid_cases(self) -> None:
         covid_cases = self.dataset_handler.load_covid_cases()
-
-        engine = self.connection.create_engine(self.db_name)
-        db_connection = engine.connect()
+        db_connection = self.engine.connect()
 
         self.logger.info("Deleting previous covid cases entries...")
-        drop_tables(engine, [Case.__table__])
-        create_tables(engine, [Case.__table__])
+        drop_tables(self.engine, [Case.__table__])
+        create_tables(self.engine, [Case.__table__])
         self.logger.info("Updating the daily detected covid cases...")
         covid_cases.to_sql(name="cases", con=db_connection, if_exists="append", index=False)
         self.logger.info("Daily detected covid cases were updated.")
 
     def update_vaccinations(self) -> None:
         vaccinations = self.dataset_handler.load_vaccinations()
-
-        engine = self.connection.create_engine(self.db_name)
-        db_connection = engine.connect()
+        db_connection = self.engine.connect()
 
         self.logger.info("Deleting previous vaccinations entries...")
-        drop_tables(engine, [Vaccination.__table__])
-        create_tables(engine, [Vaccination.__table__])
+        drop_tables(self.engine, [Vaccination.__table__])
+        create_tables(self.engine, [Vaccination.__table__])
         self.logger.info("Updating daily vaccinations...")
         vaccinations.to_sql(name="vaccinations", con=db_connection, if_exists="append", index=False)
         self.logger.info("Daily vaccinations were updated.")
 
-    def _create_tables(self) -> None:
-        engine = self.connection.create_engine(self.db_name)
-        create_tables(engine)
+    def create_tables(self) -> None:
+        create_tables(self.engine)
+
+    def drop_tables(self) -> None:
+        drop_tables(self.engine)
 
 
 if __name__ == '__main__':
