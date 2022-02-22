@@ -40,15 +40,14 @@ class QueryResult:
 
 
 class Querier:
-    def __init__(self):
-        self.engine = DatabaseConnection().create_engine("covbot")
+    def __init__(self, db_name="covbot"):
+        self.engine = DatabaseConnection().create_engine(db_name)
         self.session = Session(self.engine, future=True)
         self.case_query = self.session.query(Case)
         self.vaccination_query = self.session.query(Vaccination)
 
     def query_intent(self, msg: Message) -> QueryResult:
         validation_result = self._validate_msg(msg)
-        print(msg)
 
         if validation_result:
             return validation_result
