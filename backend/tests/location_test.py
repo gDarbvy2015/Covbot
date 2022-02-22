@@ -13,7 +13,7 @@ location_recognizer = LocationRecognizer()
 
 
 @pytest.mark.parametrize("query", queries)
-def test_locations(query):
+def test_locations(self, query):
         doc = spacy(query["query"])
         recognized_location = location_recognizer.recognize_location(list(doc.sents)[0])
         assert query["slots"]["location"] == recognized_location
