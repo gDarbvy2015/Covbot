@@ -1,21 +1,19 @@
 import pathlib
-import unittest
 import json
+import pytest
 
 from lib.nlu.slot.location import LocationRecognizer
 from lib.spacy_components.spacy import get_spacy
 
+with open(pathlib.Path(__file__).parent / "annotated_queries.json") as query_file:
+    queries = json.load(query_file)
 
-class TestLocation(unittest.TestCase):
-    def setUp(self):
-        self.spacy = get_spacy()
-        self.location_recognizer = LocationRecognizer()
-        with open(pathlib.Path(__file__).parent / "annotated_queries.json") as query_file:
-            self.queries = json.load(query_file)
+spacy = get_spacy()
+location_recognizer = LocationRecognizer()
 
-    def test_locations(self):
-        for query in self.queries:
-            with self.subTest(query=query):
-                doc = self.spacy(query["query"])
-                recognized_location = self.location_recognizer.recognize_location(list(doc.sents)[0])
-                self.assertEqual(query["slots"]["location"], recognized_location)
+
+@pytest.mark.parametrize("query", queries)
+def test_locations(query):
+        doc = spacy(query["query"])
+        recognized_location = location_recognizer.recognize_location(list(doc.sents)[0])
+        assert query["slots"]["location"] == recognized_location
