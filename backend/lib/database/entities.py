@@ -44,13 +44,13 @@ class Vaccination(Base):
 
 def create_tables(engine: Engine, tables=None) -> None:
     if tables is None:
-        tables = [Vaccination.__table__, Case.__tablename__]
+        tables = [Vaccination.__table__, Case.__table__]
     drop_tables(engine, tables)
     Base.metadata.create_all(engine, tables)
 
 
 def drop_tables(engine: Engine, tables=None) -> None:
     if tables is None:
-        tables = [Vaccination.__table__, Case.__tablename__]
+        tables = [Vaccination.__table__, Case.__table__]
     Base.metadata.drop_all(engine, tables)
 
