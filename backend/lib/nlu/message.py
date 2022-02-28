@@ -5,7 +5,7 @@ from spacy.tokens import Span
 from lib.nlu.intent.intent import Intent, IntentRecognizer
 from lib.nlu.slot.slots import Slots, SlotsFiller
 from lib.nlu.topic.topic import Topic, TopicRecognizer
-from lib.spacy_components.spacy import get_spacy
+from lib.spacy_components.custom_spacy import get_spacy
 
 
 @dataclass

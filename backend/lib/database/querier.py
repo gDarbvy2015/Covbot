@@ -17,7 +17,7 @@ from lib.nlu.intent.value_domain import ValueDomain
 from lib.nlu.intent.value_type import ValueType
 from lib.nlu.message import MessageBuilder, Message
 from lib.nlu.topic.topic import Topic
-from lib.spacy_components.spacy import get_spacy
+from lib.spacy_components.custom_spacy import get_spacy
 
 
 class QueryResultCode(Enum):

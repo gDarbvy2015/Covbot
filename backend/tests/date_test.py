@@ -2,7 +2,7 @@ import unittest
 import json
 
 from lib.nlu.slot.date import DateRecognizer
-from lib.spacy_components.spacy import get_spacy
+from lib.spacy_components.custom_spacy import get_spacy
 import pathlib
 import pytest
 
