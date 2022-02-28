@@ -11,9 +11,9 @@ from spacy.tokens import Span
 
 @dataclass
 class Date:
-    type: str
-    original_string: str
-    value_string: str
+    type: Optional[str]
+    original_string: Optional[str]
+    value_string: Optional[str]
     value: dict
 
 
