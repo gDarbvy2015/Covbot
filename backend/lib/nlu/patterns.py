@@ -213,7 +213,7 @@ class Pattern:
             "RIGHT_ID": "minimum_number_pattern",
             "RIGHT_ATTRS": {
                 "LEMMA": {
-                    "IN": ["minimum", "minmal", "low"]
+                    "IN": ["minimum", "minimal", "low"]
                 }
             }
         }
