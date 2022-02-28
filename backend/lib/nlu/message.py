@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from langcodes import Language
+from spacy import Language
 from spacy.tokens import Span
 
 from lib.nlu.intent.intent import Intent, IntentRecognizer
