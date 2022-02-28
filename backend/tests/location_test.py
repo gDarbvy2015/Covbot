@@ -1,6 +1,7 @@
 import pathlib
 import json
 import pytest
+from spacy.tokens import Doc
 
 from lib.nlu.slot.location import LocationRecognizer
 from lib.spacy_components.custom_spacy import get_spacy
@@ -14,6 +15,6 @@ location_recognizer = LocationRecognizer()
 
 @pytest.mark.parametrize("query", queries)
 def test_locations(query):
-        doc = spacy(query["query"])
-        recognized_location = location_recognizer.recognize_location(list(doc.sents)[0])
+        doc: Doc = spacy(query["query"])
+        recognized_location: str = location_recognizer.recognize_location(list(doc.sents)[0])
         assert query["slots"]["location"] == recognized_location
