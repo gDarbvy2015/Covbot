@@ -11,8 +11,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "today"
+        "type": "DAY",
+        "text": "today"
       },
       "location": "Austria"
     }
@@ -29,8 +29,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "today"
+        "type": "DAY",
+        "text": "today"
       },
       "location": "UK"
     }
@@ -47,8 +47,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "25.01.2022"
+        "type": "DAY",
+        "text": "25.01.2022"
       },
       "location": "Austria"
     }
@@ -80,8 +80,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "today"
+        "type": "DAY",
+        "text": "today"
       },
       "location": "Germany"
     }
@@ -98,8 +98,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "today"
+        "type": "DAY",
+        "text": "today"
       },
       "location": "denmark"
     }
@@ -116,8 +116,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "today"
+        "type": "DAY",
+        "text": "today"
       },
       "location": "denmark"
     }
@@ -149,8 +149,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "the past week"
+        "type": "WEEK",
+        "text": "the past week"
       },
       "location": "denmark"
     }
@@ -167,8 +167,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "the past week"
+        "type": "WEEK",
+        "text": "the past week"
       },
       "location": "egypt"
     }
@@ -185,8 +185,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "the last year"
+        "type": "YEAR",
+        "text": "the last year"
       },
       "location": "Finland"
     }
@@ -203,8 +203,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "today"
+        "type": "DAY",
+        "text": "today"
       },
       "location": null
     }
@@ -221,8 +221,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "yesterday"
+        "type": "DAY",
+        "text": "yesterday"
       },
       "location": null
     }
@@ -239,8 +239,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "today"
+        "type": "DAY",
+        "text": "today"
       },
       "location": null
     }
@@ -257,8 +257,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "tomorrow"
+        "type": "DAY",
+        "text": "tomorrow"
       },
       "location": null
     }
@@ -275,8 +275,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "a week ago"
+        "type": "DAY",
+        "text": "a week ago"
       },
       "location": null
     }
@@ -308,8 +308,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "the last year"
+        "type": "YEAR",
+        "text": "the last year"
       },
       "location": "England"
     }
@@ -341,8 +341,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "today"
+        "type": "DAY",
+        "text": "today"
       },
       "location": null
     }
@@ -359,8 +359,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "the last month"
+        "type": "MONTH",
+        "text": "the last month"
       },
       "location": "Belgium"
     }
@@ -377,8 +377,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "today"
+        "type": "DAY",
+        "text": "today"
       },
       "location": "Italy"
     }
@@ -395,8 +395,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "today"
+        "type": "DAY",
+        "text": "today"
       },
       "location": "austria"
     }
@@ -413,8 +413,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "yesterday"
+        "type": "DAY",
+        "text": "yesterday"
       },
       "location": "europe"
     }
@@ -446,8 +446,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "Last year"
+        "type": "YEAR",
+        "text": "Last year"
       },
       "location": "Spain"
     }
@@ -464,8 +464,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "July 2nd, 2021"
+        "type": "DAY",
+        "text": "July 2nd, 2021"
       },
       "location": "Uganda"
     }
@@ -482,8 +482,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "July 2nd, 2019"
+        "type": "DAY",
+        "text": "July 2nd, 2019"
       },
       "location": "Hungary"
     }
@@ -500,8 +500,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "2021"
+        "type": "YEAR",
+        "text": "2021"
       },
       "location": "Serbia"
     }
@@ -518,8 +518,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "2018"
+        "type": "YEAR",
+        "text": "2018"
       },
       "location": "Russia"
     }
@@ -566,8 +566,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "today"
+        "type": "DAY",
+        "text": "today"
       },
       "location": "Hong Kong"
     }
@@ -584,8 +584,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "this week"
+        "type": "WEEK",
+        "text": "this week"
       },
       "location": "Hong Kong"
     }
@@ -662,8 +662,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "today"
+        "type": "DAY",
+        "text": "today"
       },
       "location": null
     }
@@ -680,8 +680,8 @@
     },
     "slots": {
       "timeframe": {
-        "type": "DATE",
-        "value": "today"
+        "type": "DAY",
+        "text": "today"
       },
       "location": null
     }
@@ -729,8 +729,8 @@
     "slots": {
       "location": "Austria",
       "timeframe": {
-        "type": "DATE",
-        "value": "the 9th February 2022"
+        "type": "DAY",
+        "text": "the 9th February 2022"
       }
     }
   },
@@ -747,8 +747,8 @@
     "slots": {
       "location": "Austria",
       "timeframe": {
-        "type": "DATE",
-        "value": "2nd February 2022"
+        "type": "DAY",
+        "text": "2nd February 2022"
       }
     }
   },

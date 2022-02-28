@@ -6,48 +6,47 @@ import re
 
 import requests
 from dateutil.parser import parse
+from requests import Response
 from spacy.tokens import Span
 
 
 @dataclass
 class Date:
-    type: Optional[str]
-    original_string: Optional[str]
-    value_string: Optional[str]
-    value: dict
+    type: str
+    value: datetime.date
+    text: Optional[str]
 
 
 class DateRecognizer:
     def recognize_date(self, span: Span) -> Optional[Date]:
-        result = self._send_request(str(span))
+        result: List[dict] = self._send_request(str(span))
         if len(result) > 0:
             if result[0]["value"] == "P1D":
                 return None
             else:
-                return Date(result[0]["type"], result[0]["text"], result[0]["value"], self._parse_date(result[0]["value"]))
+                return self._parse_date(result[0])
         else:
             return None
 
-    def _parse_date(self, date_string: str) -> Optional[dict]:
-        if re.match(r"^\d{4}$", date_string):
-            return {"time": "YEAR", "value": parse(date_string).date()}
-        elif re.match(r"^\d{4}-\d{2}$", date_string):
-            return {"time": "MONTH", "value": parse(date_string).date()}
-        elif re.match(r"^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2})?$", date_string):
-            return {"time": "DAY", "value": parse(date_string).date()}
-        elif re.match(r"^\d{4}-W\d{2}$", date_string):
-            return {"time": "WEEK", "value": datetime.strptime(date_string + ' 1', "%Y-W%W %w").date()}
-
+    def _parse_date(self, date_dict: dict) -> Optional[Date]:
+        if re.match(r"^\d{4}$", date_dict["value"]):
+            return Date("YEAR", parse(date_dict["value"]).date(), date_dict["text"])
+        elif re.match(r"^\d{4}-\d{2}$", date_dict["value"]):
+            return Date("MONTH", parse(date_dict["value"]).date(), date_dict["text"])
+        elif re.match(r"^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2})?$", date_dict["value"]):
+            return Date("DAY", parse(date_dict["value"]).date(), date_dict["text"])
+        elif re.match(r"^\d{4}-W\d{2}$", date_dict["value"]):
+            return Date("WEEK", datetime.strptime(date_dict["value"] + ' 1', "%Y-W%W %w").date(), date_dict["text"])
         return None
 
     def _send_request(self, sentence: str) -> List[dict]:
-        properties = {
+        properties: dict = {
             "date": datetime.now().isoformat(),
             "annotators": "tokenize, ssplit, pos, lemma, ner",
             "outputFormat": "json",
         }
 
-        res = requests.post(f'http://localhost:9000/?properties={json.dumps(properties)}',
+        res: dict = requests.post(f'http://localhost:9000/?properties={json.dumps(properties)}',
                             data={
                                 'data': sentence}).json()
 

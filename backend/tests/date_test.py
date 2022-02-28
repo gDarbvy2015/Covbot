@@ -1,4 +1,3 @@
-import unittest
 import json
 
 from lib.nlu.slot.date import DateRecognizer
@@ -14,12 +13,12 @@ date_recognizer = DateRecognizer()
 
 
 @pytest.mark.parametrize("query", queries)
-def test_topics(query):
+def test_dates(query):
     doc = spacy(query["query"])
     predicted_date = date_recognizer.recognize_date(list(doc.sents)[0])
     if predicted_date is None:
         assert query["slots"]["timeframe"] is None
     else:
         assert query["slots"]["timeframe"]["type"] == predicted_date.type
-        assert query["slots"]["timeframe"]["value"] == predicted_date.original_string
+        assert query["slots"]["timeframe"]["text"] == predicted_date.text
         assert predicted_date.value is not None
