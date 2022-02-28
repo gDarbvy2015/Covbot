@@ -42,6 +42,7 @@ class Vaccination(Base):
                f"people_vaccinated={self.people_vaccinated}, daily_vaccinations={self.daily_vaccinations}, " \
                f"daily_people_vaccinated={self.daily_people_vaccinated})"
 
+
 def create_tables(engine: Engine, tables=None) -> None:
     if tables is None:
         tables = [Vaccination.__table__, Case.__table__]

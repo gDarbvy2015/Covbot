@@ -1,3 +1,5 @@
+from pandas import DataFrame
+from sqlalchemy.engine import Engine, Connection
 from sqlalchemy.exc import DatabaseError
 from lib.util.logger import Logger
 
@@ -8,11 +10,11 @@ from lib.database.entities import create_tables, Vaccination, Case, drop_tables
 
 class DatabaseManager:
     def __init__(self, db_name="covbot"):
-        self.logger = Logger(__name__)
-        self.connection = DatabaseConnection()
-        self.db_name = db_name
-        self.engine = self.connection.create_engine(self.db_name)
-        self.dataset_handler = DatasetHandler()
+        self.logger: Logger = Logger(__name__)
+        self.connection: DatabaseConnection = DatabaseConnection()
+        self.db_name: str = db_name
+        self.engine: Engine = self.connection.create_engine(self.db_name)
+        self.dataset_handler: DatasetHandler = DatasetHandler()
 
     def create_database(self) -> None:
         self.logger.info(f"Creating the database {self.db_name}...")
@@ -35,8 +37,8 @@ class DatabaseManager:
         self.update_vaccinations()
 
     def update_covid_cases(self) -> None:
-        covid_cases = self.dataset_handler.load_covid_cases()
-        db_connection = self.engine.connect()
+        covid_cases: DataFrame = self.dataset_handler.load_covid_cases()
+        db_connection: Connection = self.engine.connect()
 
         self.logger.info("Deleting previous covid cases entries...")
         drop_tables(self.engine, [Case.__table__])
@@ -46,8 +48,8 @@ class DatabaseManager:
         self.logger.info("Daily detected covid cases were updated.")
 
     def update_vaccinations(self) -> None:
-        vaccinations = self.dataset_handler.load_vaccinations()
-        db_connection = self.engine.connect()
+        vaccinations: DataFrame = self.dataset_handler.load_vaccinations()
+        db_connection: Connection = self.engine.connect()
 
         self.logger.info("Deleting previous vaccinations entries...")
         drop_tables(self.engine, [Vaccination.__table__])

@@ -5,11 +5,11 @@ from sqlalchemy import create_engine
 
 class DatabaseConnection:
     def __init__(self):
-        self._host = os.environ.get("COVBOT_DB_HOST")
-        self._port = os.environ.get("COVBOT_DB_PORT")
-        self._user = os.environ.get("COVBOT_USER")
-        self._password = os.environ.get("COVBOT_PASSWORD")
-        self._db_server_link = f"mysql://{self._user}:{self._password}@{self._host}:{self._port}/"
+        self._host: str = os.environ.get("COVBOT_DB_HOST")
+        self._port: str = os.environ.get("COVBOT_DB_PORT")
+        self._user: str = os.environ.get("COVBOT_USER")
+        self._password: str = os.environ.get("COVBOT_PASSWORD")
+        self._db_server_link: str = f"mysql://{self._user}:{self._password}@{self._host}:{self._port}/"
 
     def create_engine(self, db_name: str = None) -> Engine:
         if not db_name:

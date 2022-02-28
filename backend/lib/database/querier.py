@@ -1,12 +1,14 @@
 from datetime import datetime, timedelta, date
 from dataclasses import dataclass
 from typing import Union, Optional, List, Type
+
+from sqlalchemy.engine import Engine
 from sqlalchemy.sql import func, functions
 
 import calendar
 
 from lib.database.database_connection import DatabaseConnection
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, Query
 from enum import Enum
 from sqlalchemy import and_
 
@@ -41,23 +43,23 @@ class QueryResult:
 
 class Querier:
     def __init__(self, db_name="covbot", engine=None, session=None):
-        self.engine = DatabaseConnection().create_engine(db_name) if engine is None else engine
-        self.session = Session(self.engine, future=True) if session is None else session
-        self.case_query = self.session.query(Case)
-        self.vaccination_query = self.session.query(Vaccination)
+        self.engine: Engine = DatabaseConnection().create_engine(db_name) if engine is None else engine
+        self.session: Session = Session(self.engine, future=True) if session is None else session
+        self.case_query: Query = self.session.query(Case)
+        self.vaccination_query: Query = self.session.query(Vaccination)
 
     def query_intent(self, msg: Message) -> QueryResult:
-        validation_result = self._validate_msg(msg)
+        validation_result: Optional[QueryResult] = self._validate_msg(msg)
 
         if validation_result:
             return validation_result
 
-        table_dict = {
+        table_dict: dict = {
             Topic.CASES: Case,
             Topic.VACCINATIONS: Vaccination
         }
 
-        column_dict = {
+        column_dict: dict = {
             MeasurementType.DAILY: {
                 ValueDomain.POSITIVE_CASES: Case.cases,
                 ValueDomain.ADMINISTERED_VACCINES: Vaccination.daily_vaccinations,
@@ -86,16 +88,11 @@ class Querier:
         else:
             raise NotImplementedError()
 
-
         query = query.where(and_(
             *time_condition, *country_condition
         ))
 
         print(query.all())
-
-
-
-
 
     def _get_country_from_condition(self, table: Type[Union[Case, Vaccination]], msg: Message) -> List[bool]:
         if msg.slots.location is None:
@@ -108,8 +105,8 @@ class Querier:
         if msg.slots.date is None:
             return [table.date == datetime.now().date()]
 
-        date_type = msg.slots.date.value["time"]
-        date_value = msg.slots.date.value["value"]
+        date_type: str = msg.slots.date.value["time"]
+        date_value: datetime.date = msg.slots.date.value["value"]
         if date_type == "DAY":
             return [table.date == msg.slots.date.value["value"]]
         elif date_type == "WEEK":
@@ -126,7 +123,6 @@ class Querier:
             return [table.date >= start, table.date <= end]
         else:
             raise NotImplementedError()
-
 
     def _validate_msg(self, msg: Message) -> Optional[QueryResult]:
         if msg.topic == Topic.UNKNOWN:
