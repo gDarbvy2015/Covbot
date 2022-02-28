@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Optional
 
 from spacy.tokens import Span
 
@@ -8,8 +9,8 @@ from lib.nlu.slot.location import LocationRecognizer
 
 @dataclass
 class Slots:
-    date: Date
-    location: str
+    date: Optional[Date]
+    location: Optional[str]
 
 
 class SlotsFiller:

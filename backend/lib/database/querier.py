@@ -33,6 +33,7 @@ class QueryResultCode(Enum):
     NO_WORLDWIDE_SUPPORTED = 8
     UNEXPECTED_RESULT = 9
     FUTURE_DATA_REQUESTED = 10
+    NOT_EXISTING_LOCATION = 11
 
 
 @dataclass
@@ -80,6 +81,9 @@ class Querier:
         time_condition = self._get_time_from_condition(table, msg)
         country_condition = self._get_country_from_condition(table, msg)
 
+        if len(self.session.query(table).where(and_(*country_condition)).all()) == 0:
+            return QueryResult(msg, QueryResultCode.NOT_EXISTING_LOCATION, None, None)
+
         if msg.intent.calculation_type == CalculationType.RAW_VALUE:
             query = self.session.query(table).with_entities(considered_column)
         elif msg.intent.calculation_type == CalculationType.SUM:
@@ -104,6 +108,9 @@ class Querier:
                 return QueryResult(msg, QueryResultCode.SUCCESS, result[0][0], None)
 
     def _get_country_from_condition(self, table: Type[Union[Case, Vaccination]], msg: Message) -> List[bool]:
+        if msg.intent.value_type == ValueType.LOCATION:
+            return []
+
         if msg.slots.location is None:
             raise NotImplementedError()
         else:
@@ -111,6 +118,8 @@ class Querier:
 
     def _get_time_from_condition(self, table: Type[Union[Case, Vaccination]], msg: Message) -> List[bool]:
         # We assume the user is asking for today if no timeframe is specified
+        if msg.intent.value_type == ValueType.DAY:
+            return []
         if msg.slots.date is None:
             return [table.date == datetime.now().date()]
 
@@ -148,7 +157,7 @@ class Querier:
             return QueryResult(msg, QueryResultCode.UNKNOWN_VALUE_TYPE, None, None)
         if msg.intent.value_type != ValueType.LOCATION and msg.slots.location is None:
             return QueryResult(msg, QueryResultCode.NO_WORLDWIDE_SUPPORTED, None, None)
-        if msg.slots.date != None and msg.slots.date.value > datetime.now().date():
+        if msg.slots.date and msg.slots.date.value > datetime.now().date():
             return QueryResult(msg, QueryResultCode.FUTURE_DATA_REQUESTED, None, None)
 
         return None

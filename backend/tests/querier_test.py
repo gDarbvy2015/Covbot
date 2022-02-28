@@ -1,6 +1,9 @@
+import json
+import pathlib
 from datetime import datetime, timedelta
 
 import pytest
+from spacy.tokens import Span
 from sqlalchemy.orm import Session
 
 from lib.database.database_manager import DatabaseManager
@@ -11,10 +14,11 @@ from lib.nlu.intent.intent import Intent
 from lib.nlu.intent.measurement_type import MeasurementType
 from lib.nlu.intent.value_domain import ValueDomain
 from lib.nlu.intent.value_type import ValueType
-from lib.nlu.message import Message
+from lib.nlu.message import Message, MessageBuilder
 from lib.nlu.slot.date import Date
 from lib.nlu.slot.slots import Slots
 from lib.nlu.topic.topic import Topic
+from lib.spacy_components.custom_spacy import get_spacy
 
 current_day = datetime.now().date()
 
@@ -82,6 +86,19 @@ def test_check_new_cases_today_in_austria_returns_number_of_cases(querier):
     assert qr.result == 12_000
 
 
+def test_check_new_cases_cumulative_in_austria_returns_number_of_cases(querier):
+    topic: Topic = Topic.CASES
+    intent: Intent = Intent(CalculationType.RAW_VALUE, ValueType.NUMBER, ValueDomain.POSITIVE_CASES,
+                            MeasurementType.CUMULATIVE)
+    slots: Slots = Slots(None, "austria")
+    msg: Message = Message(topic, intent, slots)
+
+    qr: QueryResult = querier.query_intent(msg)
+
+    assert qr.result_code == QueryResultCode.SUCCESS
+    assert qr.result == 108_760
+
+
 def test_check_future_date_returns_error(querier):
     topic: Topic = Topic.CASES
     intent: Intent = Intent(CalculationType.RAW_VALUE, ValueType.NUMBER, ValueDomain.POSITIVE_CASES,
@@ -91,3 +108,29 @@ def test_check_future_date_returns_error(querier):
 
     qr: QueryResult = querier.query_intent(msg)
     assert qr.result_code == QueryResultCode.FUTURE_DATA_REQUESTED
+
+
+def test_check_not_existing_location_returns_error(querier):
+    topic: Topic = Topic.CASES
+    intent: Intent = Intent(CalculationType.RAW_VALUE, ValueType.NUMBER, ValueDomain.POSITIVE_CASES,
+                            MeasurementType.DAILY)
+    slots: Slots = Slots(Date("DAY", current_day, "today"), "limbo")
+    msg: Message = Message(topic, intent, slots)
+
+    qr: QueryResult = querier.query_intent(msg)
+    assert qr.result_code == QueryResultCode.NOT_EXISTING_LOCATION
+
+
+with open(pathlib.Path(__file__).parent / "annotated_queries.json") as query_file:
+    queries = json.load(query_file)
+
+spacy = get_spacy()
+message_builder = MessageBuilder()
+
+
+@pytest.mark.parametrize("query", queries)
+def test_all_annotated_queries_run_without_error(querier, query):
+    sent: Span = list(spacy(query["query"]).sents)[0]
+    msg = message_builder.create_message(sent)
+    querier.query_intent(msg)
+
