@@ -6,9 +6,9 @@ from lib.nlu.topic.topic import Topic, TopicRecognizer
 
 
 class Pattern:
-    _stemmer = PorterStemmer()
-    _topic_recognizer = TopicRecognizer()
-    _people_trigger_words = ["human", "people", "person", "individual"]
+    _stemmer: PorterStemmer = PorterStemmer()
+    _topic_recognizer: TopicRecognizer = TopicRecognizer()
+    _people_trigger_words: list = ["human", "people", "person", "individual"]
 
     human_pattern: List[dict] = [{
         "RIGHT_ID": "human_pattern",
