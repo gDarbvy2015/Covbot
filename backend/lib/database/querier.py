@@ -31,6 +31,8 @@ class QueryResultCode(Enum):
     UNKNOWN_CALCULATION_TYPE = 6
     UNKNOWN_VALUE_TYPE = 7
     NO_WORLDWIDE_SUPPORTED = 8
+    UNEXPECTED_RESULT = 9
+    FUTURE_DATA_REQUESTED = 10
 
 
 @dataclass
@@ -38,6 +40,7 @@ class QueryResult:
     message: Message
     result_code: QueryResultCode
     result: Optional[Union[str, int]]
+    # In case of an error, we can add a dict with additional information
     information: Optional[dict]
 
 
@@ -92,7 +95,13 @@ class Querier:
             *time_condition, *country_condition
         ))
 
-        print(query.all())
+        result = query.all()
+
+        if msg.intent.calculation_type == CalculationType.RAW_VALUE:
+            if len(result) > 1:
+                return QueryResult(msg, QueryResultCode.UNEXPECTED_RESULT, None, None)
+            else:
+                return QueryResult(msg, QueryResultCode.SUCCESS, result[0][0], None)
 
     def _get_country_from_condition(self, table: Type[Union[Case, Vaccination]], msg: Message) -> List[bool]:
         if msg.slots.location is None:
@@ -105,10 +114,10 @@ class Querier:
         if msg.slots.date is None:
             return [table.date == datetime.now().date()]
 
-        date_type: str = msg.slots.date.value["time"]
-        date_value: datetime.date = msg.slots.date.value["value"]
+        date_type: str = msg.slots.date.type
+        date_value: datetime.date = msg.slots.date.value
         if date_type == "DAY":
-            return [table.date == msg.slots.date.value["value"]]
+            return [table.date == date_value]
         elif date_type == "WEEK":
             start = date_value - timedelta(days=date_value.weekday())
             end = start + timedelta(days=6)
@@ -139,16 +148,19 @@ class Querier:
             return QueryResult(msg, QueryResultCode.UNKNOWN_VALUE_TYPE, None, None)
         if msg.intent.value_type != ValueType.LOCATION and msg.slots.location is None:
             return QueryResult(msg, QueryResultCode.NO_WORLDWIDE_SUPPORTED, None, None)
+        if msg.slots.date != None and msg.slots.date.value > datetime.now().date():
+            return QueryResult(msg, QueryResultCode.FUTURE_DATA_REQUESTED, None, None)
 
         return None
 
 
 if __name__ == '__main__':
-    sentence = "What is the lowest number of vaccinated people in Germany last week?"
+    sentence = "How many people were tested positive for COVID in Austria yesterday?"
     spacy = get_spacy()
     doc = spacy(sentence)
     querier = Querier()
 
     mb = MessageBuilder()
     msg = mb.create_message(list(doc.sents)[0])
-    querier.query_intent(msg)
+    result = querier.query_intent(msg)
+    print(result)
