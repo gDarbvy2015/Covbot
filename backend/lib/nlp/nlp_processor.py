@@ -11,7 +11,7 @@ class NLPProcessor:
 
     def _map_country_abbreviations(self, string: str) -> str:
         # TODO: Extend this
-        country_name_map = {
+        country_name_map: dict = {
             "macedonia": "north macedonia",
             "hk": "hong kong",
             "nz": "new zealand",
