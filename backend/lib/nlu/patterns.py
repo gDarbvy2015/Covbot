@@ -184,9 +184,12 @@ class Pattern:
             "REL_OP": "<<",
             "RIGHT_ID": "most_trigger_word_pattern",
             "RIGHT_ATTRS": {
-                "LEMMA": {
-                    "IN": list(_topic_recognizer.get_vaccine_trigger_words()) + list(_topic_recognizer.get_cases_trigger_words())
-                          + _people_trigger_words
+                "_": {
+                    "stem": {
+                        "IN": list(_topic_recognizer.get_vaccine_trigger_words()) + list(
+                            _topic_recognizer.get_cases_trigger_words())
+                              + _people_trigger_words
+                    }
                 }
             }
         }
@@ -198,9 +201,12 @@ class Pattern:
             "REL_OP": "<<",
             "RIGHT_ID": "least_trigger_word_pattern",
             "RIGHT_ATTRS": {
-                "LEMMA": {
-                    "IN": list(_topic_recognizer.get_vaccine_trigger_words()) + list(_topic_recognizer.get_cases_trigger_words())
-                          + _people_trigger_words
+                "_": {
+                    "stem": {
+                        "IN": list(_topic_recognizer.get_vaccine_trigger_words()) + list(
+                            _topic_recognizer.get_cases_trigger_words())
+                              + _people_trigger_words
+                    }
                 }
             }
         }
