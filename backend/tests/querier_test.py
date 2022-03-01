@@ -289,6 +289,18 @@ def test_check_country_with_minimum_vaccinated_people_today(querier, session):
     assert qr.result_code == QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE
 
 
+def test_check_when_maximum_new_cases_in_austria(querier, session):
+    msg: Message = get_cases_message(calculation_type=CalculationType.MAXIMUM, value_type=ValueType.DAY,
+                                     slot_date=None)
+
+    add_austria_cases(session)
+
+    qr: QueryResult = querier.query_intent(msg)
+
+    assert qr.result_code == QueryResultCode.SUCCESS
+    assert qr.result == current_day - timedelta(days=1)
+
+
 with open(pathlib.Path(__file__).parent / "annotated_queries.json") as query_file:
     queries = json.load(query_file)
 

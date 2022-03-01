@@ -43,7 +43,7 @@ class QueryResultCode(Enum):
 class QueryResult:
     message: Message
     result_code: QueryResultCode
-    result: Optional[Union[str, int]]
+    result: Optional[Union[str, int, datetime.date]]
     # In case of an error, we can add a dict with additional information
     information: Optional[dict]
 
@@ -88,6 +88,8 @@ class Querier:
             return self._query_number(table, considered_column, msg)
         elif msg.intent.value_type == ValueType.LOCATION:
             return self._query_location(table, considered_column, msg)
+        elif msg.intent.value_type == ValueType.DAY:
+            return self._query_date(table, considered_column, msg)
         else:
             raise NotImplementedError()
 
@@ -109,6 +111,24 @@ class Querier:
                     return QueryResult(msg, QueryResultCode.SUCCESS, result[0].country, None)
             else:
                 raise NotImplementedError()
+        else:
+            raise NotImplementedError()
+
+    def _query_date(self, table: Union[Case, Vaccination], considered_column: InstrumentedAttribute,
+                        msg: Message) -> QueryResult:
+        country_condition: List[bool] = self._get_country_from_condition(table, msg)
+
+        if len(self.session.query(table).where(and_(*country_condition)).all()) == 0:
+            return QueryResult(msg, QueryResultCode.NOT_EXISTING_LOCATION, None, None)
+
+        if msg.intent.calculation_type in [CalculationType.MAXIMUM, CalculationType.MINIMUM]:
+            sort_order = asc if msg.intent.calculation_type == CalculationType.MINIMUM else desc
+            query = self.session.query(table).where(and_(*country_condition)).order_by(sort_order(considered_column)).limit(1)
+            result = query.all()
+            if len(result) == 0:
+                return QueryResult(msg, QueryResultCode.UNEXPECTED_RESULT, None, None)
+            else:
+                return QueryResult(msg, QueryResultCode.SUCCESS, result[0].date, None)
         else:
             raise NotImplementedError()
 
@@ -202,7 +222,7 @@ class Querier:
 
 
 if __name__ == '__main__':
-    sentence = "Which country had the least people vaccinated yesterday?"
+    sentence = "When were most vaccinations performed in Austria?"
     spacy = get_spacy()
     doc = spacy(sentence)
     querier = Querier()
