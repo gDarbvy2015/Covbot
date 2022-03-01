@@ -1,6 +1,7 @@
 import json
 import pathlib
 from datetime import datetime, timedelta
+from typing import Optional
 
 import pytest
 from spacy.tokens import Span
@@ -94,12 +95,21 @@ def querier(db_manager, session):
     return Querier("covbot_test", db_manager, session, current_day)
 
 
-def test_check_new_cases_today_in_austria_returns_number_of_cases(querier, session):
-    topic: Topic = Topic.CASES
-    intent: Intent = Intent(CalculationType.RAW_VALUE, ValueType.NUMBER, ValueDomain.POSITIVE_CASES,
-                            MeasurementType.DAILY)
-    slots: Slots = Slots(Date("DAY", current_day, "today"), "austria")
+def get_message(topic: Topic = Topic.CASES, calculation_Type: CalculationType = CalculationType.RAW_VALUE,
+                value_type: ValueType = ValueType.NUMBER, value_domain: ValueDomain = ValueDomain.POSITIVE_CASES,
+                measurement_type: MeasurementType = MeasurementType.DAILY,
+                slot_date: Optional[Date] = Date("DAY", current_day, "today"),
+                slot_location: Optional[str] = "austria"):
+    topic: Topic = topic
+    intent: Intent = Intent(calculation_Type, value_type, value_domain, measurement_type)
+    slots: Slots = Slots(slot_date, slot_location)
     msg: Message = Message(topic, intent, slots)
+
+    return msg
+
+
+def test_check_new_cases_today_in_austria_returns_number_of_cases(querier, session):
+    msg: Message = get_message()
 
     add_austria_cases(session)
 
@@ -110,11 +120,8 @@ def test_check_new_cases_today_in_austria_returns_number_of_cases(querier, sessi
 
 
 def test_check_new_cases_this_week_in_austria_returns_number_of_cases(querier, session):
-    topic: Topic = Topic.CASES
-    intent: Intent = Intent(CalculationType.SUM, ValueType.NUMBER, ValueDomain.POSITIVE_CASES,
-                            MeasurementType.DAILY)
-    slots: Slots = Slots(Date("WEEK", current_day, "today"), "austria")
-    msg: Message = Message(topic, intent, slots)
+    msg: Message = get_message(calculation_Type=CalculationType.SUM,
+                               slot_date=Date("WEEK", current_day, "this week"))
 
     add_austria_cases(session)
 
@@ -125,11 +132,8 @@ def test_check_new_cases_this_week_in_austria_returns_number_of_cases(querier, s
 
 
 def test_check_new_cases_cumulative_in_austria_returns_number_of_cases(querier, session):
-    topic: Topic = Topic.CASES
-    intent: Intent = Intent(CalculationType.RAW_VALUE, ValueType.NUMBER, ValueDomain.POSITIVE_CASES,
-                            MeasurementType.CUMULATIVE)
-    slots: Slots = Slots(None, "austria")
-    msg: Message = Message(topic, intent, slots)
+    msg: Message = get_message(measurement_type=MeasurementType.CUMULATIVE,
+                               slot_date=None)
 
     add_austria_cases(session)
 
@@ -140,11 +144,7 @@ def test_check_new_cases_cumulative_in_austria_returns_number_of_cases(querier, 
 
 
 def test_check_future_date_returns_error(querier, session):
-    topic: Topic = Topic.CASES
-    intent: Intent = Intent(CalculationType.RAW_VALUE, ValueType.NUMBER, ValueDomain.POSITIVE_CASES,
-                            MeasurementType.DAILY)
-    slots: Slots = Slots(Date("DAY", current_day + timedelta(days=1), "today"), "austria")
-    msg: Message = Message(topic, intent, slots)
+    msg: Message = get_message(slot_date=Date("DAY", current_day + timedelta(days=1), "today"))
 
     add_austria_cases(session)
 
@@ -153,11 +153,7 @@ def test_check_future_date_returns_error(querier, session):
 
 
 def test_check_not_existing_location_returns_error(querier, session):
-    topic: Topic = Topic.CASES
-    intent: Intent = Intent(CalculationType.RAW_VALUE, ValueType.NUMBER, ValueDomain.POSITIVE_CASES,
-                            MeasurementType.DAILY)
-    slots: Slots = Slots(Date("DAY", current_day, "today"), "limbo")
-    msg: Message = Message(topic, intent, slots)
+    msg: Message = get_message(slot_location="limbo")
 
     add_austria_cases(session)
 
