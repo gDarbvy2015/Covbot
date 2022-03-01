@@ -21,11 +21,12 @@ from lib.nlu.slot.slots import Slots
 from lib.nlu.topic.topic import Topic
 from lib.spacy_components.custom_spacy import get_spacy
 
+# If this is changed, most test cases will need to be changed
 current_day = datetime(2022, 2, 24).date()
 
 
 @pytest.fixture(scope="session")
-def db_manager(request):
+def db_manager():
     db_manager = DatabaseManager("covbot_test")
     db_manager.create_database()
     db_manager.create_tables()
@@ -95,11 +96,24 @@ def querier(db_manager, session):
     return Querier("covbot_test", db_manager, session, current_day)
 
 
-def get_message(topic: Topic = Topic.CASES, calculation_Type: CalculationType = CalculationType.RAW_VALUE,
-                value_type: ValueType = ValueType.NUMBER, value_domain: ValueDomain = ValueDomain.POSITIVE_CASES,
-                measurement_type: MeasurementType = MeasurementType.DAILY,
-                slot_date: Optional[Date] = Date("DAY", current_day, "today"),
-                slot_location: Optional[str] = "austria"):
+def get_cases_message(topic: Topic = Topic.CASES, calculation_Type: CalculationType = CalculationType.RAW_VALUE,
+                      value_type: ValueType = ValueType.NUMBER, value_domain: ValueDomain = ValueDomain.POSITIVE_CASES,
+                      measurement_type: MeasurementType = MeasurementType.DAILY,
+                      slot_date: Optional[Date] = Date("DAY", current_day, "today"),
+                      slot_location: Optional[str] = "austria"):
+    topic: Topic = topic
+    intent: Intent = Intent(calculation_Type, value_type, value_domain, measurement_type)
+    slots: Slots = Slots(slot_date, slot_location)
+    msg: Message = Message(topic, intent, slots)
+
+    return msg
+
+
+def get_vaccinations_message(topic: Topic = Topic.VACCINATIONS, calculation_Type: CalculationType = CalculationType.RAW_VALUE,
+                      value_type: ValueType = ValueType.NUMBER, value_domain: ValueDomain = ValueDomain.ADMINISTERED_VACCINES,
+                      measurement_type: MeasurementType = MeasurementType.DAILY,
+                      slot_date: Optional[Date] = Date("DAY", current_day, "today"),
+                      slot_location: Optional[str] = "austria"):
     topic: Topic = topic
     intent: Intent = Intent(calculation_Type, value_type, value_domain, measurement_type)
     slots: Slots = Slots(slot_date, slot_location)
@@ -109,7 +123,7 @@ def get_message(topic: Topic = Topic.CASES, calculation_Type: CalculationType = 
 
 
 def test_check_new_cases_today_in_austria_returns_number_of_cases(querier, session):
-    msg: Message = get_message()
+    msg: Message = get_cases_message()
 
     add_austria_cases(session)
 
@@ -118,10 +132,20 @@ def test_check_new_cases_today_in_austria_returns_number_of_cases(querier, sessi
     assert qr.result_code == QueryResultCode.SUCCESS
     assert qr.result == 12000
 
+def test_check_new_vaccinations_yesterday_in_austria_returns_number_of_vaccinations(querier, session):
+    msg: Message = get_cases_message()
+
+    add_austria_vaccinations(session)
+
+    qr: QueryResult = querier.query_intent(msg)
+
+    assert qr.result_code == QueryResultCode.SUCCESS
+    assert qr.result == 12000
+
 
 def test_check_new_cases_this_week_in_austria_returns_number_of_cases(querier, session):
-    msg: Message = get_message(calculation_Type=CalculationType.SUM,
-                               slot_date=Date("WEEK", current_day, "this week"))
+    msg: Message = get_cases_message(calculation_Type=CalculationType.SUM,
+                                     slot_date=Date("WEEK", current_day, "this week"))
 
     add_austria_cases(session)
 
@@ -132,8 +156,8 @@ def test_check_new_cases_this_week_in_austria_returns_number_of_cases(querier, s
 
 
 def test_check_new_cases_cumulative_in_austria_returns_number_of_cases(querier, session):
-    msg: Message = get_message(measurement_type=MeasurementType.CUMULATIVE,
-                               slot_date=None)
+    msg: Message = get_cases_message(measurement_type=MeasurementType.CUMULATIVE,
+                                     slot_date=None)
 
     add_austria_cases(session)
 
@@ -144,7 +168,7 @@ def test_check_new_cases_cumulative_in_austria_returns_number_of_cases(querier, 
 
 
 def test_check_future_date_returns_error(querier, session):
-    msg: Message = get_message(slot_date=Date("DAY", current_day + timedelta(days=1), "today"))
+    msg: Message = get_cases_message(slot_date=Date("DAY", current_day + timedelta(days=1), "today"))
 
     add_austria_cases(session)
 
@@ -153,7 +177,7 @@ def test_check_future_date_returns_error(querier, session):
 
 
 def test_check_not_existing_location_returns_error(querier, session):
-    msg: Message = get_message(slot_location="limbo")
+    msg: Message = get_cases_message(slot_location="limbo")
 
     add_austria_cases(session)
 
