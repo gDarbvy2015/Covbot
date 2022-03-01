@@ -91,6 +91,21 @@ def add_austria_vaccinations(session):
     session.add_all(vaccinations)
 
 
+def add_different_countries_vaccinations(session):
+    vaccinations = [
+        Vaccination(id=7, date=current_day - timedelta(days=2), country="Austria", country_normalized="austria",
+                    total_vaccinations=1200, people_vaccinated=1000, daily_vaccinations=1200,
+                    daily_people_vaccinated=1000),
+        Vaccination(id=8, date=current_day - timedelta(days=2), country="Ukraine", country_normalized="ukraine",
+                    total_vaccinations=3000, people_vaccinated=2400, daily_vaccinations=3000,
+                    daily_people_vaccinated=2400),
+        Vaccination(id=9, date=current_day - timedelta(days=2), country="Germany", country_normalized="ukraine",
+                    total_vaccinations=4000, people_vaccinated=1000, daily_vaccinations=4000,
+                    daily_people_vaccinated=1000),
+    ]
+    session.add_all(vaccinations)
+
+
 @pytest.fixture
 def querier(db_manager, session):
     return Querier("covbot_test", db_manager, session, current_day)
@@ -243,6 +258,35 @@ def test_check_not_existing_location(querier, session):
 
     qr: QueryResult = querier.query_intent(msg)
     assert qr.result_code == QueryResultCode.NOT_EXISTING_LOCATION
+
+
+def test_check_country_with_maximum_vaccinated_people_two_days_ago(querier, session):
+    msg: Message = get_vaccinations_message(calculation_type=CalculationType.MAXIMUM,
+                                            value_domain=ValueDomain.VACCINATED_PEOPLE,
+                                            value_type=ValueType.LOCATION,
+                                            slot_date=Date("DAY", current_day - timedelta(days=2), "two days ago"),
+                                            slot_location=None)
+
+    add_different_countries_vaccinations(session)
+
+    qr: QueryResult = querier.query_intent(msg)
+
+    assert qr.result_code == QueryResultCode.SUCCESS
+    assert qr.result == "Ukraine"
+
+
+def test_check_country_with_minimum_vaccinated_people_today(querier, session):
+    msg: Message = get_vaccinations_message(calculation_type=CalculationType.MINIMUM,
+                                            value_domain=ValueDomain.VACCINATED_PEOPLE,
+                                            value_type=ValueType.LOCATION,
+                                            slot_date=Date("DAY", current_day, "today"),
+                                            slot_location=None)
+
+    add_different_countries_vaccinations(session)
+
+    qr: QueryResult = querier.query_intent(msg)
+
+    assert qr.result_code == QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE
 
 
 with open(pathlib.Path(__file__).parent / "annotated_queries.json") as query_file:

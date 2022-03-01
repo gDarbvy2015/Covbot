@@ -57,19 +57,12 @@ class Querier:
 
         # We allow setting a custom value as the "today" value so that testing becomes easier
         self.today = today
-
-    def query_intent(self, msg: Message) -> QueryResult:
-        validation_result: Optional[QueryResult] = self._validate_msg(msg)
-
-        if validation_result:
-            return validation_result
-
-        table_dict: dict = {
+        self.table_dict: dict = {
             Topic.CASES: Case,
             Topic.VACCINATIONS: Vaccination
         }
 
-        column_dict: dict = {
+        self.column_dict: dict = {
             MeasurementType.DAILY: {
                 ValueDomain.POSITIVE_CASES: Case.cases,
                 ValueDomain.ADMINISTERED_VACCINES: Vaccination.daily_vaccinations,
@@ -82,8 +75,14 @@ class Querier:
             }
         }
 
-        table: Union[Case, Vaccination] = table_dict[msg.topic]
-        considered_column: InstrumentedAttribute = column_dict[msg.intent.measurement_type][msg.intent.value_domain]
+    def query_intent(self, msg: Message) -> QueryResult:
+        validation_result: Optional[QueryResult] = self._validate_msg(msg)
+
+        if validation_result:
+            return validation_result
+
+        table: Union[Case, Vaccination] = self.table_dict[msg.topic]
+        considered_column: InstrumentedAttribute = self.column_dict[msg.intent.measurement_type][msg.intent.value_domain]
 
         if msg.intent.value_type == ValueType.NUMBER:
             return self._query_number(table, considered_column, msg)
@@ -96,15 +95,26 @@ class Querier:
                         msg: Message) -> QueryResult:
         time_condition: List[bool] = self._get_time_from_condition(table, msg)
 
-        if msg.intent.calculation_type == CalculationType.MAXIMUM:
-            query = self.session.query(table).where(and_(*time_condition))
-            res = query.all()
-            raise NotImplementedError()
+        if len(self.session.query(table).where(and_(*time_condition)).all()) == 0:
+            return QueryResult(msg, QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE, None, None)
+
+        if msg.intent.calculation_type in [CalculationType.MAXIMUM, CalculationType.MINIMUM]:
+            sort_order = asc if msg.intent.calculation_type == CalculationType.MINIMUM else desc
+            if msg.slots.date is None or msg.slots.date.type == "DAY":
+                query = self.session.query(table).where(and_(*time_condition)).order_by(sort_order(considered_column)).limit(1)
+                result = query.all()
+                if len(result) == 0:
+                    return QueryResult(msg, QueryResultCode.UNEXPECTED_RESULT, None, None)
+                else:
+                    return QueryResult(msg, QueryResultCode.SUCCESS, result[0].country, None)
+            else:
+                raise NotImplementedError()
         else:
             raise NotImplementedError()
 
     def _query_number(self, table: Union[Case, Vaccination], considered_column: InstrumentedAttribute,
                       msg: Message) -> QueryResult:
+        # If no timeframe is given, we assume that the user is asking for today
         time_condition: List[bool] = [table.date == self.today] \
             if msg.slots.date is None else self._get_time_from_condition(table, msg)
         country_condition: List[bool] = self._get_country_from_condition(table, msg)
@@ -192,13 +202,12 @@ class Querier:
 
 
 if __name__ == '__main__':
-    sentence = "Which country had most Corona cases?"
+    sentence = "Which country had the least people vaccinated yesterday?"
     spacy = get_spacy()
     doc = spacy(sentence)
     querier = Querier()
 
     mb = MessageBuilder()
     message = mb.create_message(list(doc.sents)[0])
-    print("Reached")
     result = querier.query_intent(message)
     print(result)
