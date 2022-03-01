@@ -134,8 +134,8 @@ class IntentRecognizer:
 
 
 if __name__ == '__main__':
-    sent = "How many new COVID cases are there in Austria today?"
+    sent = "Which country had the most corona cases yesterday?"
     nlp = get_spacy()
     span = list(nlp(sent).sents)[0]
     ir = IntentRecognizer(nlp.vocab)
-    ir.recognize_intent(span)
+    print(ir.recognize_intent(span))

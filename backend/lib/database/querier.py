@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta, date
 from dataclasses import dataclass
 from typing import Union, Optional, List, Type
+from sqlalchemy.orm.attributes import InstrumentedAttribute
 
 from sqlalchemy.engine import Engine
 from sqlalchemy.sql import func, functions
@@ -11,6 +12,7 @@ from lib.database.database_connection import DatabaseConnection
 from sqlalchemy.orm import Session, Query
 from enum import Enum
 from sqlalchemy import and_
+from sqlalchemy import desc, asc
 
 from lib.database.entities import Case, Vaccination
 from lib.nlu.intent.calculation_type import CalculationType
@@ -52,6 +54,8 @@ class Querier:
         self.session: Session = Session(self.engine, future=True) if session is None else session
         self.case_query: Query = self.session.query(Case)
         self.vaccination_query: Query = self.session.query(Vaccination)
+
+        # We allow setting a custom value as the "today" value so that testing becomes easier
         self.today = today
 
     def query_intent(self, msg: Message) -> QueryResult:
@@ -78,10 +82,32 @@ class Querier:
             }
         }
 
-        table = table_dict[msg.topic]
-        considered_column = column_dict[msg.intent.measurement_type][msg.intent.value_domain]
-        time_condition = self._get_time_from_condition(table, msg)
-        country_condition = self._get_country_from_condition(table, msg)
+        table: Union[Case, Vaccination] = table_dict[msg.topic]
+        considered_column: InstrumentedAttribute = column_dict[msg.intent.measurement_type][msg.intent.value_domain]
+
+        if msg.intent.value_type == ValueType.NUMBER:
+            return self._query_number(table, considered_column, msg)
+        elif msg.intent.value_type == ValueType.LOCATION:
+            return self._query_location(table, considered_column, msg)
+        else:
+            raise NotImplementedError()
+
+    def _query_location(self, table: Union[Case, Vaccination], considered_column: InstrumentedAttribute,
+                        msg: Message) -> QueryResult:
+        time_condition: List[bool] = self._get_time_from_condition(table, msg)
+
+        if msg.intent.calculation_type == CalculationType.MAXIMUM:
+            query = self.session.query(table).where(and_(*time_condition))
+            res = query.all()
+            raise NotImplementedError()
+        else:
+            raise NotImplementedError()
+
+    def _query_number(self, table: Union[Case, Vaccination], considered_column: InstrumentedAttribute,
+                      msg: Message) -> QueryResult:
+        time_condition: List[bool] = [table.date == self.today] \
+            if msg.slots.date is None else self._get_time_from_condition(table, msg)
+        country_condition: List[bool] = self._get_country_from_condition(table, msg)
 
         if len(self.session.query(table).where(and_(*country_condition)).all()) == 0:
             return QueryResult(msg, QueryResultCode.NOT_EXISTING_LOCATION, None, None)
@@ -106,20 +132,12 @@ class Querier:
 
         result = query.all()
 
-        if msg.intent.calculation_type == CalculationType.RAW_VALUE:
-            if len(result) > 1:
-                print(result)
-                return QueryResult(msg, QueryResultCode.UNEXPECTED_RESULT, None, None)
-            else:
-                return QueryResult(msg, QueryResultCode.SUCCESS, result[0][0], None)
-        elif msg.intent.calculation_type == CalculationType.SUM:
-            if len(result) > 1:
-                print(result)
-                return QueryResult(msg, QueryResultCode.UNEXPECTED_RESULT, None, None)
-            else:
-                return QueryResult(msg, QueryResultCode.SUCCESS, result[0][0], None)
+        if len(result) > 1:
+            return QueryResult(msg, QueryResultCode.UNEXPECTED_RESULT, None, None)
+        else:
+            return QueryResult(msg, QueryResultCode.SUCCESS, result[0][0], None)
 
-    def _get_country_from_condition(self, table: Type[Union[Case, Vaccination]], msg: Message) -> List[bool]:
+    def _get_country_from_condition(self, table: Union[Case, Vaccination], msg: Message) -> List[bool]:
         if msg.intent.value_type == ValueType.LOCATION:
             return []
 
@@ -128,12 +146,10 @@ class Querier:
         else:
             return [table.country_normalized == msg.slots.location]
 
-    def _get_time_from_condition(self, table: Type[Union[Case, Vaccination]], msg: Message) -> List[bool]:
+    def _get_time_from_condition(self, table: Union[Case, Vaccination], msg: Message) -> List[bool]:
         # We assume the user is asking for today if no timeframe is specified
-        if msg.intent.value_type == ValueType.DAY:
+        if msg.intent.value_type == ValueType.DAY or msg.slots.date is None:
             return []
-        if msg.slots.date is None:
-            return [table.date == self.today]
 
         date_type: str = msg.slots.date.type
         date_value: datetime.date = msg.slots.date.value
@@ -176,12 +192,13 @@ class Querier:
 
 
 if __name__ == '__main__':
-    sentence = "How many people were tested positive for COVID in Austria this week?"
+    sentence = "Which country had most Corona cases?"
     spacy = get_spacy()
     doc = spacy(sentence)
     querier = Querier()
 
     mb = MessageBuilder()
-    msg = mb.create_message(list(doc.sents)[0])
-    result = querier.query_intent(msg)
+    message = mb.create_message(list(doc.sents)[0])
+    print("Reached")
+    result = querier.query_intent(message)
     print(result)
