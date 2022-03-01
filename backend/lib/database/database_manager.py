@@ -20,8 +20,9 @@ class DatabaseManager:
         self.logger.info(f"Creating the database {self.db_name}...")
 
         try:
-            self.engine.execute(f"CREATE DATABASE {self.db_name}")
+            self.connection.create_engine().execute(f"CREATE DATABASE {self.db_name}")
             self.logger.info("Database was created successfully.")
+            self.engine = self.connection.create_engine(self.db_name)
         except DatabaseError as e:
             if "1007" in str(e):
                 self.logger.info("Couldn't create the database because it already exists.")
