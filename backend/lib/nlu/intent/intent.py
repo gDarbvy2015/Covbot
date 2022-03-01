@@ -97,7 +97,7 @@ class IntentRecognizer:
                     else:
                         return MeasurementType.CUMULATIVE
             else:
-                if value_type == ValueType.LOCATION:
+                if value_type == ValueType.LOCATION and date is None:
                     return MeasurementType.CUMULATIVE
                 else:
                     return MeasurementType.DAILY
