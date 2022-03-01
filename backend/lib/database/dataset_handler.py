@@ -23,7 +23,8 @@ class DatasetHandler:
                                                 self.nlp_pipeline.normalize_country_name(row["country"]), axis=1)
 
         exclude_countries = ["upper middle income", "summer olympics 2020", "lower middle income",
-                             "low income", "international", "world", "high income"]
+                             "low income", "international", "world", "high income", "europe", "asia",
+                             "european union"]
         data = data[~data["country_normalized"].isin(exclude_countries)]
         data = self._add_cumulative_cases(data)
 
@@ -43,7 +44,7 @@ class DatasetHandler:
                                                 self.nlp_pipeline.normalize_country_name(row["country"]), axis=1)
 
         exclude_countries: List[str] = ["world", "lower middle income", "low income", "high income",
-                                        "upper middle income"]
+                                        "upper middle income", "europe", "asia", "european union"]
         data = data[~data["country_normalized"].isin(exclude_countries)]
 
         data["id"] = data.index + 1
