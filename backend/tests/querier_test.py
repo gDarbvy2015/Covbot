@@ -34,17 +34,14 @@ def db_manager(request):
     db_manager.drop_tables()
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(autouse=True)
 def session(db_manager: DatabaseManager):
     session = Session(db_manager.engine)
-    add_cases(session)
-
     yield session
-
     session.rollback()
 
 
-def add_cases(session):
+def add_austria_cases(session):
     cases = [
         Case(id=1, date=current_day - timedelta(days=9), country="Austria", country_normalized="austria", cases=15_000,
              cumulative_cases=15_000),
@@ -68,17 +65,19 @@ def add_cases(session):
     session.add_all(cases)
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def querier(db_manager, session):
     return Querier("covbot_test", db_manager, session)
 
 
-def test_check_new_cases_today_in_austria_returns_number_of_cases(querier):
+def test_check_new_cases_today_in_austria_returns_number_of_cases(querier, session):
     topic: Topic = Topic.CASES
     intent: Intent = Intent(CalculationType.RAW_VALUE, ValueType.NUMBER, ValueDomain.POSITIVE_CASES,
                             MeasurementType.DAILY)
     slots: Slots = Slots(Date("DAY", current_day, "today"), "austria")
     msg: Message = Message(topic, intent, slots)
+
+    add_austria_cases(session)
 
     qr: QueryResult = querier.query_intent(msg)
 
@@ -86,12 +85,14 @@ def test_check_new_cases_today_in_austria_returns_number_of_cases(querier):
     assert qr.result == 12_000
 
 
-def test_check_new_cases_cumulative_in_austria_returns_number_of_cases(querier):
+def test_check_new_cases_cumulative_in_austria_returns_number_of_cases(querier, session):
     topic: Topic = Topic.CASES
     intent: Intent = Intent(CalculationType.RAW_VALUE, ValueType.NUMBER, ValueDomain.POSITIVE_CASES,
                             MeasurementType.CUMULATIVE)
     slots: Slots = Slots(None, "austria")
     msg: Message = Message(topic, intent, slots)
+
+    add_austria_cases(session)
 
     qr: QueryResult = querier.query_intent(msg)
 
@@ -99,23 +100,27 @@ def test_check_new_cases_cumulative_in_austria_returns_number_of_cases(querier):
     assert qr.result == 108_760
 
 
-def test_check_future_date_returns_error(querier):
+def test_check_future_date_returns_error(querier, session):
     topic: Topic = Topic.CASES
     intent: Intent = Intent(CalculationType.RAW_VALUE, ValueType.NUMBER, ValueDomain.POSITIVE_CASES,
                             MeasurementType.DAILY)
     slots: Slots = Slots(Date("DAY", current_day + timedelta(days=1), "today"), "austria")
     msg: Message = Message(topic, intent, slots)
 
+    add_austria_cases(session)
+
     qr: QueryResult = querier.query_intent(msg)
     assert qr.result_code == QueryResultCode.FUTURE_DATA_REQUESTED
 
 
-def test_check_not_existing_location_returns_error(querier):
+def test_check_not_existing_location_returns_error(querier, session):
     topic: Topic = Topic.CASES
     intent: Intent = Intent(CalculationType.RAW_VALUE, ValueType.NUMBER, ValueDomain.POSITIVE_CASES,
                             MeasurementType.DAILY)
     slots: Slots = Slots(Date("DAY", current_day, "today"), "limbo")
     msg: Message = Message(topic, intent, slots)
+
+    add_austria_cases(session)
 
     qr: QueryResult = querier.query_intent(msg)
     assert qr.result_code == QueryResultCode.NOT_EXISTING_LOCATION

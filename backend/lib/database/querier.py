@@ -34,6 +34,7 @@ class QueryResultCode(Enum):
     UNEXPECTED_RESULT = 9
     FUTURE_DATA_REQUESTED = 10
     NOT_EXISTING_LOCATION = 11
+    NO_DATA_AVAILABLE = 12
 
 
 @dataclass
@@ -106,6 +107,11 @@ class Querier:
                 return QueryResult(msg, QueryResultCode.UNEXPECTED_RESULT, None, None)
             else:
                 return QueryResult(msg, QueryResultCode.SUCCESS, result[0][0], None)
+        elif msg.intent.calculation_type == CalculationType.SUM:
+            if len(result) > 1:
+                return QueryResult(msg, QueryResultCode.UNEXPECTED_RESULT, None, None)
+            else:
+                return QueryResult(msg, QueryResultCode.SUCCESS, result[0][0], None)
 
     def _get_country_from_condition(self, table: Type[Union[Case, Vaccination]], msg: Message) -> List[bool]:
         if msg.intent.value_type == ValueType.LOCATION:
@@ -164,7 +170,7 @@ class Querier:
 
 
 if __name__ == '__main__':
-    sentence = "How many people were tested positive for COVID in Austria yesterday?"
+    sentence = "How many people were tested positive for COVID in Austria this week?"
     spacy = get_spacy()
     doc = spacy(sentence)
     querier = Querier()
