@@ -146,6 +146,51 @@ def test_check_new_vaccinations_yesterday_in_austria(querier, session):
     assert qr.result == 500
 
 
+def test_check_new_vaccinations_today_in_austria(querier, session):
+    msg: Message = get_vaccinations_message()
+
+    add_austria_vaccinations(session)
+
+    qr: QueryResult = querier.query_intent(msg)
+
+    assert qr.result_code == QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE
+
+
+def test_check_maximum_vaccinations_this_week_in_austria(querier, session):
+    msg: Message = get_vaccinations_message(calculation_type=CalculationType.MAXIMUM,
+                                            slot_date=Date("WEEK", current_day, "this week"))
+
+    add_austria_vaccinations(session)
+
+    qr: QueryResult = querier.query_intent(msg)
+
+    assert qr.result_code == QueryResultCode.SUCCESS
+    assert qr.result == 3600
+
+
+def test_check_minimum_cases_this_year_in_austria(querier, session):
+    msg: Message = get_cases_message(calculation_type=CalculationType.MINIMUM,
+                                     slot_date=Date("YEAR", current_day, "this year"))
+
+    add_austria_cases(session)
+
+    qr: QueryResult = querier.query_intent(msg)
+
+    assert qr.result_code == QueryResultCode.SUCCESS
+    assert qr.result == 4560
+
+
+def test_check_sum_cases_next_week_in_austria(querier, session):
+    msg: Message = get_cases_message(calculation_type=CalculationType.SUM,
+                                     slot_date=Date("WEEK", current_day + timedelta(weeks=1), "next week"))
+
+    add_austria_cases(session)
+
+    qr: QueryResult = querier.query_intent(msg)
+
+    assert qr.result_code == QueryResultCode.FUTURE_DATA_REQUESTED
+
+
 def test_check_new_vaccinated_people_yesterday_in_austria(querier, session):
     msg: Message = get_vaccinations_message(value_domain=ValueDomain.VACCINATED_PEOPLE,
                                             slot_date=Date("DAY", current_day - timedelta(days=1), "yesterday"))
