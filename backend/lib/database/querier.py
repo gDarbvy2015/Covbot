@@ -47,11 +47,12 @@ class QueryResult:
 
 
 class Querier:
-    def __init__(self, db_name="covbot", engine=None, session=None):
+    def __init__(self, db_name="covbot", engine=None, session=None, today=datetime.now().date()):
         self.engine: Engine = DatabaseConnection().create_engine(db_name) if engine is None else engine
         self.session: Session = Session(self.engine, future=True) if session is None else session
         self.case_query: Query = self.session.query(Case)
         self.vaccination_query: Query = self.session.query(Vaccination)
+        self.today = today
 
     def query_intent(self, msg: Message) -> QueryResult:
         validation_result: Optional[QueryResult] = self._validate_msg(msg)
@@ -104,11 +105,13 @@ class Querier:
 
         if msg.intent.calculation_type == CalculationType.RAW_VALUE:
             if len(result) > 1:
+                print(result)
                 return QueryResult(msg, QueryResultCode.UNEXPECTED_RESULT, None, None)
             else:
                 return QueryResult(msg, QueryResultCode.SUCCESS, result[0][0], None)
         elif msg.intent.calculation_type == CalculationType.SUM:
             if len(result) > 1:
+                print(result)
                 return QueryResult(msg, QueryResultCode.UNEXPECTED_RESULT, None, None)
             else:
                 return QueryResult(msg, QueryResultCode.SUCCESS, result[0][0], None)
@@ -127,7 +130,7 @@ class Querier:
         if msg.intent.value_type == ValueType.DAY:
             return []
         if msg.slots.date is None:
-            return [table.date == datetime.now().date()]
+            return [table.date == self.today]
 
         date_type: str = msg.slots.date.type
         date_value: datetime.date = msg.slots.date.value
@@ -163,7 +166,7 @@ class Querier:
             return QueryResult(msg, QueryResultCode.UNKNOWN_VALUE_TYPE, None, None)
         if msg.intent.value_type != ValueType.LOCATION and msg.slots.location is None:
             return QueryResult(msg, QueryResultCode.NO_WORLDWIDE_SUPPORTED, None, None)
-        if msg.slots.date and msg.slots.date.value > datetime.now().date():
+        if msg.slots.date and msg.slots.date.value > self.today:
             return QueryResult(msg, QueryResultCode.FUTURE_DATA_REQUESTED, None, None)
 
         return None
