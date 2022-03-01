@@ -34,7 +34,7 @@ class QueryResultCode(Enum):
     UNEXPECTED_RESULT = 9
     FUTURE_DATA_REQUESTED = 10
     NOT_EXISTING_LOCATION = 11
-    NO_DATA_AVAILABLE = 12
+    NO_DATA_AVAILABLE_FOR_DATE = 12
 
 
 @dataclass
@@ -85,6 +85,9 @@ class Querier:
 
         if len(self.session.query(table).where(and_(*country_condition)).all()) == 0:
             return QueryResult(msg, QueryResultCode.NOT_EXISTING_LOCATION, None, None)
+
+        if len(self.session.query(table).where(and_(*country_condition, *time_condition)).all()) == 0:
+            return QueryResult(msg, QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE, None, None)
 
         if msg.intent.calculation_type == CalculationType.RAW_VALUE:
             query = self.session.query(table).with_entities(considered_column)
