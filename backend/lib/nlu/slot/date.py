@@ -1,8 +1,9 @@
+from __future__ import annotations
+import re
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from dataclasses import dataclass
 from typing import Optional, List
-import re
 
 import requests
 from dateutil.parser import parse
@@ -15,6 +16,32 @@ class Date:
     type: str
     value: datetime.date
     text: Optional[str]
+
+    @staticmethod
+    def generate_date_message(date: Date, today: datetime.date = datetime.now().date()) -> str:
+        def suffix(d):
+            return 'th' if 11 <= d <= 13 else {1: 'st', 2: 'nd', 3: 'rd'}.get(d % 10, 'th')
+
+        def custom_strftime(format, t):
+            return t.strftime(format).replace('{S}', str(t.day) + suffix(t.day))
+
+        if date.type == "DAY":
+            difference: timedelta = today - date.value
+            if difference >= timedelta(days=0):
+                if difference == timedelta(days=0):
+                    return "today"
+                if difference == timedelta(days=1):
+                    return "yesterday"
+                elif difference <= timedelta(days=5):
+                    return f"{difference.days} days ago"
+                else:
+                    return custom_strftime("on %B {S}, %Y", date.value)
+            else:
+                if difference == timedelta(days=-1):
+                    return "tomorrow"
+                else:
+                    return custom_strftime("on %B {S}, %Y", date.value)
+
 
 
 class DateRecognizer:

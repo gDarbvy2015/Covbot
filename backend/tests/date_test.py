@@ -1,5 +1,6 @@
+from datetime import datetime, timedelta
 import json
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 from spacy import Language
 from spacy.tokens import Doc
@@ -14,6 +15,16 @@ with open(pathlib.Path(__file__).parent / "annotated_queries.json") as query_fil
 
 spacy: Language = get_spacy()
 date_recognizer: DateRecognizer = DateRecognizer()
+today: datetime.date = datetime(2022, 3, 2).date()
+
+date_tuples = [
+    (Date("DAY", today, None), "today"),
+    (Date("DAY", today - timedelta(days=1), None), "yesterday"),
+    (Date("DAY", today + timedelta(days=1), None), "tomorrow"),
+    (Date("DAY", today + timedelta(days=2), None), "on March 4th, 2022"),
+    (Date("DAY", today - timedelta(days=3), None), "3 days ago"),
+    (Date("DAY", today - timedelta(days=8), None), "on February 22nd, 2022"),
+]
 
 
 @pytest.mark.parametrize("query", queries)
@@ -26,3 +37,8 @@ def test_dates(query):
         assert query["slots"]["timeframe"]["type"] == predicted_date.type
         assert query["slots"]["timeframe"]["text"] == predicted_date.text
         assert predicted_date.value is not None
+
+
+@pytest.mark.parametrize("date_tuple", date_tuples)
+def test_date_to_string(date_tuple: Tuple):
+    assert Date.generate_date_message(date_tuple[0]) == date_tuple[1]
