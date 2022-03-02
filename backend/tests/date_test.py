@@ -21,9 +21,22 @@ date_tuples = [
     (Date("DAY", today, None), "today"),
     (Date("DAY", today - timedelta(days=1), None), "yesterday"),
     (Date("DAY", today + timedelta(days=1), None), "tomorrow"),
-    (Date("DAY", today + timedelta(days=2), None), "on March 4th, 2022"),
+    (Date("DAY", today + timedelta(days=2), None), "on March 4th 2022"),
     (Date("DAY", today - timedelta(days=3), None), "3 days ago"),
-    (Date("DAY", today - timedelta(days=8), None), "on February 22nd, 2022"),
+    (Date("DAY", today - timedelta(days=8), None), "on February 22nd 2022"),
+    (Date("WEEK", today - timedelta(days=2), None), "this week"),
+    (Date("WEEK", today - timedelta(days=3), None), "last week"),
+    (Date("WEEK", today + timedelta(days=5), None), "next week"),
+    (Date("WEEK", today - timedelta(days=17), None),
+     "in the week from the 7th of February 2022 to the 13th of February 2022"),
+    (Date("MONTH", datetime(2022, 3, 1).date(), None), "this month"),
+    (Date("MONTH", datetime(2022, 4, 1).date(), None), "next month"),
+    (Date("MONTH", datetime(2022, 2, 20).date(), None), "last month"),
+    (Date("MONTH", datetime(2021, 4, 3).date(), None), "in April 2021"),
+    (Date("YEAR", datetime(2021, 4, 3).date(), None), "last year"),
+    (Date("YEAR", datetime(2022, 1, 1).date(), None), "this year"),
+    (Date("YEAR", datetime(2023, 2, 8).date(), None), "next year"),
+    (Date("YEAR", datetime(2020, 2, 8).date(), None), "in 2020"),
 ]
 
 
@@ -41,4 +54,4 @@ def test_dates(query):
 
 @pytest.mark.parametrize("date_tuple", date_tuples)
 def test_date_to_string(date_tuple: Tuple):
-    assert Date.generate_date_message(date_tuple[0]) == date_tuple[1]
+    assert Date.generate_date_message(date_tuple[0], today=today) == date_tuple[1]

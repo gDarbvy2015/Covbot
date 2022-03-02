@@ -35,12 +35,54 @@ class Date:
                 elif difference <= timedelta(days=5):
                     return f"{difference.days} days ago"
                 else:
-                    return custom_strftime("on %B {S}, %Y", date.value)
+                    return custom_strftime("on %B {S} %Y", date.value)
             else:
                 if difference == timedelta(days=-1):
                     return "tomorrow"
                 else:
-                    return custom_strftime("on %B {S}, %Y", date.value)
+                    return custom_strftime("on %B {S} %Y", date.value)
+        elif date.type == "WEEK":
+            today_iso = today.isocalendar()
+            date_iso = date.value.isocalendar()
+            date_start = date.value - timedelta(days=date.value.weekday())
+            date_end = date_start + timedelta(days=6)
+
+            if today_iso[0] == date_iso[0]:
+                if today_iso[1] == date_iso[1]:
+                    return "this week"
+                elif today_iso[1] - date_iso[1] == 1:
+                    return "last week"
+                elif date_iso[1] - today_iso[1] == 1:
+                    return "next week"
+                else:
+                    return f"in the week from the {custom_strftime('{S} of %B %Y', date_start)} to the " \
+                           f"{custom_strftime('{S} of %B %Y', date_end)}"
+            else:
+                return f"in the week from the {custom_strftime('{S} of %B %Y', date_start)} to the " \
+                       f"{custom_strftime('{S} of %B %Y', date_end)}"
+        elif date.type == "MONTH":
+            if today.year == date.value.year:
+                if today.month == date.value.month:
+                    return "this month"
+                elif today.month == date.value.month - 1:
+                    return "next month"
+                elif today.month == date.value.month + 1:
+                    return "last month"
+                else:
+                    return f"in {custom_strftime('%B %Y', date.value)}"
+            else:
+                return f"in {custom_strftime('%B %Y', date.value)}"
+        elif date.type == "YEAR":
+            if today.year == date.value.year:
+                return "this year"
+            elif today.year == date.value.year + 1:
+                return "last year"
+            elif today.year == date.value.year - 1:
+                return "next year"
+            else:
+                return f"in {date.value.year}"
+        else:
+            raise NotImplementedError()
 
 
 
