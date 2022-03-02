@@ -1,11 +1,11 @@
 from pandas import DataFrame
 from sqlalchemy.engine import Engine, Connection
 from sqlalchemy.exc import DatabaseError
-from lib.util.logger import Logger
 
-from lib.database.dataset_handler import DatasetHandler
 from lib.database.database_connection import DatabaseConnection
+from lib.database.dataset_handler import DatasetHandler
 from lib.database.entities import create_tables, Vaccination, Case, drop_tables
+from lib.util.logger import Logger
 
 
 class DatabaseManager:

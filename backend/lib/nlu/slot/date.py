@@ -1,13 +1,13 @@
 from __future__ import annotations
-import re
+
 import json
-from datetime import datetime, timedelta
+import re
 from dataclasses import dataclass
+from datetime import datetime, timedelta
 from typing import Optional, List
 
 import requests
 from dateutil.parser import parse
-from requests import Response
 from spacy.tokens import Span
 
 

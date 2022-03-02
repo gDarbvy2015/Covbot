@@ -1,9 +1,9 @@
+import os
 from datetime import datetime, timedelta
 from typing import List
 
-from pandas import DataFrame
 import pandas as pd
-import os
+from pandas import DataFrame
 
 from lib.nlp.nlp_processor import NLPProcessor
 from lib.util.logger import Logger

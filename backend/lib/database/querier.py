@@ -1,19 +1,17 @@
-from datetime import datetime, timedelta, date
-from dataclasses import dataclass
-from typing import Union, Optional, List, Type
-from sqlalchemy.orm.attributes import InstrumentedAttribute
-
-from sqlalchemy.engine import Engine
-from sqlalchemy.sql import func, functions
-
 import calendar
-
-from lib.database.database_connection import DatabaseConnection
-from sqlalchemy.orm import Session, Query
+from dataclasses import dataclass
+from datetime import datetime, timedelta, date
 from enum import Enum
+from typing import Union, Optional, List
+
 from sqlalchemy import and_
 from sqlalchemy import desc, asc
+from sqlalchemy.engine import Engine
+from sqlalchemy.orm import Session, Query
+from sqlalchemy.orm.attributes import InstrumentedAttribute
+from sqlalchemy.sql import functions
 
+from lib.database.database_connection import DatabaseConnection
 from lib.database.entities import Case, Vaccination
 from lib.nlu.intent.calculation_type import CalculationType
 from lib.nlu.intent.measurement_type import MeasurementType

@@ -1,8 +1,8 @@
 from __future__ import annotations
-import pandas
+
 from sqlalchemy import Column, Integer, String, Date, BigInteger
-from sqlalchemy.orm import declarative_base
 from sqlalchemy.engine.base import Engine
+from sqlalchemy.orm import declarative_base
 
 # declarative base class
 Base = declarative_base()

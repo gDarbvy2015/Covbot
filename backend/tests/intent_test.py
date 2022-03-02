@@ -1,5 +1,6 @@
-import pathlib
 import json
+import pathlib
+
 import pytest
 
 from lib.nlu.intent import IntentRecognizer, ValueDomain, CalculationType, MeasurementType, ValueType

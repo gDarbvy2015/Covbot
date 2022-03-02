@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 from nltk import PorterStemmer
 from spacy import Vocab
+from spacy.matcher import DependencyMatcher
 from spacy.tokens.span import Span
 
 from lib.nlu.intent.calculation_type import CalculationType
@@ -11,11 +12,8 @@ from lib.nlu.intent.measurement_type import MeasurementType
 from lib.nlu.intent.value_domain import ValueDomain
 from lib.nlu.intent.value_type import ValueType
 from lib.nlu.patterns import Pattern
-
 from lib.nlu.slot.date import DateRecognizer, Date
 from lib.nlu.topic.topic import TopicRecognizer, Topic
-from spacy.matcher import DependencyMatcher
-
 from lib.spacy_components.custom_spacy import get_spacy
 
 

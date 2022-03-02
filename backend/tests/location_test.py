@@ -1,5 +1,6 @@
-import pathlib
 import json
+import pathlib
+
 import pytest
 from spacy.tokens import Doc
 

@@ -1,14 +1,14 @@
-from datetime import datetime, timedelta
 import json
+import pathlib
+from datetime import datetime, timedelta
 from typing import List, Optional, Tuple
 
+import pytest
 from spacy import Language
 from spacy.tokens import Doc
 
 from lib.nlu.slot.date import DateRecognizer, Date
 from lib.spacy_components.custom_spacy import get_spacy
-import pathlib
-import pytest
 
 with open(pathlib.Path(__file__).parent / "annotated_queries.json") as query_file:
     queries: List[dict] = json.load(query_file)

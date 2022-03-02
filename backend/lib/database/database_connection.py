@@ -1,6 +1,7 @@
 import os
-from sqlalchemy.engine.base import Engine
+
 from sqlalchemy import create_engine
+from sqlalchemy.engine.base import Engine
 
 
 class DatabaseConnection:

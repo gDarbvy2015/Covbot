@@ -1,10 +1,12 @@
 
-from lib.util.logger import Logger
 import hashlib
-import requests
-from lib.database.database_manager import DatabaseManager
 import os
 import pathlib
+
+import requests
+
+from lib.database.database_manager import DatabaseManager
+from lib.util.logger import Logger
 
 
 class DatasetUpdater:

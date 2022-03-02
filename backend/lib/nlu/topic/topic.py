@@ -1,9 +1,10 @@
 from __future__ import annotations
+
 from enum import Enum
 from typing import Optional, List
 
-from spacy.tokens import Token, Span
 from nltk import PorterStemmer
+from spacy.tokens import Token, Span
 
 
 class Topic(Enum):

@@ -1,6 +1,6 @@
 from typing import Optional
 
-from spacy.tokens import Doc, Span
+from spacy.tokens import Span
 
 from lib.nlp.nlp_processor import NLPProcessor
 

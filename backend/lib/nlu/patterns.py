@@ -2,7 +2,7 @@ from typing import List
 
 from nltk import PorterStemmer
 
-from lib.nlu.topic.topic import Topic, TopicRecognizer
+from lib.nlu.topic.topic import TopicRecognizer
 
 
 class Pattern:
