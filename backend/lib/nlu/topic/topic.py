@@ -64,7 +64,7 @@ class TopicRecognizer:
 
     def get_vaccine_trigger_words(self) -> set:
         return {self._stemmer.stem(word) for word in ["shot", "vaccine", "jab", "inoculation", "immunization",
-                                                     "administer"]}
+                                                      "administer"]}
 
     def get_cases_trigger_words(self) -> set:
         return {self._stemmer.stem(word) for word in ["case", "infection", "test", "positive", "negative"]}

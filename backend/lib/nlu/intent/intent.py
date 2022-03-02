@@ -90,7 +90,8 @@ class IntentRecognizer:
                 if calculation_type in [CalculationType.SUM]:
                     return MeasurementType.DAILY
                 else:
-                    if value_type in [ValueType.NUMBER, ValueType.DAY] and calculation_type not in [CalculationType.RAW_VALUE]:
+                    if value_type in [ValueType.NUMBER, ValueType.DAY] and calculation_type not in [
+                        CalculationType.RAW_VALUE]:
                         return MeasurementType.DAILY
                     else:
                         return MeasurementType.CUMULATIVE
@@ -107,7 +108,8 @@ class IntentRecognizer:
         if topic in [Topic.CASES, Topic.VACCINATIONS]:
             if self._has_valid_pattern(span, [Pattern.what_day_pattern, Pattern.when_pattern]):
                 return ValueType.DAY
-            elif self._has_valid_pattern(span, [Pattern.where_pattern, Pattern.what_country_pattern, Pattern.what_is_country_pattern]):
+            elif self._has_valid_pattern(span, [Pattern.where_pattern, Pattern.what_country_pattern,
+                                                Pattern.what_is_country_pattern]):
                 return ValueType.LOCATION
             elif self._has_valid_pattern(span, [Pattern.how_many_pattern]):
                 return ValueType.NUMBER

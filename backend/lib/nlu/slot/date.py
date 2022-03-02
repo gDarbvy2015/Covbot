@@ -85,7 +85,6 @@ class Date:
             raise NotImplementedError()
 
 
-
 class DateRecognizer:
     def recognize_date(self, span: Span) -> Optional[Date]:
         result: List[dict] = self._send_request(str(span))
@@ -116,14 +115,14 @@ class DateRecognizer:
         }
 
         res: dict = requests.post(f'http://localhost:9000/?properties={json.dumps(properties)}',
-                            data={
-                                'data': sentence}).json()
+                                  data={
+                                      'data': sentence}).json()
 
         dates = list()
         for sentence in res["sentences"]:
             if "entitymentions" in sentence:
                 for entity in sentence["entitymentions"]:
-                    if entity["ner"] in["DATE", "TIME"]:
+                    if entity["ner"] in ["DATE", "TIME"]:
                         dates.append({
                             "text": entity["text"],
                             "type": "DATE",

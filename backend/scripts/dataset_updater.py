@@ -1,4 +1,3 @@
-
 import hashlib
 import os
 import pathlib
@@ -17,6 +16,7 @@ class DatasetUpdater:
     If it already exists, it will check whether the file is up-to-date, and if not it will update redownload the
     files accordingly.
     """
+
     def __init__(self):
         self.db_manager = DatabaseManager()
 
@@ -66,7 +66,8 @@ class DatasetUpdater:
     def _download_file(self, tracked_file: dict):
         self.logger.info(f"Downloading the {tracked_file['name']} data file...")
         response = requests.get(tracked_file["url"])
-        self.logger.info(f"Download of {tracked_file['name']} data file was successful! Saving the file and updating...")
+        self.logger.info(
+            f"Download of {tracked_file['name']} data file was successful! Saving the file and updating...")
 
         with open(tracked_file["local_path"], 'wb+') as file:
             file.write(response.content)

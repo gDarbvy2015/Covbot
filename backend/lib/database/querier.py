@@ -80,7 +80,8 @@ class Querier:
             return validation_result
 
         table: Union[Case, Vaccination] = self.table_dict[msg.topic]
-        considered_column: InstrumentedAttribute = self.column_dict[msg.intent.measurement_type][msg.intent.value_domain]
+        considered_column: InstrumentedAttribute = self.column_dict[msg.intent.measurement_type][
+            msg.intent.value_domain]
 
         if msg.intent.value_type == ValueType.NUMBER:
             return self._query_number(table, considered_column, msg)
@@ -101,7 +102,8 @@ class Querier:
         if msg.intent.calculation_type in [CalculationType.MAXIMUM, CalculationType.MINIMUM]:
             sort_order = asc if msg.intent.calculation_type == CalculationType.MINIMUM else desc
             if msg.slots.date is None or msg.slots.date.type == "DAY":
-                query = self.session.query(table).where(and_(*time_condition)).order_by(sort_order(considered_column)).limit(1)
+                query = self.session.query(table).where(and_(*time_condition)).order_by(
+                    sort_order(considered_column)).limit(1)
                 result = query.all()
                 if len(result) == 0:
                     return QueryResult(msg, QueryResultCode.UNEXPECTED_RESULT, None, None)
@@ -113,7 +115,7 @@ class Querier:
             raise NotImplementedError()
 
     def _query_date(self, table: Union[Case, Vaccination], considered_column: InstrumentedAttribute,
-                        msg: Message) -> QueryResult:
+                    msg: Message) -> QueryResult:
         country_condition: List[bool] = self._get_country_from_condition(table, msg)
 
         if len(self.session.query(table).where(and_(*country_condition)).all()) == 0:
@@ -121,7 +123,8 @@ class Querier:
 
         if msg.intent.calculation_type in [CalculationType.MAXIMUM, CalculationType.MINIMUM]:
             sort_order = asc if msg.intent.calculation_type == CalculationType.MINIMUM else desc
-            query = self.session.query(table).where(and_(*country_condition)).order_by(sort_order(considered_column)).limit(1)
+            query = self.session.query(table).where(and_(*country_condition)).order_by(
+                sort_order(considered_column)).limit(1)
             result = query.all()
             if len(result) == 0:
                 return QueryResult(msg, QueryResultCode.UNEXPECTED_RESULT, None, None)

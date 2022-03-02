@@ -309,7 +309,7 @@ message_builder = MessageBuilder()
 
 
 @pytest.mark.parametrize("query", queries)
-#@pytest.mark.skip(reason="check these queries in the end")
+# @pytest.mark.skip(reason="check these queries in the end")
 def test_all_annotated_queries(querier, query, session):
     sent: Span = list(spacy(query["query"]).sents)[0]
     msg = message_builder.create_message(sent)

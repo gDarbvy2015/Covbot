@@ -54,4 +54,3 @@ def drop_tables(engine: Engine, tables=None) -> None:
     if tables is None:
         tables = [Vaccination.__table__, Case.__table__]
     Base.metadata.drop_all(engine, tables)
-
