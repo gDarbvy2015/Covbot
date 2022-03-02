@@ -231,8 +231,7 @@ def test_check_new_cases_this_week_in_austria(querier, session):
 
 
 def test_check_new_cases_cumulative_in_austria(querier, session):
-    msg: Message = get_cases_message(measurement_type=MeasurementType.CUMULATIVE,
-                                     slot_date=None)
+    msg: Message = get_cases_message(measurement_type=MeasurementType.CUMULATIVE)
 
     add_austria_cases(session)
 

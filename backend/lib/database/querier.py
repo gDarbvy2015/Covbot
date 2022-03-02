@@ -136,8 +136,7 @@ class Querier:
     def _query_number(self, table: Union[Case, Vaccination], considered_column: InstrumentedAttribute,
                       msg: Message) -> QueryResult:
         # If no timeframe is given, we assume that the user is asking for today
-        time_condition: List[bool] = [table.date == self.today] \
-            if msg.slots.date is None else self._get_time_from_condition(table, msg)
+        time_condition: List[bool] = self._get_time_from_condition(table, msg)
         country_condition: List[bool] = self._get_country_from_condition(table, msg)
 
         if len(self.session.query(table).where(and_(*country_condition)).all()) == 0:
@@ -178,7 +177,6 @@ class Querier:
             return [table.country_normalized == msg.slots.location]
 
     def _get_time_from_condition(self, table: Union[Case, Vaccination], msg: Message) -> List[bool]:
-        # We assume the user is asking for today if no timeframe is specified
         if msg.intent.value_type == ValueType.DAY or msg.slots.date is None:
             return []
 
