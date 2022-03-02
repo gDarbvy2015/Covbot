@@ -119,7 +119,7 @@ class Querier:
         country_condition: List[bool] = self._get_country_from_condition(table, msg)
 
         if len(self.session.query(table).where(and_(*country_condition)).all()) == 0:
-            return QueryResult(msg, QueryResultCode.NOT_EXISTING_LOCATION, None, None)
+            return QueryResult(msg, QueryResultCode.NOT_EXISTING_LOCATION, None, {"location": msg.slots.location})
 
         if msg.intent.calculation_type in [CalculationType.MAXIMUM, CalculationType.MINIMUM]:
             sort_order = asc if msg.intent.calculation_type == CalculationType.MINIMUM else desc
@@ -140,7 +140,7 @@ class Querier:
         country_condition: List[bool] = self._get_country_from_condition(table, msg)
 
         if len(self.session.query(table).where(and_(*country_condition)).all()) == 0:
-            return QueryResult(msg, QueryResultCode.NOT_EXISTING_LOCATION, None, None)
+            return QueryResult(msg, QueryResultCode.NOT_EXISTING_LOCATION, None, {"location": msg.slots.location})
 
         if len(self.session.query(table).where(and_(*country_condition, *time_condition)).all()) == 0:
             return QueryResult(msg, QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE, None, None)
@@ -213,10 +213,10 @@ class Querier:
             return QueryResult(msg, QueryResultCode.UNKNOWN_CALCULATION_TYPE, None, None)
         if msg.intent.value_type == ValueType.UNKNOWN:
             return QueryResult(msg, QueryResultCode.UNKNOWN_VALUE_TYPE, None, None)
-        if msg.intent.value_type != ValueType.LOCATION and msg.slots.location is None:
-            return QueryResult(msg, QueryResultCode.NO_WORLDWIDE_SUPPORTED, None, None)
         if msg.slots.date and msg.slots.date.value > self.today:
             return QueryResult(msg, QueryResultCode.FUTURE_DATA_REQUESTED, None, None)
+        if msg.intent.value_type != ValueType.LOCATION and msg.slots.location is None:
+            return QueryResult(msg, QueryResultCode.NO_WORLDWIDE_SUPPORTED, None, None)
 
         return None
 
