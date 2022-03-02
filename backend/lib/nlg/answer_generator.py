@@ -90,6 +90,17 @@ class AnswerGenerator:
                         return f"The {'highest' if message.intent.calculation_type == CalculationType.MAXIMUM else 'lowest'} " \
                                f"number of people vaccinated recorded on a single day in {message.slots.location} has been " \
                                        f"{query_result.result}"
+        elif message.intent.value_domain == ValueDomain.ADMINISTERED_VACCINES:
+            if message.intent.value_type == ValueType.NUMBER:
+                if message.intent.calculation_type == CalculationType.RAW_VALUE:
+                    if message.intent.measurement_type == MeasurementType.DAILY:
+                        return f"There have been **{query_result.result}** vaccines administered " \
+                                       f"in {message.slots.location} {Date.generate_date_message(message.slots.date)}"
+                elif message.intent.calculation_type in [CalculationType.MAXIMUM, CalculationType.MINIMUM]:
+                    if message.intent.measurement_type == MeasurementType.DAILY:
+                        return f"The {'highest' if message.intent.calculation_type == CalculationType.MAXIMUM else 'lowest'} " \
+                               f"number of administered vaccines recorded on a single day in {message.slots.location} has been " \
+                                       f"{query_result.result}"
 
         raise NotImplementedError()
 

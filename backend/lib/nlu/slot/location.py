@@ -52,4 +52,4 @@ class LocationRecognizer:
 
             return None
         else:
-            return location_ents[0]
+            return self._nlp_processor.normalize_country_name(location_ents[0])

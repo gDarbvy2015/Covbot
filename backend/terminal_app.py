@@ -15,9 +15,10 @@ if __name__ == '__main__':
         #"How many new cases have been reported in Austria yesterday?",
         #"Tell me the number of COVID cases in Germany on 28.02.2022",
         #"number of COVID cases in Serbia on 28.02.2022",
-        "What is the peak number of confirmed cases in Germany",
-        "What is the lowest number of confirmed cases in Australia",
-        "What is the highest number of people vaccinated in Australia",
+        #"What is the peak number of confirmed cases in Germany",
+        #"What is the lowest number of confirmed cases in Australia",
+        #"What is the highest number of people vaccinated in Australia",
+        "How many new Covid cases are there in the UK today?"
     ]
 
     for sentence in sentences:
