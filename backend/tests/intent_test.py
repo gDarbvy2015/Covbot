@@ -18,25 +18,25 @@ def test_value_domain(query):
     if not query["id"] == 21:
         doc = spacy(query["query"])
         predicted_value_domain = intent_recognizer.recognize_value_domain(list(doc.sents)[0])
-        assert ValueDomain.from_str(query["intent"]["value_domain"]) == predicted_value_domain
+        assert predicted_value_domain == ValueDomain.from_str(query["intent"]["value_domain"])
 
 
 @pytest.mark.parametrize("query", queries)
 def test_calculation_type(query):
     doc = spacy(query["query"])
     predicted_calculation_type = intent_recognizer.recognize_calculation_type(list(doc.sents)[0])
-    assert CalculationType.from_str(query["intent"]["calculation_type"]) == predicted_calculation_type
+    assert predicted_calculation_type == CalculationType.from_str(query["intent"]["calculation_type"])
 
 
 @pytest.mark.parametrize("query", queries)
 def test_measurement_type(query):
     doc = spacy(query["query"])
     predicted_measurement_type = intent_recognizer.recognize_measurement_type(list(doc.sents)[0])
-    assert MeasurementType.from_str(query["intent"]["measurement_type"]) == predicted_measurement_type
+    assert predicted_measurement_type == MeasurementType.from_str(query["intent"]["measurement_type"])
 
 
 @pytest.mark.parametrize("query", queries)
 def test_value_type(query):
     doc = spacy(query["query"])
     predicted_value_type = intent_recognizer.recognize_value_type(list(doc.sents)[0])
-    assert ValueType.from_str(query["intent"]["value_type"]) == predicted_value_type
+    assert predicted_value_type == ValueType.from_str(query["intent"]["value_type"])

@@ -48,7 +48,7 @@ class LocationRecognizer:
                 normalized_token: str = self._nlp_processor.normalize_country_name(token.text)
 
                 if normalized_token in _locations:
-                    return token.text
+                    return normalized_token
 
             return None
         else:

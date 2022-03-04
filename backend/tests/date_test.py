@@ -47,8 +47,8 @@ def test_dates(query):
     if predicted_date is None:
         assert query["slots"]["timeframe"] is None
     else:
-        assert query["slots"]["timeframe"]["type"] == predicted_date.type
-        assert query["slots"]["timeframe"]["text"] == predicted_date.text
+        assert predicted_date.type == query["slots"]["timeframe"]["type"]
+        assert predicted_date.text == query["slots"]["timeframe"]["text"]
         assert predicted_date.value is not None
 
 

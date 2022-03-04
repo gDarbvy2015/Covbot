@@ -20,4 +20,4 @@ topic_recognizer: TopicRecognizer = TopicRecognizer()
 def test_topics(query):
     doc: Doc = spacy(query["query"])
     predicted_topic: Topic = topic_recognizer.recognize_topic(list(doc.sents)[0])
-    assert Topic.from_str(query["topic"]) == predicted_topic
+    assert predicted_topic == Topic.from_str(query["topic"])
