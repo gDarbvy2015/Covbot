@@ -26,7 +26,7 @@ class AnswerGenerator:
                                           QueryResultCode.FUTURE_DATA_REQUESTED, QueryResultCode.NO_WORLDWIDE_SUPPORTED]:
             return random.choice(self.answers[query_result.result_code.name])
         elif query_result.result_code == QueryResultCode.NOT_EXISTING_LOCATION:
-            return random.choice(self.answers[query_result.result_code.name]).format(location=query_result.message.slots)
+            return random.choice(self.answers[query_result.result_code.name]).format(location=query_result.message.slots.location)
         elif query_result.result_code == QueryResultCode.SUCCESS:
             return self._generate_success_answer(query_result)
         else:
@@ -55,14 +55,16 @@ class AnswerGenerator:
     def _get_sub_fields_from_slots_for_success_message(self, query_result: QueryResult) -> dict:
         slots: Slots = query_result.message.slots
         result = query_result.result
+        value_dict = dict()
 
-        value_dict = {"result":  str(result)}
+        if result is not None:
+            value_dict["result"] = str(result)
 
         if slots.location:
             value_dict["location"] = slots.location
 
         if slots.date:
-            value_dict["date"] = slots.date
+            value_dict["date"] = Date.generate_date_message(slots.date)
 
         return value_dict
 

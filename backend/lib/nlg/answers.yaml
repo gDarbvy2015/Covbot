@@ -18,10 +18,9 @@ FUTURE_DATA_REQUESTED:
   - "Maybe you should try asking this a clairvoyant."
   - "Nice try, but I can't give you data on the future. ;)"
 NO_WORLDWIDE_SUPPORTED:
-  - "You need to specify the country you are want the data on."
-  - "Sorry, at the moment I can't calculate statistics for the whole world and continents,
+  - "Sorry, at the moment I can't calculate statistics for the whole world and specific continents,
       only specific countries."
-  - "Please specify the country you want to ask about."
+  - "Please specify the country you want to ask about, I currently don't have data on the whole world and specific continents."
 NOT_EXISTING_LOCATION:
   - "I don't have any data on {location}, try a different location. Keep in mind that
       I only have data on countries."
@@ -64,63 +63,63 @@ SUCCESS:
     NUMBER:
       RAW_VALUE:
         DAILY:
-          - "{result} people have been vaccinated< in {location}>< {date}>."
+          - "{result} people have been vaccinated against COVID< in {location}>< {date}>."
       SUM:
         DAILY:
-          - "{result} people have been vaccinated< in {location}>< {date}>."
+          - "{result} people have been vaccinated against COVID< in {location}>< {date}>."
       MAXIMUM:
         DAILY:
-          - "The highest number of daily vaccinated people< in {location}>< {date}> has been {result}."
+          - "The highest number of daily vaccinated people against COVID< in {location}>< {date}> has been {result}."
       MINIMUM:
         DAILY:
-          - "The lowest number of daily vaccinated people< in {location}>< {date}> has been {result}."
+          - "The lowest number of daily vaccinated people against COVID< in {location}>< {date}> has been {result}."
     LOCATION:
       MAXIMUM:
         DAILY:
-          - "The country with the highest number of daily vaccinated people< {date}> is {result}."
+          - "The country with the highest number of daily vaccinated people against COVID< {date}> is {result}."
         CUMULATIVE:
-          - "The country with the highest number of vaccinated people< {date}> is {result}."
+          - "The country with the highest number of vaccinated people against COVID< {date}> is {result}."
       MINIMUM:
         DAILY:
-          - "The country with the lowest number of daily vaccinated people< {date}> is {result}."
+          - "The country with the lowest number of daily vaccinated people against COVID< {date}> is {result}."
         CUMULATIVE:
-          - "The country with the lowest number of vaccinated people< {date}> is {result}."
+          - "The country with the lowest number of vaccinated people against COVID< {date}> is {result}."
     DAY:
       MAXIMUM:
         DAILY:
-          - "The highest number of daily vaccinated people< in {location}> was recorded {result}."
+          - "The highest number of daily vaccinated people against COVID< in {location}> was recorded {result}."
       MINIMUM:
         DAILY:
-          - "The lowest number of daily vaccinated people< in {location}> was recorded {result}."
+          - "The lowest number of daily vaccinated people against COVID< in {location}> was recorded {result}."
   ADMINISTERED_VACCINES:
     NUMBER:
       RAW_VALUE:
         DAILY:
-          - "{result} vaccines have been administered< in {location}>< {date}> ."
+          - "{result} COVID vaccines have been administered< in {location}>< {date}>."
       SUM:
         DAILY:
-          - "{result} vaccines have been administered< in {location}>< {date}> ."
+          - "{result} COVID vaccines have been administered< in {location}>< {date}>."
       MAXIMUM:
         DAILY:
-          - "The highest number of administered vaccines< in {location}>< {date}> has been {result}."
+          - "The highest number of administered COVID vaccines< in {location}>< {date}> has been {result}."
       MINIMUM:
         DAILY:
-          - "The lowest number of administered vaccines< in {location}>< {date}> has been {result}."
+          - "The lowest number of administered COVID vaccines< in {location}>< {date}> has been {result}."
     LOCATION:
       MAXIMUM:
         DAILY:
-          - "The country with the highest number of daily performed vaccinations< {date}> is {result}."
+          - "The country with the highest number of daily performed vaccinations against COVID< {date}> is {result}."
         CUMULATIVE:
-          - "The country with the highest number of performed vaccinations< {date}> is {result}."
+          - "The country with the highest number of performed vaccinations against COVID< {date}> is {result}."
       MINIMUM:
         DAILY:
-          - "The country with the lowest number of daily performed vaccinations< {date}> is {result}."
+          - "The country with the lowest number of daily performed vaccinations against COVID< {date}> is {result}."
         CUMULATIVE:
-          - "The country with the lowest number of performed vaccinations< {date}> is {result}."
+          - "The country with the lowest number of performed vaccinations against COVID< {date}> is {result}."
     DAY:
       MAXIMUM:
         DAILY:
-          - "The highest number of daily performed vaccinations< in {location}> was recorded {result}."
+          - "The highest number of daily performed vaccinations against COVID< in {location}> was recorded {result}."
       MINIMUM:
         DAILY:
-          - "The lowest number of daily performed vaccinations< in {location}> was recorded {result}."
+          - "The lowest number of daily performed vaccinations against COVID< in {location}> was recorded {result}."
