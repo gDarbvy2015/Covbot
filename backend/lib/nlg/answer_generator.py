@@ -6,6 +6,7 @@ from typing import Tuple
 import yaml
 
 from lib.database.querier import QueryResultCode, QueryResult
+from lib.nlu.intent import Intent
 from lib.nlu.message import Message
 from lib.nlu.slot import Slots
 from lib.nlu.slot.date import Date
@@ -22,7 +23,7 @@ class AnswerGenerator:
                                         QueryResultCode.UNKNOWN_CALCULATION_TYPE, QueryResultCode.UNKNOWN_MEASUREMENT_TYPE]:
             return random.choice(self.answers[QueryResultCode.UNKNOWN_TOPIC.name])
         elif query_result.result_code in [QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE, QueryResultCode.UNEXPECTED_RESULT,
-                                          QueryResultCode.FUTURE_DATA_REQUESTED]:
+                                          QueryResultCode.FUTURE_DATA_REQUESTED, QueryResultCode.NO_WORLDWIDE_SUPPORTED]:
             return random.choice(self.answers[query_result.result_code.name])
         elif query_result.result_code == QueryResultCode.NOT_EXISTING_LOCATION:
             return random.choice(self.answers[query_result.result_code.name]).format(location=query_result.message.slots)
@@ -54,16 +55,16 @@ class AnswerGenerator:
     def _get_sub_fields_from_slots_for_success_message(self, query_result: QueryResult) -> dict:
         slots: Slots = query_result.message.slots
         result = query_result.result
-        if slots.location is None:
-            if slots.date is None:
-                return {"result": result}
-            else:
-                return {"result": result, "date": Date.generate_date_message(slots.date)}
-        else:
-            if slots.date is None:
-                return {"result": result, "location": slots.location}
-            else:
-                return {"result": result, "date": Date.generate_date_message(slots.date), "location": slots.location}
+
+        value_dict = {"result":  str(result)}
+
+        if slots.location:
+            value_dict["location"] = slots.location
+
+        if slots.date:
+            value_dict["date"] = slots.date
+
+        return value_dict
 
 if __name__ == '__main__':
     with open(pathlib.Path(__file__).parent / "answers.yaml") as answers_file:

@@ -32,27 +32,72 @@ SUCCESS:
     NUMBER:
       RAW_VALUE:
         DAILY:
-          - "There have been {result} new cases< in {location}>< {date}>."
+          - "There have been {result} new positive cases< in {location}>< {date}>."
+      SUM:
+        DAILY:
+          - "There have been {result} new positive cases< in {location}>< {date}>."
       MAXIMUM:
         DAILY:
-          - "The highest number of positive cases< in {location}>< {date}> has been {result}."
+          - "The highest number of new positive cases< in {location}>< {date}> has been {result}."
       MINIMUM:
         DAILY:
-          - "The lowest number of positive cases< in {location}>< {date}> has been {result}."
+          - "The lowest number of new positive cases< in {location}>< {date}> has been {result}."
+    LOCATION:
+      MAXIMUM:
+        DAILY:
+          - "The country with the highest number of positive cases< {date}> is {result}."
+        CUMULATIVE:
+          - "The country with the highest number of positive cases< {date}> is {result}."
+      MINIMUM:
+        DAILY:
+          - "The country with the lowest number of positive cases< {date}> is {result}."
+        CUMULATIVE:
+          - "The country with the lowest number of positive cases< {date}> is {result}."
+    DAY:
+      MAXIMUM:
+        DAILY:
+          - "The highest number of daily positive cases< in {location}> was recorded {result}."
+      MINIMUM:
+        DAILY:
+          - "The lowest number of daily positive cases< in {location}> was recorded {result}."
   VACCINATED_PEOPLE:
     NUMBER:
       RAW_VALUE:
         DAILY:
           - "{result} people have been vaccinated< in {location}>< {date}>."
+      SUM:
+        DAILY:
+          - "{result} people have been vaccinated< in {location}>< {date}>."
       MAXIMUM:
         DAILY:
-          - "The highest number of vaccinated people< in {location}>< {date}> has been {result}."
+          - "The highest number of daily vaccinated people< in {location}>< {date}> has been {result}."
       MINIMUM:
         DAILY:
-          - "The lowest number of vaccinated people< in {location}>< {date}> has been {result}."
+          - "The lowest number of daily vaccinated people< in {location}>< {date}> has been {result}."
+    LOCATION:
+      MAXIMUM:
+        DAILY:
+          - "The country with the highest number of daily vaccinated people< {date}> is {result}."
+        CUMULATIVE:
+          - "The country with the highest number of vaccinated people< {date}> is {result}."
+      MINIMUM:
+        DAILY:
+          - "The country with the lowest number of daily vaccinated people< {date}> is {result}."
+        CUMULATIVE:
+          - "The country with the lowest number of vaccinated people< {date}> is {result}."
+    DAY:
+      MAXIMUM:
+        DAILY:
+          - "The highest number of daily vaccinated people< in {location}> was recorded {result}."
+      MINIMUM:
+        DAILY:
+          - "The lowest number of daily vaccinated people< in {location}> was recorded {result}."
   ADMINISTERED_VACCINES:
     NUMBER:
       RAW_VALUE:
+        DAILY:
+          - "{result} vaccines have been administered< in {location}>< {date}> ."
+      SUM:
         DAILY:
           - "{result} vaccines have been administered< in {location}>< {date}> ."
       MAXIMUM:
@@ -61,3 +106,21 @@ SUCCESS:
       MINIMUM:
         DAILY:
           - "The lowest number of administered vaccines< in {location}>< {date}> has been {result}."
+    LOCATION:
+      MAXIMUM:
+        DAILY:
+          - "The country with the highest number of daily performed vaccinations< {date}> is {result}."
+        CUMULATIVE:
+          - "The country with the highest number of performed vaccinations< {date}> is {result}."
+      MINIMUM:
+        DAILY:
+          - "The country with the lowest number of daily performed vaccinations< {date}> is {result}."
+        CUMULATIVE:
+          - "The country with the lowest number of performed vaccinations< {date}> is {result}."
+    DAY:
+      MAXIMUM:
+        DAILY:
+          - "The highest number of daily performed vaccinations< in {location}> was recorded {result}."
+      MINIMUM:
+        DAILY:
+          - "The lowest number of daily performed vaccinations< in {location}> was recorded {result}."
