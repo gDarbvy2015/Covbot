@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import calendar
 from dataclasses import dataclass
 from datetime import datetime, timedelta, date
@@ -35,6 +37,14 @@ class QueryResultCode(Enum):
     FUTURE_DATA_REQUESTED = 10
     NOT_EXISTING_LOCATION = 11
     NO_DATA_AVAILABLE_FOR_DATE = 12
+    UNKNOWN = 13
+
+    @staticmethod
+    def from_str(query_result_code: str) -> Optional[QueryResultCode]:
+        try:
+            return QueryResultCode[query_result_code.upper()]
+        except KeyError:
+            return QueryResultCode["UNKNOWN"]
 
 
 @dataclass
