@@ -1,102 +1,63 @@
 UNKNOWN_TOPIC:
-  NONE:
-    - "I'm afraid I didn't quite get what you want to ask me. :("
-    - "Could you maybe try rephrasing that? I don't understand what you're asking..."
-    - "Looks like I'm having some trouble understanding what you mean, could you try changing
-      the question a bit?"
+  - "I'm afraid I didn't quite get what you want to ask me. :("
+  - "Could you maybe try rephrasing that? I don't understand what you're asking..."
+  - "Looks like I'm having some trouble understanding what you mean, could you try changing
+    the question a bit?"
 NO_DATA_AVAILABLE_FOR_DATE:
-  NONE:
-    - "Sorry, I'm afraid I don't have the required data for that time period."
-    - "I understand your question, but unfortunately I don't have the necessary data to
+  - "Sorry, I'm afraid I don't have the required data for that time period."
+  - "I understand your question, but unfortunately I don't have the necessary data to
       answer it for you."
 UNEXPECTED_RESULT:
-  NONE:
-    - "It looks like I got an unexpected result when processing your question... Try notifying
+  - "It looks like I got an unexpected result when processing your question... Try notifying
       the adminstrator with the question you sent."
-    - "That's odd, I encountered an unknown issue while finding out the answer to your
+  - "That's odd, I encountered an unknown issue while finding out the answer to your
       question... Try notifying the adminstrator with the question you sent."
 FUTURE_DATA_REQUESTED:
-  NONE:
-    - "Sorry pal, I can't look into the future. :("
-    - "Ha, I do know a lot, but I cannot predict the future."
-    - "Maybe you should try asking this a clairvoyant."
-    - "Nice try, but I can't give you data on the future. ;)"
+  - "Sorry pal, I can't look into the future. :("
+  - "Ha, I do know a lot, but I cannot predict the future."
+  - "Maybe you should try asking this a clairvoyant."
+  - "Nice try, but I can't give you data on the future. ;)"
 NO_WORLDWIDE_SUPPORTED:
-  NONE:
-    - "You need to specify the country you are want the data on."
-    - "Sorry, at the moment I can't calculate statistics for the whole world and continents,
+  - "You need to specify the country you are want the data on."
+  - "Sorry, at the moment I can't calculate statistics for the whole world and continents,
       only specific countries."
-    - "Please specify the country you want to ask about."
+  - "Please specify the country you want to ask about."
 NOT_EXISTING_LOCATION:
-  LOCATION:
-    - "I don't have any data on {location}, try a different location. Keep in mind that
+  - "I don't have any data on {location}, try a different location. Keep in mind that
       I only have data on countries."
-    - "Looks like I can't find any data on {location} in the database. Keep in mind that
+  - "Looks like I can't find any data on {location} in the database. Keep in mind that
       I only have data on countries."
 SUCCESS:
   POSITIVE_CASES:
     NUMBER:
       RAW_VALUE:
         DAILY:
-          NONE:
-            - "There have been {result} new cases."
-          LOCATION:
-            - "There have been {result} new cases in {location}."
-          DATE:
-            - "There have been {result} new cases {date}."
-          DATE_AND_LOCATION:
-            - "There have been {result} new cases {date} in {location}."
+          - "There have been {result} new cases< in {location}>< {date}>."
       MAXIMUM:
         DAILY:
-          NONE:
-            - "The highest number of positive cases has been {result}."
-          LOCATION:
-            - "The highest number of positive cases in {location} has been {result}."
-          DATE:
-            - "The highest number of positive cases {date} has been {result}."
-          DATE_AND_LOCATION:
-            - "The highest number of positive cases {date} in {location} has been {result}."
+          - "The highest number of positive cases< in {location}>< {date}> has been {result}."
+      MINIMUM:
+        DAILY:
+          - "The lowest number of positive cases< in {location}>< {date}> has been {result}."
   VACCINATED_PEOPLE:
     NUMBER:
       RAW_VALUE:
         DAILY:
-          NONE:
-            - "{result} people have been vaccinated."
-          LOCATION:
-            - "{result} people have been vaccinated in {location}."
-          DATE:
-            - "{result} people have been vaccinated {date}."
-          DATE_AND_LOCATION:
-            - "{result} people have been vaccinated in {location} {date}."
+          - "{result} people have been vaccinated< in {location}>< {date}>."
       MAXIMUM:
         DAILY:
-          NONE:
-            - "The highest number of vaccinated people has been {result}."
-          LOCATION:
-            - "The highest number of vaccinated people in {location} has been {result}."
-          DATE:
-            - "The highest number of vaccinated people {date} has been {result}."
-          DATE_AND_LOCATION:
-            - "The highest number of vaccinated people {date} in {location} has been {result}."
+          - "The highest number of vaccinated people< in {location}>< {date}> has been {result}."
+      MINIMUM:
+        DAILY:
+          - "The lowest number of vaccinated people< in {location}>< {date}> has been {result}."
   ADMINISTERED_VACCINES:
     NUMBER:
       RAW_VALUE:
         DAILY:
-          NONE:
-            - "{result} vaccines have been administered."
-          LOCATION:
-            - "{result} vaccines have been administered in {location}."
-          DATE:
-            - "{result} vaccines have been administered {date}."
-          DATE_AND_LOCATION:
-            - "{result} vaccines have been administered in {location} {date}."
+          - "{result} vaccines have been administered< in {location}>< {date}> ."
       MAXIMUM:
         DAILY:
-          NONE:
-            - "The highest number of administered vaccines has been {result}."
-          LOCATION:
-            - "The highest number of administered vaccines in {location} has been {result}."
-          DATE:
-            - "The highest number of administered vaccines {date} has been {result}."
-          DATE_AND_LOCATION:
-            - "The highest number of administered vaccines {date} in {location} has been {result}."
+          - "The highest number of administered vaccines< in {location}>< {date}> has been {result}."
+      MINIMUM:
+        DAILY:
+          - "The lowest number of administered vaccines< in {location}>< {date}> has been {result}."
