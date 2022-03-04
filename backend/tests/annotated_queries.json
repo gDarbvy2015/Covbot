@@ -14,7 +14,7 @@
         "type": "DAY",
         "text": "today"
       },
-      "location": "Austria"
+      "location": "austria"
     }
   },
   {
@@ -32,7 +32,7 @@
         "type": "DAY",
         "text": "today"
       },
-      "location": "UK"
+      "location": "united kingdom"
     }
   },
   {
@@ -50,7 +50,7 @@
         "type": "DAY",
         "text": "25.01.2022"
       },
-      "location": "Austria"
+      "location": "austria"
     }
   },
   {
@@ -65,7 +65,7 @@
     },
     "slots": {
       "timeframe": null,
-      "location": "Austria"
+      "location": "austria"
     }
   },
   {
@@ -83,7 +83,7 @@
         "type": "DAY",
         "text": "today"
       },
-      "location": "Germany"
+      "location": "germany"
     }
   },
   {
@@ -188,7 +188,7 @@
         "type": "YEAR",
         "text": "the last year"
       },
-      "location": "Finland"
+      "location": "finland"
     }
   },
   {
@@ -293,7 +293,7 @@
     },
     "slots": {
       "timeframe": null,
-      "location": "Sweden"
+      "location": "sweden"
     }
   },
   {
@@ -311,7 +311,7 @@
         "type": "YEAR",
         "text": "the last year"
       },
-      "location": "England"
+      "location": "england"
     }
   },
   {
@@ -362,7 +362,7 @@
         "type": "MONTH",
         "text": "the last month"
       },
-      "location": "Belgium"
+      "location": "belgium"
     }
   },
   {
@@ -380,7 +380,7 @@
         "type": "DAY",
         "text": "today"
       },
-      "location": "Italy"
+      "location": "italy"
     }
   },
   {
@@ -449,7 +449,7 @@
         "type": "YEAR",
         "text": "Last year"
       },
-      "location": "Spain"
+      "location": "spain"
     }
   },
   {
@@ -467,7 +467,7 @@
         "type": "DAY",
         "text": "July 2nd, 2021"
       },
-      "location": "Uganda"
+      "location": "uganda"
     }
   },
   {
@@ -485,7 +485,7 @@
         "type": "DAY",
         "text": "July 2nd, 2019"
       },
-      "location": "Hungary"
+      "location": "hungary"
     }
   },
   {
@@ -503,7 +503,7 @@
         "type": "YEAR",
         "text": "2021"
       },
-      "location": "Serbia"
+      "location": "serbia"
     }
   },
   {
@@ -521,7 +521,7 @@
         "type": "YEAR",
         "text": "2018"
       },
-      "location": "Russia"
+      "location": "russia"
     }
   },
   {
@@ -535,7 +535,7 @@
       "measurement_type": "DAILY"
     },
     "slots": {
-      "location": "Hong Kong",
+      "location": "hong kong",
       "timeframe": null
     }
   },
@@ -550,7 +550,7 @@
       "measurement_type": "DAILY"
     },
     "slots": {
-      "location": "Hong Kong",
+      "location": "hong kong",
       "timeframe": null
     }
   },
@@ -569,7 +569,7 @@
         "type": "DAY",
         "text": "today"
       },
-      "location": "Hong Kong"
+      "location": "hong kong"
     }
   },
   {
@@ -587,7 +587,7 @@
         "type": "WEEK",
         "text": "this week"
       },
-      "location": "Hong Kong"
+      "location": "hong kong"
     }
   },
   {
@@ -712,7 +712,7 @@
       "measurement_type": "DAILY"
     },
     "slots": {
-      "location": "Brazil",
+      "location": "brazil",
       "timeframe": null
     }
   },
@@ -727,7 +727,7 @@
       "measurement_type": "DAILY"
     },
     "slots": {
-      "location": "Austria",
+      "location": "austria",
       "timeframe": {
         "type": "DAY",
         "text": "the 9th February 2022"
@@ -745,7 +745,7 @@
       "measurement_type": "DAILY"
     },
     "slots": {
-      "location": "Austria",
+      "location": "austria",
       "timeframe": {
         "type": "DAY",
         "text": "2nd February 2022"
@@ -793,7 +793,7 @@
       "measurement_type": "CUMULATIVE"
     },
     "slots": {
-      "location": "Europe",
+      "location": "europe",
       "timeframe": null
     }
   },
