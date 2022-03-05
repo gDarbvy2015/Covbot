@@ -20,19 +20,19 @@ class MessageValidationCode(Enum):
 
     # These valication codes will be returned if there are issues or missing information in the user query, but
     # it is not unexpected that it will be returned.
-    NO_LOCATION = 11
-    NO_TIMEFRAME = 12
-    AMBIGUOUS_TOPIC = 6
+    NO_LOCATION = 2
+    NO_TIMEFRAME = 3
+    AMBIGUOUS_TOPIC = 4
     UNKNOWN_TOPIC = 5
-    UNKNOWN_MEASUREMENT_TYPE = 7
-    UNKNOWN_VALUE_DOMAIN = 8
-    UNKNOWN_CALCULATION_TYPE = 9
-    UNKNOWN_VALUE_TYPE = 10
+    UNKNOWN_MEASUREMENT_TYPE = 6
+    UNKNOWN_VALUE_DOMAIN = 7
+    UNKNOWN_CALCULATION_TYPE = 8
+    UNKNOWN_VALUE_TYPE = 9
 
     # These are server-side errors and should in theory never occur.
-    NO_TOPIC = 2
-    NO_INTENT = 3
-    NO_SLOTS = 4
+    NO_TOPIC = 10
+    NO_INTENT = 11
+    NO_SLOTS = 12
     INTENT_MISMATCH = 13
     UNSUPPORTED_ACTION = 14
 
