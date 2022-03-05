@@ -44,10 +44,10 @@ class IntentRecognizer:
         date: Date = self._date_recognizer.recognize_date(span)
         value_type: ValueType = self.recognize_value_type(span)
 
-        # e.g. 'What is the highest number of cases recorded in Austria?'.
+        # e.g. "What is the highest number of cases recorded in Austria?".
         if self._has_valid_pattern(span, [Pattern.maximum_number_pattern, Pattern.most_trigger_word_pattern]):
             return CalculationType.MAXIMUM
-        # e.g. 'What is the smallest number of cases recorded in Austria this week?'.
+        # e.g. "What is the smallest number of cases recorded in Austria this week?".
         if self._has_valid_pattern(span, [Pattern.minimum_number_pattern, Pattern.least_trigger_word_pattern]):
             return CalculationType.MINIMUM
 
@@ -57,11 +57,11 @@ class IntentRecognizer:
             return CalculationType.UNKNOWN
 
         # If we don't have a time frame, the user either forgot to supply it or the user is asking for a cumulative
-        # value (e.g. 'How many cases have there been in Austria so far?'). So in this case, we return the raw value.
+        # value (e.g. "How many cases have there been in Austria so far?"). So in this case, we return the raw value.
         if date is None:
             return CalculationType.RAW_VALUE
         # If the supplied date by the user is a single day, we also just need the raw_value from that date
-        # (e.g. 'How many cases have there been in Austria on the 25th of December?')
+        # (e.g. "How many cases have there been in Austria on the 25th of December?")
         if date.type == "DAY":
             return CalculationType.RAW_VALUE
         else:
@@ -71,7 +71,7 @@ class IntentRecognizer:
         topic: Topic = self._topic_recognizer.recognize_topic(span)
         if topic == Topic.CASES:
             return ValueDomain.POSITIVE_CASES
-        # Distinguish between 'how many vaccines have been administered' and 'how many people have been vaccinated'.
+        # Distinguish between "how many vaccines have been administered" and "how many people have been vaccinated".
         elif topic == Topic.VACCINATIONS:
 
             matcher: DependencyMatcher = DependencyMatcher(self._vocab)
@@ -90,42 +90,66 @@ class IntentRecognizer:
 
     def recognize_measurement_type(self, span: Span) -> MeasurementType:
         date = self._date_recognizer.recognize_date(span)
-        topic = self._topic_recognizer.recognize_topic(span)
         value_type = self.recognize_value_type(span)
         calculation_type = self.recognize_calculation_type(span)
 
-        if topic in [Topic.CASES, Topic.VACCINATIONS]:
+        if value_type == ValueType.LOCATION:
+            # If there is no date, we are surely asking for the cumulative value, since we are comparing
+            # different countries.
+            # e.g. "Which country has the the most vaccinated people?"
             if date is None:
-                if calculation_type in [CalculationType.SUM]:
-                    return MeasurementType.DAILY
-                else:
-                    if value_type in [ValueType.NUMBER, ValueType.DAY] and calculation_type not in \
-                            [CalculationType.RAW_VALUE]:
-                        return MeasurementType.DAILY
-                    else:
-                        return MeasurementType.CUMULATIVE
+                return MeasurementType.CUMULATIVE
+            # Otherwise we want the daily value.
+            # e.g. "Which country had the most administered vaccines yesterday?"
+            # This is technically not always the case, because we could for example ask
+            # "Which country had the most administered vaccines in total yesterday?", which would
+            # require the cumulative value. But we are going to disregard this case for the sake of simplicity.
             else:
-                if value_type == ValueType.LOCATION and date is None:
+                return MeasurementType.DAILY
+        elif value_type == ValueType.DAY:
+            # If we are asking for a certain day, we default to the daily value.
+            # e.g. "On which day were most cases recorded in Austria?"
+            # As above, this also is an simplification, as we could in theory ask something like
+            # "On which day did Austria have the highest number of cases in total", but this question doesn't
+            # really make sense since it's always going to be the closest date to today.
+            return MeasurementType.DAILY
+        elif value_type == ValueType.NUMBER:
+            # In this case, we must be asking for the highest/lowest number in a certain location in some time
+            # period, so we can default to daily.
+            # e.g. "What was the highest number of cases recorded in Austria last week?"
+            if calculation_type in [CalculationType.MAXIMUM, CalculationType.MINIMUM]:
+                return MeasurementType.DAILY
+            elif calculation_type == CalculationType.RAW_VALUE:
+                # If we don't have a date and are looking for the raw value, we give the cumulative value of
+                # today by default.
+                # e.g. "What is the number of cases in Austria?"
+                if date is None:
                     return MeasurementType.CUMULATIVE
+                # Otherwise, we are either asking for a single day or the sum over a certain time period,
+                # so we return the daily number.
+                # e.g. "How many new cases have been reported in Austria last week?"
                 else:
                     return MeasurementType.DAILY
-        else:
-            return MeasurementType.UNKNOWN
+            # For a sum, we never use the cumulative value, since the cumulative value already is a by itself.
+            elif calculation_type == CalculationType.SUM:
+                return MeasurementType.DAILY
+
+        return MeasurementType.UNKNOWN
 
     def recognize_value_type(self, span: Span) -> ValueType:
         # Use each of the pre-defined patterns to understand what type of value the user is asking from us.
-        # e.g. 'When did Austria have the most Corona cases?'
+        # e.g. "When did Austria have the most Corona cases?"
         if self._has_valid_pattern(span, [Pattern.what_day_pattern, Pattern.when_pattern]):
             return ValueType.DAY
-        # e.g. 'Where have most Corona cases been reported?'
+        # e.g. "Where have most Corona cases been reported?"
         elif self._has_valid_pattern(span, [Pattern.where_pattern, Pattern.what_country_pattern,
                                             Pattern.what_is_country_pattern]):
             return ValueType.LOCATION
-        # e.g. 'What is the number of new Corona cases in Austria today?'
+        # e.g. "What is the number of new Corona cases in Austria today?"
         elif self._has_valid_pattern(span, [Pattern.how_many_pattern, Pattern.number_of_pattern]):
             return ValueType.NUMBER
         # If we don't have any other clues but there are trigger words, we assume that we are asking for the number
-        # e.g. 'vaccinations worldwide today' (query with id 20)
+        # e.g. "vaccinations worldwide today" (query with id 20)
         elif self._has_valid_pattern(span, [Pattern.case_trigger_pattern, Pattern.vaccine_trigger_pattern]):
             return ValueType.NUMBER
 
