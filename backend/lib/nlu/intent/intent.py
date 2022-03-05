@@ -41,19 +41,27 @@ class IntentRecognizer:
         return Intent(calculation_type, value_type, value_domain, measurement_type)
 
     def recognize_calculation_type(self, span: Span):
-        value_type: ValueType = self.recognize_value_type(span)
         date: Date = self._date_recognizer.recognize_date(span)
+        value_type: ValueType = self.recognize_value_type(span)
 
-        if value_type == ValueType.UNKNOWN:
-            return CalculationType.UNKNOWN
+        # e.g. 'What is the highest number of cases recorded in Austria?'.
         if self._has_valid_pattern(span, [Pattern.maximum_number_pattern, Pattern.most_trigger_word_pattern]):
             return CalculationType.MAXIMUM
+        # e.g. 'What is the smallest number of cases recorded in Austria this week?'.
         if self._has_valid_pattern(span, [Pattern.minimum_number_pattern, Pattern.least_trigger_word_pattern]):
             return CalculationType.MINIMUM
-        # If we don't have any time indication, we automatically pick the cumulative value of the nearest date,
-        # so the raw value
+
+        # If we were asking about a day or a location, it either has to be maximum or minimum, so by now
+        # it must be a number.
+        if value_type != ValueType.NUMBER:
+            return CalculationType.UNKNOWN
+
+        # If we don't have a time frame, the user either forgot to supply it or the user is asking for a cumulative
+        # value (e.g. 'How many cases have there been in Austria so far?'). So in this case, we return the raw value.
         if date is None:
             return CalculationType.RAW_VALUE
+        # If the supplied date by the user is a single day, we also just need the raw_value from that date
+        # (e.g. 'How many cases have there been in Austria on the 25th of December?')
         if date.type == "DAY":
             return CalculationType.RAW_VALUE
         else:
@@ -63,6 +71,7 @@ class IntentRecognizer:
         topic: Topic = self._topic_recognizer.recognize_topic(span)
         if topic == Topic.CASES:
             return ValueDomain.POSITIVE_CASES
+        # Distinguish between 'how many vaccines have been administered' and 'how many people have been vaccinated'.
         elif topic == Topic.VACCINATIONS:
 
             matcher: DependencyMatcher = DependencyMatcher(self._vocab)
@@ -90,8 +99,8 @@ class IntentRecognizer:
                 if calculation_type in [CalculationType.SUM]:
                     return MeasurementType.DAILY
                 else:
-                    if value_type in [ValueType.NUMBER, ValueType.DAY] and calculation_type not in [
-                        CalculationType.RAW_VALUE]:
+                    if value_type in [ValueType.NUMBER, ValueType.DAY] and calculation_type not in \
+                            [CalculationType.RAW_VALUE]:
                         return MeasurementType.DAILY
                     else:
                         return MeasurementType.CUMULATIVE
@@ -104,25 +113,23 @@ class IntentRecognizer:
             return MeasurementType.UNKNOWN
 
     def recognize_value_type(self, span: Span) -> ValueType:
-        topic = self._topic_recognizer.recognize_topic(span)
-        if topic in [Topic.CASES, Topic.VACCINATIONS]:
-            if self._has_valid_pattern(span, [Pattern.what_day_pattern, Pattern.when_pattern]):
-                return ValueType.DAY
-            elif self._has_valid_pattern(span, [Pattern.where_pattern, Pattern.what_country_pattern,
-                                                Pattern.what_is_country_pattern]):
-                return ValueType.LOCATION
-            elif self._has_valid_pattern(span, [Pattern.how_many_pattern]):
-                return ValueType.NUMBER
-            elif self._has_valid_pattern(span, [Pattern.number_of_pattern]):
-                return ValueType.NUMBER
-            # If we don't have any other clues but there are trigger words, we assume that we are asking for the number
-            # (for example query 20, 23, 24)
-            elif self._has_valid_pattern(span, [Pattern.case_trigger_pattern, Pattern.vaccine_trigger_pattern]):
-                return ValueType.NUMBER
-            else:
-                return ValueType.UNKNOWN
-        else:
-            return ValueType.UNKNOWN
+        # Use each of the pre-defined patterns to understand what type of value the user is asking from us.
+        # e.g. 'When did Austria have the most Corona cases?'
+        if self._has_valid_pattern(span, [Pattern.what_day_pattern, Pattern.when_pattern]):
+            return ValueType.DAY
+        # e.g. 'Where have most Corona cases been reported?'
+        elif self._has_valid_pattern(span, [Pattern.where_pattern, Pattern.what_country_pattern,
+                                            Pattern.what_is_country_pattern]):
+            return ValueType.LOCATION
+        # e.g. 'What is the number of new Corona cases in Austria today?'
+        elif self._has_valid_pattern(span, [Pattern.how_many_pattern, Pattern.number_of_pattern]):
+            return ValueType.NUMBER
+        # If we don't have any other clues but there are trigger words, we assume that we are asking for the number
+        # e.g. 'vaccinations worldwide today' (query with id 20)
+        elif self._has_valid_pattern(span, [Pattern.case_trigger_pattern, Pattern.vaccine_trigger_pattern]):
+            return ValueType.NUMBER
+
+        return ValueType.UNKNOWN
 
     def _has_valid_pattern(self, span: Span, pattern: list) -> bool:
         matcher: DependencyMatcher = DependencyMatcher(self._vocab)
