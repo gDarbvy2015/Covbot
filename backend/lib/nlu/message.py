@@ -23,11 +23,7 @@ class MessageValidationCode(Enum):
     NO_WORLDWIDE_SUPPORTED = 2
     NO_TIMEFRAME = 3
     AMBIGUOUS_TOPIC = 4
-    UNKNOWN_TOPIC = 5
-    UNKNOWN_MEASUREMENT_TYPE = 6
-    UNKNOWN_VALUE_DOMAIN = 7
-    UNKNOWN_CALCULATION_TYPE = 8
-    UNKNOWN_VALUE_TYPE = 9
+    UNKNOWN = 5
 
     # These are server-side errors and should in theory never occur.
     NO_TOPIC = 10
@@ -43,8 +39,7 @@ class MessageValidationCode(Enum):
     @staticmethod
     def get_user_query_error_codes() -> List[MessageValidationCode]:
         return [MessageValidationCode.NO_WORLDWIDE_SUPPORTED, MessageValidationCode.NO_TIMEFRAME, MessageValidationCode.AMBIGUOUS_TOPIC,
-                MessageValidationCode.UNKNOWN_TOPIC, MessageValidationCode.UNKNOWN_MEASUREMENT_TYPE, MessageValidationCode.UNKNOWN_VALUE_DOMAIN,
-                MessageValidationCode.UNKNOWN_CALCULATION_TYPE, MessageValidationCode.UNKNOWN_VALUE_TYPE]
+                MessageValidationCode.UNKNOWN]
 
     @staticmethod
     def get_server_side_error_codes() -> List[MessageValidationCode]:
@@ -144,18 +139,18 @@ class Message:
             return MessageValidationCode.NO_SLOTS
 
         if msg.topic == Topic.UNKNOWN:
-            return MessageValidationCode.UNKNOWN_TOPIC
+            return MessageValidationCode.UNKNOWN
         if msg.topic == Topic.AMBIGUOUS:
             return MessageValidationCode.AMBIGUOUS_TOPIC
 
         if msg.intent.value_type == ValueType.UNKNOWN:
-            return MessageValidationCode.UNKNOWN_VALUE_TYPE
+            return MessageValidationCode.UNKNOWN
         if msg.intent.calculation_type == CalculationType.UNKNOWN:
-            return MessageValidationCode.UNKNOWN_CALCULATION_TYPE
+            return MessageValidationCode.UNKNOWN
         if msg.intent.value_domain == ValueDomain.UNKNOWN:
-            return MessageValidationCode.UNKNOWN_VALUE_DOMAIN
+            return MessageValidationCode.UNKNOWN
         if msg.intent.measurement_type == MeasurementType.UNKNOWN:
-            return MessageValidationCode.UNKNOWN_MEASUREMENT_TYPE
+            return MessageValidationCode.UNKNOWN
 
 
 class MessageBuilder:

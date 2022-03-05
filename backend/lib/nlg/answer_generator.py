@@ -7,7 +7,7 @@ import yaml
 
 from lib.database.querier import QueryResultCode, QueryResult
 from lib.nlu.intent import Intent
-from lib.nlu.message import Message
+from lib.nlu.message import Message, MessageValidationCode
 from lib.nlu.slot import Slots
 from lib.nlu.slot.date import Date
 
@@ -19,14 +19,16 @@ class AnswerGenerator:
 
     def generate_answer(self, query_result: QueryResult) -> str:
 
-        if query_result.result_code in [QueryResultCode.UNKNOWN_TOPIC, QueryResultCode.UNKNOWN_VALUE_TYPE, QueryResultCode.UNKNOWN_VALUE_DOMAIN,
-                                        QueryResultCode.UNKNOWN_CALCULATION_TYPE, QueryResultCode.UNKNOWN_MEASUREMENT_TYPE]:
-            return random.choice(self.answers[QueryResultCode.UNKNOWN_TOPIC.name])
-        elif query_result.result_code in [QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE, QueryResultCode.UNEXPECTED_RESULT,
-                                          QueryResultCode.FUTURE_DATA_REQUESTED, QueryResultCode.NO_WORLDWIDE_SUPPORTED]:
+        if query_result.result_code in [QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE, QueryResultCode.UNEXPECTED_RESULT,
+                                          QueryResultCode.FUTURE_DATA_REQUESTED]:
             return random.choice(self.answers[query_result.result_code.name])
         elif query_result.result_code == QueryResultCode.NOT_EXISTING_LOCATION:
             return random.choice(self.answers[query_result.result_code.name]).format(location=query_result.message.slots.location)
+        elif query_result.result_code == QueryResultCode.INVALID_MESSAGE:
+            if query_result.information["message_validation_code"] in MessageValidationCode.get_user_query_error_codes():
+                return random.choice(self.answers[query_result.result_code.name][query_result.information["message_validation_code"].name])
+            else:
+                return random.choice(self.answers[query_result.result_code.name]["INTERNAL_ERROR"])
         elif query_result.result_code == QueryResultCode.SUCCESS:
             return self._generate_success_answer(query_result)
         else:

@@ -1,31 +1,37 @@
-UNKNOWN_TOPIC:
-  - "I'm afraid I didn't quite get what you want to ask me. :("
-  - "Could you maybe try rephrasing that? I don't understand what you're asking..."
-  - "Looks like I'm having some trouble understanding what you mean, could you try changing
-    the question a bit?"
 NO_DATA_AVAILABLE_FOR_DATE:
   - "Sorry, I'm afraid I don't have the required data for that time period."
   - "I understand your question, but unfortunately I don't have the necessary data to
       answer it for you."
 UNEXPECTED_RESULT:
-  - "It looks like I got an unexpected result when processing your question... Try notifying
-      the adminstrator with the question you sent."
+  - "It looks like I got an unexpected result when processing your question... I took note of it,
+    feel free to ask another question in the meanwhile!"
   - "That's odd, I encountered an unknown issue while finding out the answer to your
-      question... Try notifying the adminstrator with the question you sent."
+      question... I took note of it, feel free to ask another question in the meanwhile!"
 FUTURE_DATA_REQUESTED:
   - "Sorry pal, I can't look into the future. :("
   - "Ha, I do know a lot, but I cannot predict the future."
   - "Maybe you should try asking this a clairvoyant."
   - "Nice try, but I can't give you data on the future. ;)"
-NO_WORLDWIDE_SUPPORTED:
-  - "Sorry, at the moment I can't calculate statistics for the whole world and specific continents,
-      only specific countries."
-  - "Please specify the country you want to ask about, I currently don't have data on the whole world and specific continents."
 NOT_EXISTING_LOCATION:
   - "I don't have any data on {location}, try a different location. Keep in mind that
-      I only have data on countries."
+      for now, I can only work with countries."
   - "Looks like I can't find any data on {location} in the database. Keep in mind that
-      I only have data on countries."
+      for now, I can only work with countries."
+INVALID_MESSAGE:
+  NO_WORLDWIDE_SUPPORTED:
+    - "Sorry, at the moment I can't calculate statistics for the whole world and specific continents,
+        only specific countries."
+    - "Please specify the country you want to ask about, I currently can't calculate statistics
+     on the whole world and specific continents."
+  NO_TIMEFRAME:
+    - "You need to specify a time frame!"
+  AMBIGUOUS_TOPIC:
+    - "I think your question might be a bit too complicated, could you try asking something simpler?"
+  UNKNOWN:
+    - "I think I am having some trouble understanding your question, try a different one."
+  INTERNAL_ERROR:
+    - "Whoops, looks like your query broke me... The administrator will take a look at it later and fix it. In the
+    meanwhile, try asking a different question!"
 SUCCESS:
   POSITIVE_CASES:
     NUMBER:

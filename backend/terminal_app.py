@@ -16,14 +16,13 @@ if __name__ == '__main__':
     with open(pathlib.Path.cwd() / "tests" / "annotated_queries.json") as query_file:
         queries = json.load(query_file)
 
-    sentences = ["Tell me the number of positive cases in denmark"]
+    # sentences = ["Tell me the number of positive cases in denmark"]
+    sentences = [query["query"] for query in queries]
 
     for sentence in sentences:
         new_sent = list(spacy(sentence).sents)[0]
         message = message_builder.create_message(new_sent)
-        print("Reached")
         query_result = querier.query_intent(message)
-        print("Passed")
         answer = answer_generator.generate_answer(query_result)
         print(sentence)
         print(answer)

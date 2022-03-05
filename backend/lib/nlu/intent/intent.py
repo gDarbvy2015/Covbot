@@ -3,7 +3,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from nltk import PorterStemmer
-from spacy import Vocab
 from spacy.matcher import DependencyMatcher
 from spacy.tokens.span import Span
 
@@ -30,7 +29,8 @@ class IntentRecognizer:
         self._stemmer: PorterStemmer = PorterStemmer()
         self._topic_recognizer: TopicRecognizer = TopicRecognizer()
         self._date_recognizer: DateRecognizer = DateRecognizer()
-        self._vocab: Vocab = vocab
+        #
+        self._vocab = vocab
 
     def recognize_intent(self, span: Span) -> Intent:
         value_domain: ValueDomain = self.recognize_value_domain(span)
