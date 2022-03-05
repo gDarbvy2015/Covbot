@@ -1,7 +1,6 @@
 NO_DATA_AVAILABLE_FOR_DATE:
   - "Sorry, I'm afraid I don't have the required data for that time period."
-  - "I understand your question, but unfortunately I don't have the necessary data to
-      answer it for you."
+  - "Unfortunately I don't have the necessary data to answer that question for you."
 UNEXPECTED_RESULT:
   - "It looks like I got an unexpected result when processing your question... I took note of it,
     feel free to ask another question in the meanwhile!"
@@ -38,6 +37,8 @@ SUCCESS:
       RAW_VALUE:
         DAILY:
           - "There have been {result} new positive cases< in {location}>< {date}>."
+        CUMULATIVE:
+          - "There have been {result} positive cases reported so far< in {location}>< {date}>."
       SUM:
         DAILY:
           - "There have been {result} new positive cases< in {location}>< {date}>."
@@ -70,6 +71,8 @@ SUCCESS:
       RAW_VALUE:
         DAILY:
           - "{result} people have been vaccinated against COVID< in {location}>< {date}>."
+        CUMULATIVE:
+          - "{result} people have been vaccinated against COVID so far< in {location}>< {date}>."
       SUM:
         DAILY:
           - "{result} people have been vaccinated against COVID< in {location}>< {date}>."
@@ -102,6 +105,8 @@ SUCCESS:
       RAW_VALUE:
         DAILY:
           - "{result} COVID vaccines have been administered< in {location}>< {date}>."
+        CUMULATIVE:
+          - "{result} COVID vaccines have been administered so far< in {location}>< {date}>."
       SUM:
         DAILY:
           - "{result} COVID vaccines have been administered< in {location}>< {date}>."

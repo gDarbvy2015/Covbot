@@ -150,7 +150,7 @@ class Querier:
             return QueryResult(msg, QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE, None, None)
 
         if msg.intent.calculation_type == CalculationType.RAW_VALUE:
-            query = self.session.query(table).with_entities(considered_column)
+            query = self.session.query(table).order_by(desc(table.date)).with_entities(considered_column)
         elif msg.intent.calculation_type == CalculationType.SUM:
             query = self.session.query(functions.sum(considered_column))
         elif msg.intent.calculation_type == CalculationType.MAXIMUM:
@@ -164,12 +164,18 @@ class Querier:
             *time_condition, *country_condition
         ))
 
+        if msg.intent.calculation_type == CalculationType.RAW_VALUE:
+            query = query.limit(1)
+
         result = query.all()
 
         if len(result) > 1:
             return QueryResult(msg, QueryResultCode.UNEXPECTED_RESULT, None, None)
         else:
-            return QueryResult(msg, QueryResultCode.SUCCESS, result[0][0], None)
+            if result[0][0] is None:
+                return QueryResult(msg, QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE, None, None)
+            else:
+                return QueryResult(msg, QueryResultCode.SUCCESS, result[0][0], None)
 
     def _get_country_from_condition(self, table: Union[Case, Vaccination], msg: Message) -> List[bool]:
         # If we are querying the location, we just ignore whatever is in there since we don't need it.
@@ -198,7 +204,7 @@ class Querier:
             # If we are looking for the cumulative value, we assume by default that we are looking for the value
             # from today.
             if msg.intent.measurement_type == MeasurementType.CUMULATIVE:
-                return [table.date == self.today]
+                return []
             else:
                 return []
 
