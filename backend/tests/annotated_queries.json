@@ -354,7 +354,7 @@
     "intent": {
       "calculation_type": "SUM",
       "value_type": "NUMBER",
-      "value_domain": "ADMINISTERED_VACCINES",
+      "value_domain": "VACCINATED_PEOPLE",
       "measurement_type": "DAILY"
     },
     "slots": {
