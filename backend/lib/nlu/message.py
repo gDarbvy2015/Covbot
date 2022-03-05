@@ -20,7 +20,7 @@ class MessageValidationCode(Enum):
 
     # These valication codes will be returned if there are issues or missing information in the user query, but
     # it is not unexpected that it will be returned.
-    NO_LOCATION = 2
+    NO_WORLDWIDE_SUPPORTED = 2
     NO_TIMEFRAME = 3
     AMBIGUOUS_TOPIC = 4
     UNKNOWN_TOPIC = 5
@@ -42,7 +42,7 @@ class MessageValidationCode(Enum):
 
     @staticmethod
     def get_user_query_error_codes() -> List[MessageValidationCode]:
-        return [MessageValidationCode.NO_LOCATION, MessageValidationCode.NO_TIMEFRAME, MessageValidationCode.AMBIGUOUS_TOPIC,
+        return [MessageValidationCode.NO_WORLDWIDE_SUPPORTED, MessageValidationCode.NO_TIMEFRAME, MessageValidationCode.AMBIGUOUS_TOPIC,
                 MessageValidationCode.UNKNOWN_TOPIC, MessageValidationCode.UNKNOWN_MEASUREMENT_TYPE, MessageValidationCode.UNKNOWN_VALUE_DOMAIN,
                 MessageValidationCode.UNKNOWN_CALCULATION_TYPE, MessageValidationCode.UNKNOWN_VALUE_TYPE]
 
@@ -80,13 +80,13 @@ class Message:
                     if not has_date:
                         return MessageValidationCode.NO_TIMEFRAME
                     elif not has_location:
-                        return MessageValidationCode.NO_LOCATION
+                        return MessageValidationCode.NO_WORLDWIDE_SUPPORTED
                     elif has_both:
                         return MessageValidationCode.VALID
                 # We only need a location. If the timeframe is null, we assume that the user is asking for today.
                 elif msg.intent.measurement_type == MeasurementType.CUMULATIVE:
                     if not has_location:
-                        return MessageValidationCode.NO_LOCATION
+                        return MessageValidationCode.NO_WORLDWIDE_SUPPORTED
                     else:
                         return MessageValidationCode.VALID
             elif msg.intent.calculation_type == CalculationType.SUM:
@@ -95,7 +95,7 @@ class Message:
                     if not has_date:
                         return MessageValidationCode.NO_TIMEFRAME
                     elif not has_location:
-                        return MessageValidationCode.NO_LOCATION
+                        return MessageValidationCode.NO_WORLDWIDE_SUPPORTED
                     elif has_both:
                         return MessageValidationCode.VALID
                 # We can't possibly want the sum of a cumulative value.
@@ -111,7 +111,7 @@ class Message:
                     if not has_date:
                         return MessageValidationCode.NO_TIMEFRAME
                     elif not has_location:
-                        return MessageValidationCode.NO_LOCATION
+                        return MessageValidationCode.NO_WORLDWIDE_SUPPORTED
                     elif has_both:
                         return MessageValidationCode.VALID
         elif msg.intent.value_type == ValueType.DAY:
@@ -120,11 +120,8 @@ class Message:
                 return MessageValidationCode.INTENT_MISMATCH
             elif msg.intent.calculation_type in [CalculationType.MAXIMUM, CalculationType.MINIMUM]:
                 if msg.intent.measurement_type in [MeasurementType.DAILY, MeasurementType.CUMULATIVE]:
-                    # We at least need the location to find out a certain date.
-                    if not has_location:
-                        return MessageValidationCode.NO_LOCATION
-                    else:
-                        return MessageValidationCode.VALID
+                    return MessageValidationCode.VALID
+
         elif msg.intent.value_type == ValueType.LOCATION:
             # We can only want the maximum/minimum when searching for a location.
             if msg.intent.calculation_type in [CalculationType.SUM, CalculationType.RAW_VALUE]:
@@ -142,6 +139,7 @@ class Message:
             return MessageValidationCode.NO_TOPIC
         if msg.intent is None:
             return MessageValidationCode.NO_INTENT
+
         if msg.slots is None:
             return MessageValidationCode.NO_SLOTS
 

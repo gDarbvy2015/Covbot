@@ -19,25 +19,18 @@ from lib.nlu.intent.calculation_type import CalculationType
 from lib.nlu.intent.measurement_type import MeasurementType
 from lib.nlu.intent.value_domain import ValueDomain
 from lib.nlu.intent.value_type import ValueType
-from lib.nlu.message import MessageBuilder, Message
+from lib.nlu.message import MessageBuilder, Message, MessageValidationCode
 from lib.nlu.topic.topic import Topic
 from lib.spacy_components.custom_spacy import get_spacy
 
 
 class QueryResultCode(Enum):
     SUCCESS = 1
-    UNKNOWN_TOPIC = 2
-    AMBIGUOUS_TOPIC = 3
-    UNKNOWN_MEASUREMENT_TYPE = 4
-    UNKNOWN_VALUE_DOMAIN = 5
-    UNKNOWN_CALCULATION_TYPE = 6
-    UNKNOWN_VALUE_TYPE = 7
-    NO_WORLDWIDE_SUPPORTED = 8
-    UNEXPECTED_RESULT = 9
-    FUTURE_DATA_REQUESTED = 10
-    NOT_EXISTING_LOCATION = 11
-    NO_DATA_AVAILABLE_FOR_DATE = 12
-    UNKNOWN = 13
+    UNEXPECTED_RESULT = 2
+    FUTURE_DATA_REQUESTED = 3
+    NOT_EXISTING_LOCATION = 4
+    NO_DATA_AVAILABLE_FOR_DATE = 5
+    INVALID_MESSAGE = 6
 
     @staticmethod
     def from_str(query_result_code: str) -> Optional[QueryResultCode]:
@@ -65,6 +58,7 @@ class Querier:
 
         # We allow setting a custom value as the "today" value so that testing becomes easier
         self.today = today
+
         self.table_dict: dict = {
             Topic.CASES: Case,
             Topic.VACCINATIONS: Vaccination
@@ -104,7 +98,7 @@ class Querier:
 
     def _query_location(self, table: Union[Case, Vaccination], considered_column: InstrumentedAttribute,
                         msg: Message) -> QueryResult:
-        time_condition: List[bool] = self._get_time_from_condition(table, msg)
+        time_condition: List[bool] = self._get_timeframe_from_condition(table, msg)
 
         if len(self.session.query(table).where(and_(*time_condition)).all()) == 0:
             return QueryResult(msg, QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE, None, None)
@@ -146,7 +140,7 @@ class Querier:
     def _query_number(self, table: Union[Case, Vaccination], considered_column: InstrumentedAttribute,
                       msg: Message) -> QueryResult:
         # If no timeframe is given, we assume that the user is asking for today
-        time_condition: List[bool] = self._get_time_from_condition(table, msg)
+        time_condition: List[bool] = self._get_timeframe_from_condition(table, msg)
         country_condition: List[bool] = self._get_country_from_condition(table, msg)
 
         if len(self.session.query(table).where(and_(*country_condition)).all()) == 0:
@@ -178,17 +172,35 @@ class Querier:
             return QueryResult(msg, QueryResultCode.SUCCESS, result[0][0], None)
 
     def _get_country_from_condition(self, table: Union[Case, Vaccination], msg: Message) -> List[bool]:
+        # If we are querying the location, we just ignore whatever is in there since we don't need it.
         if msg.intent.value_type == ValueType.LOCATION:
             return []
 
         if msg.slots.location is None:
-            raise NotImplementedError()
+            # If we are asking for the day, we don't need the location, so we can just return an empty list.
+            if msg.intent.value_type == ValueType.DAY:
+                return []
+            # If we are searching for the number, we currently only support leaving out the country if we are searching
+            # for the maximum/minimum.
+            else:
+                if msg.intent.calculation_type in [CalculationType.MAXIMUM, CalculationType.MINIMUM]:
+                    return []
+                else:
+                    raise NotImplementedError()
         else:
             return [table.country_normalized == msg.slots.location]
 
-    def _get_time_from_condition(self, table: Union[Case, Vaccination], msg: Message) -> List[bool]:
-        if msg.intent.value_type == ValueType.DAY or msg.slots.date is None:
+    def _get_timeframe_from_condition(self, table: Union[Case, Vaccination], msg: Message) -> List[bool]:
+        # If we are asking for the day, we just ignore any timeframes found.
+        if msg.intent.value_type == ValueType.DAY:
             return []
+        if msg.slots.date is None:
+            # If we are looking for the cumulative value, we assume by default that we are looking for the value
+            # from today.
+            if msg.intent.measurement_type == MeasurementType.CUMULATIVE:
+                return [table.date == self.today]
+            else:
+                return []
 
         date_type: str = msg.slots.date.type
         date_value: datetime.date = msg.slots.date.value
@@ -210,23 +222,13 @@ class Querier:
             raise NotImplementedError()
 
     def _validate_msg(self, msg: Message) -> Optional[QueryResult]:
-        if msg.topic == Topic.UNKNOWN:
-            return QueryResult(msg, QueryResultCode.UNKNOWN_TOPIC, None, None)
-        if msg.topic == Topic.AMBIGUOUS:
-            return QueryResult(msg, QueryResultCode.AMBIGUOUS_TOPIC, None, None)
-        if msg.intent.measurement_type == MeasurementType.UNKNOWN:
-            return QueryResult(msg, QueryResultCode.UNKNOWN_MEASUREMENT_TYPE, None, None)
-        if msg.intent.value_domain == ValueDomain.UNKNOWN:
-            return QueryResult(msg, QueryResultCode.UNKNOWN_VALUE_DOMAIN, None, None)
-        if msg.intent.calculation_type == CalculationType.UNKNOWN:
-            return QueryResult(msg, QueryResultCode.UNKNOWN_CALCULATION_TYPE, None, None)
-        if msg.intent.value_type == ValueType.UNKNOWN:
-            return QueryResult(msg, QueryResultCode.UNKNOWN_VALUE_TYPE, None, None)
+        msg_validation: MessageValidationCode = Message.validate_message(msg)
+
+        if msg_validation != MessageValidationCode.VALID:
+            return QueryResult(msg, QueryResultCode.INVALID_MESSAGE, None, {"message_validation_code": msg_validation})
+
         if msg.slots.date and msg.slots.date.value > self.today:
             return QueryResult(msg, QueryResultCode.FUTURE_DATA_REQUESTED, None, None)
-        if msg.intent.value_type != ValueType.LOCATION and msg.slots.location is None:
-            return QueryResult(msg, QueryResultCode.NO_WORLDWIDE_SUPPORTED, None, None)
-
         return None
 
 
