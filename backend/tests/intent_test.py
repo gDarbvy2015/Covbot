@@ -15,10 +15,9 @@ intent_recognizer = IntentRecognizer(spacy.vocab)
 
 @pytest.mark.parametrize("query", queries)
 def test_value_domain(query):
-    if not query["id"] == 21:
-        doc = spacy(query["query"])
-        predicted_value_domain = intent_recognizer.recognize_value_domain(list(doc.sents)[0])
-        assert predicted_value_domain == ValueDomain.from_str(query["intent"]["value_domain"])
+    doc = spacy(query["query"])
+    predicted_value_domain = intent_recognizer.recognize_value_domain(list(doc.sents)[0])
+    assert predicted_value_domain == ValueDomain.from_str(query["intent"]["value_domain"])
 
 
 @pytest.mark.parametrize("query", queries)
