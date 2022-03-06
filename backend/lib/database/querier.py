@@ -6,7 +6,7 @@ from datetime import datetime, timedelta, date
 from enum import Enum
 from typing import Union, Optional, List
 
-from sqlalchemy import and_
+from sqlalchemy import and_, func
 from sqlalchemy import desc, asc
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, Query
@@ -100,7 +100,7 @@ class Querier:
                         msg: Message) -> QueryResult:
         time_condition: List[bool] = self._get_timeframe_from_condition(table, msg)
 
-        if len(self.session.query(table).where(and_(*time_condition)).all()) == 0:
+        if self.session.query(func.count(table.id)).where(and_(*time_condition)).scalar() == 0:
             return QueryResult(msg, QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE, None, None)
 
         if msg.intent.calculation_type in [CalculationType.MAXIMUM, CalculationType.MINIMUM]:
@@ -122,7 +122,7 @@ class Querier:
                     msg: Message) -> QueryResult:
         country_condition: List[bool] = self._get_country_from_condition(table, msg)
 
-        if len(self.session.query(table).where(and_(*country_condition)).all()) == 0:
+        if self.session.query(func.count(table.id)).where(and_(*country_condition)).scalar() == 0:
             return QueryResult(msg, QueryResultCode.NOT_EXISTING_LOCATION, None, {"location": msg.slots.location})
 
         if msg.intent.calculation_type in [CalculationType.MAXIMUM, CalculationType.MINIMUM]:
@@ -143,10 +143,10 @@ class Querier:
         time_condition: List[bool] = self._get_timeframe_from_condition(table, msg)
         country_condition: List[bool] = self._get_country_from_condition(table, msg)
 
-        if len(self.session.query(table).where(and_(*country_condition)).all()) == 0:
+        if self.session.query(func.count(table.id)).where(and_(*country_condition)).scalar() == 0:
             return QueryResult(msg, QueryResultCode.NOT_EXISTING_LOCATION, None, {"location": msg.slots.location})
 
-        if len(self.session.query(table).where(and_(*country_condition, *time_condition)).all()) == 0:
+        if self.session.query(func.count(table.id)).where(and_(*country_condition, *time_condition)).scalar() == 0:
             return QueryResult(msg, QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE, None, None)
 
         if msg.intent.calculation_type == CalculationType.RAW_VALUE:
