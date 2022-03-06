@@ -300,7 +300,7 @@ def test_check_when_maximum_new_cases_in_austria(querier, session):
     assert qr.result == current_day - timedelta(days=1)
 
 
-with open(pathlib.Path(__file__).parent / "annotated_queries.json") as query_file:
+with open(pathlib.Path(__file__).parent.parent / "annotated_queries.json") as query_file:
     queries = json.load(query_file)
 
 spacy = get_spacy()
