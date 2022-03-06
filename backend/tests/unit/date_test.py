@@ -8,13 +8,8 @@ from spacy import Language
 from spacy.tokens import Doc
 
 from lib.nlu.slot.date import DateRecognizer, Date
-from lib.spacy_components.custom_spacy import get_spacy
+from tests.common import queries, spacy, date_recognizer
 
-with open(pathlib.Path(__file__).parent.parent / "annotated_queries.json") as query_file:
-    queries: List[dict] = json.load(query_file)
-
-spacy: Language = get_spacy()
-date_recognizer: DateRecognizer = DateRecognizer()
 today: datetime.date = datetime(2022, 3, 2).date()
 
 date_tuples = [

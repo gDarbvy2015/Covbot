@@ -4,13 +4,7 @@ import pathlib
 import pytest
 
 from lib.nlu.intent import IntentRecognizer, ValueDomain, CalculationType, MeasurementType, ValueType
-from lib.spacy_components.custom_spacy import get_spacy
-
-with open(pathlib.Path(__file__).parent.parent / "annotated_queries.json") as query_file:
-    queries = json.load(query_file)
-
-spacy = get_spacy()
-intent_recognizer = IntentRecognizer(spacy.vocab)
+from tests.common import queries, spacy, intent_recognizer
 
 
 @pytest.mark.parametrize("query", queries)

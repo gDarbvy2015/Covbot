@@ -7,13 +7,7 @@ from spacy import Language
 from spacy.tokens import Doc
 
 from lib.nlu.topic import TopicRecognizer, Topic
-from lib.spacy_components.custom_spacy import get_spacy
-
-with open(pathlib.Path(__file__).parent.parent / "annotated_queries.json") as query_file:
-    queries: List[dict] = json.load(query_file)
-
-spacy: Language = get_spacy()
-topic_recognizer: TopicRecognizer = TopicRecognizer()
+from tests.common import queries, spacy, topic_recognizer
 
 
 @pytest.mark.parametrize("query", queries)

@@ -21,6 +21,7 @@ from lib.nlu.slot.slots import Slots
 from lib.nlu.topic.topic import Topic
 from lib.spacy_components.custom_spacy import get_spacy
 
+
 # If this is changed, most test cases will need to be changed
 current_day = datetime(2022, 2, 24).date()
 
