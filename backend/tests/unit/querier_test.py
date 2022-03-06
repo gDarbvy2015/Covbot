@@ -309,7 +309,7 @@ message_builder = MessageBuilder()
 
 @pytest.mark.parametrize("query", queries)
 def test_all_annotated_queries(querier, query, session):
-    sent: Span = list(spacy(query["query"]).sents)[0]
+    sent: Span = spacy(query["query"])[:]
     msg = message_builder.create_message(sent)
 
     add_austria_cases(session)

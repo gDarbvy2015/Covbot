@@ -21,7 +21,7 @@ answer_generator = AnswerGenerator()
 # This test just checks whether the queries are answered without throwing an error, it doesn't
 # check whether the results really are correct.
 def test_whole_pipeline(query):
-    new_sent = list(spacy(query["query"]).sents)[0]
+    new_sent = spacy(query["query"])[:]
     message = message_builder.create_message(new_sent)
     query_result = querier.query_intent(message)
     answer_generator.generate_answer(query_result)

@@ -19,5 +19,5 @@ topic_recognizer: TopicRecognizer = TopicRecognizer()
 @pytest.mark.parametrize("query", queries)
 def test_topics(query):
     doc: Doc = spacy(query["query"])
-    predicted_topic: Topic = topic_recognizer.recognize_topic(list(doc.sents)[0])
+    predicted_topic: Topic = topic_recognizer.recognize_topic(doc[:])
     assert predicted_topic == Topic.from_str(query["topic"])

@@ -43,7 +43,7 @@ date_tuples = [
 @pytest.mark.parametrize("query", queries)
 def test_dates(query):
     doc: Doc = spacy(query["query"])
-    predicted_date: Optional[Date] = date_recognizer.recognize_date(list(doc.sents)[0])
+    predicted_date: Optional[Date] = date_recognizer.recognize_date(doc[:])
     if predicted_date is None:
         assert query["slots"]["timeframe"] is None
     else:

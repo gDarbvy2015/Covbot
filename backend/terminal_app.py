@@ -21,7 +21,7 @@ if __name__ == '__main__':
 
     for sentence in sentences:
         print(sentence)
-        new_sent = list(spacy(sentence).sents)[0]
+        new_sent = sentence[:]
         message = message_builder.create_message(new_sent)
         query_result = querier.query_intent(message)
         answer = answer_generator.generate_answer(query_result)
