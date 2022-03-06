@@ -16,15 +16,15 @@ class DatasetHandler:
     def load_covid_cases(self) -> DataFrame:
         path: str = os.environ.get("COVBOT_CASES_PATH")
         data: DataFrame = pd.read_csv(path).set_index("date").stack().reset_index()
-        data.columns = ["date", "country", "cases"]
+        data.columns = ["date", "location", "cases"]
 
-        data["country_normalized"] = data.apply(lambda row:
-                                                Location.normalize_country_name(row["country"]), axis=1)
+        data["location_normalized"] = data.apply(lambda row:
+                                                Location.normalize_location_name(row["location"]), axis=1)
 
-        exclude_countries = ["upper middle income", "summer olympics 2020", "lower middle income",
+        exclude_locations = ["upper middle income", "summer olympics 2020", "lower middle income",
                              "low income", "international", "world", "high income", "europe", "asia",
                              "european union", "north america"]
-        data = data[~data["country_normalized"].isin(exclude_countries)]
+        data = data[~data["location_normalized"].isin(exclude_locations)]
         data = self._add_cumulative_cases(data)
 
         data["id"] = data.index + 1
@@ -36,16 +36,15 @@ class DatasetHandler:
                                        "daily_vaccinations",
                                        "daily_people_vaccinated"]
         data = pd.read_csv(path)[relevant_columns]
-        relevant_columns[0] = "country"
         data.columns = relevant_columns
 
-        data["country_normalized"] = data.apply(lambda row:
-                                                Location.normalize_country_name(row["country"]), axis=1)
+        data["location_normalized"] = data.apply(lambda row:
+                                                Location.normalize_location_name(row["location"]), axis=1)
 
-        exclude_countries: List[str] = ["world", "lower middle income", "low income", "high income",
+        exclude_locations: List[str] = ["world", "lower middle income", "low income", "high income",
                                         "upper middle income", "europe", "asia", "european union",
                                         "north america"]
-        data = data[~data["country_normalized"].isin(exclude_countries)]
+        data = data[~data["location_normalized"].isin(exclude_locations)]
         data = self._add_cumulative_vaccinations(data)
 
         data["id"] = data.index + 1
@@ -59,15 +58,15 @@ class DatasetHandler:
 
     def _add_cumulative_cases(self, df: DataFrame) -> DataFrame:
         df["date_in_seconds"] = df.apply(lambda row: datetime.strptime(row["date"], "%Y-%m-%d").timestamp(), axis=1)
-        df = df.set_index(["country", "date_in_seconds"]).sort_index()
-        df["cumulative_cases"] = df["cases"].fillna(0).groupby("country").cumsum()
+        df = df.set_index(["location", "date_in_seconds"]).sort_index()
+        df["cumulative_cases"] = df["cases"].fillna(0).groupby("location").cumsum()
         return df.reset_index().drop("date_in_seconds", axis=1)
 
     def _add_cumulative_vaccinations(self, df: DataFrame) -> DataFrame:
         df["date_in_seconds"] = df.apply(lambda row: datetime.strptime(row["date"], "%Y-%m-%d").timestamp(), axis=1)
-        df = df.set_index(["country", "date_in_seconds"]).sort_index()
-        df["total_vaccinations"] = df["daily_vaccinations"].fillna(0).groupby("country").cumsum()
-        df["people_vaccinated"] = df["daily_people_vaccinated"].fillna(0).groupby("country").cumsum()
+        df = df.set_index(["location", "date_in_seconds"]).sort_index()
+        df["total_vaccinations"] = df["daily_vaccinations"].fillna(0).groupby("location").cumsum()
+        df["people_vaccinated"] = df["daily_people_vaccinated"].fillna(0).groupby("location").cumsum()
         return df.reset_index().drop("date_in_seconds", axis=1)
 
 
@@ -76,4 +75,4 @@ if __name__ == '__main__':
     vaccinations = dataset_handler.load_vaccinations()
     pd.set_option('display.max_columns', 500)
     pd.set_option('display.width', 1000)
-    print(vaccinations[vaccinations["country"] == "China"])
+    print(vaccinations[vaccinations["location"] == "China"])

@@ -13,14 +13,14 @@ class Case(Base):
 
     id = Column(Integer, primary_key=True)
     date = Column(Date)
-    country = Column(String(256))
-    country_normalized = Column(String(256))
+    location = Column(String(256))
+    location_normalized = Column(String(256))
     cases = Column(BigInteger)
     cumulative_cases = Column(BigInteger)
 
     def __repr__(self):
-        return f"Case(id={self.id}, date={self.date}, country={self.country}, " \
-               f"country_normalized={self.country_normalized}, cases={self.cases}, " \
+        return f"Case(id={self.id}, date={self.date}, location={self.location}, " \
+               f"location_normalized={self.location_normalized}, cases={self.cases}, " \
                f"cumulative_cases={self.cumulative_cases})"
 
 
@@ -29,16 +29,16 @@ class Vaccination(Base):
 
     id = Column(Integer, primary_key=True)
     date = Column(Date)
-    country = Column(String(256))
-    country_normalized = Column(String(256))
+    location = Column(String(256))
+    location_normalized = Column(String(256))
     total_vaccinations = Column(BigInteger)
     people_vaccinated = Column(BigInteger)
     daily_vaccinations = Column(Integer)
     daily_people_vaccinated = Column(Integer)
 
     def __repr__(self):
-        return f"Case(id={self.id}, date={self.date}, country={self.country}, " \
-               f"country_normalized={self.country_normalized}, total_vaccinations={self.total_vaccinations}, " \
+        return f"Case(id={self.id}, date={self.date}, location={self.location}, " \
+               f"location_normalized={self.location_normalized}, total_vaccinations={self.total_vaccinations}, " \
                f"people_vaccinated={self.people_vaccinated}, daily_vaccinations={self.daily_vaccinations}, " \
                f"daily_people_vaccinated={self.daily_people_vaccinated})"
 

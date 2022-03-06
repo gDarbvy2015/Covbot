@@ -112,7 +112,7 @@ class Querier:
                 if len(result) == 0:
                     return QueryResult(msg, QueryResultCode.UNEXPECTED_RESULT, None, None)
                 else:
-                    return QueryResult(msg, QueryResultCode.SUCCESS, result[0].country, None)
+                    return QueryResult(msg, QueryResultCode.SUCCESS, result[0].location, None)
             else:
                 raise NotImplementedError()
         else:
@@ -120,14 +120,14 @@ class Querier:
 
     def _query_date(self, table: Union[Case, Vaccination], considered_column: InstrumentedAttribute,
                     msg: Message) -> QueryResult:
-        country_condition: List[bool] = self._get_country_from_condition(table, msg)
+        location_condition: List[bool] = self._get_location_from_condition(table, msg)
 
-        if self.session.query(func.count(table.id)).where(and_(*country_condition)).scalar() == 0:
+        if self.session.query(func.count(table.id)).where(and_(*location_condition)).scalar() == 0:
             return QueryResult(msg, QueryResultCode.NOT_EXISTING_LOCATION, None, {"location": msg.slots.location})
 
         if msg.intent.calculation_type in [CalculationType.MAXIMUM, CalculationType.MINIMUM]:
             sort_order = asc if msg.intent.calculation_type == CalculationType.MINIMUM else desc
-            query = self.session.query(table).where(and_(*country_condition)).order_by(
+            query = self.session.query(table).where(and_(*location_condition)).order_by(
                 sort_order(considered_column)).limit(1)
             result = query.all()
             if len(result) == 0:
@@ -141,12 +141,12 @@ class Querier:
                       msg: Message) -> QueryResult:
         # If no timeframe is given, we assume that the user is asking for today
         time_condition: List[bool] = self._get_timeframe_from_condition(table, msg)
-        country_condition: List[bool] = self._get_country_from_condition(table, msg)
+        location_condition: List[bool] = self._get_location_from_condition(table, msg)
 
-        if self.session.query(func.count(table.id)).where(and_(*country_condition)).scalar() == 0:
+        if self.session.query(func.count(table.id)).where(and_(*location_condition)).scalar() == 0:
             return QueryResult(msg, QueryResultCode.NOT_EXISTING_LOCATION, None, {"location": msg.slots.location})
 
-        if self.session.query(func.count(table.id)).where(and_(*country_condition, *time_condition)).scalar() == 0:
+        if self.session.query(func.count(table.id)).where(and_(*location_condition, *time_condition)).scalar() == 0:
             return QueryResult(msg, QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE, None, None)
 
         if msg.intent.calculation_type == CalculationType.RAW_VALUE:
@@ -161,7 +161,7 @@ class Querier:
             raise NotImplementedError()
 
         query = query.where(and_(
-            *time_condition, *country_condition
+            *time_condition, *location_condition
         ))
 
         if msg.intent.calculation_type == CalculationType.RAW_VALUE:
@@ -177,7 +177,7 @@ class Querier:
             else:
                 return QueryResult(msg, QueryResultCode.SUCCESS, result[0][0], None)
 
-    def _get_country_from_condition(self, table: Union[Case, Vaccination], msg: Message) -> List[bool]:
+    def _get_location_from_condition(self, table: Union[Case, Vaccination], msg: Message) -> List[bool]:
         # If we are querying the location, we just ignore whatever is in there since we don't need it.
         if msg.intent.value_type == ValueType.LOCATION:
             return []
@@ -194,7 +194,7 @@ class Querier:
                 else:
                     raise NotImplementedError()
         else:
-            return [table.country_normalized == msg.slots.location]
+            return [table.location_normalized == msg.slots.location]
 
     def _get_timeframe_from_condition(self, table: Union[Case, Vaccination], msg: Message) -> List[bool]:
         # If we are asking for the day, we just ignore any timeframes found.

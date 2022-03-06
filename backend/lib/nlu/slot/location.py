@@ -14,7 +14,7 @@ class Location:
               'albania', 'bahamas', 'lesotho', 'cambodia', 'guernsey', 'kyrgyzstan', 'germany', 'wales', 'samoa',
               'bulgaria', 'finland', 'israel', 'sint maarten', 'malaysia', 'thailand', 'macao', 'estonia', 'guyana',
               'rwanda', 'algeria', 'northern cyprus', 'france', 'pakistan', 'mali', 'belize', 'taiwan',
-              'northern ireland', 'croatia', 'indonesia', 'africa', 'georgia', 'uzbekistan', 'liberia', 'guineabissau',
+              'northern ireland', 'croatia', 'indonesia', 'georgia', 'uzbekistan', 'liberia', 'guineabissau',
               'lithuania', 'uganda', 'slovakia', 'equatorial guinea', 'belarus', 'andorra', 'luxembourg', 'malawi',
               'spain', 'oman', 'gambia', 'wallis and futuna', 'honduras', 'jersey', 'congo', 'netherlands', 'latvia',
               'togo', 'montenegro', 'kuwait', 'burkina faso', 'south africa', 'serbia', 'gibraltar', 'guinea',
@@ -35,14 +35,14 @@ class Location:
               'turks and caicos islands', 'new caledonia', 'mauritania', 'bolivia', 'sierra leone', 'costa rica',
               'curacao', 'eswatini', 'saint kitts and nevis', 'cayman islands', 'myanmar', 'zambia'}
 
-    _continents: Set[str] = {"europe", "asia", "european union", "north america", "south america"}
+    _continents: Set[str] = {"europe", "asia", "european union", "north america", "south america", "africa"}
 
     _world: Set[str] = {"world"}
 
     @staticmethod
-    def normalize_country_name(country_name: str) -> str:
-        def _map_country_abbreviations(string: str) -> str:
-            country_name_map: dict = {
+    def normalize_location_name(location_name: str) -> str:
+        def _map_location_abbreviations(string: str) -> str:
+            location_name_map: dict = {
                 "macedonia": "north macedonia",
                 "hk": "hong kong",
                 "nz": "new zealand",
@@ -59,13 +59,13 @@ class Location:
                 "united states of america": "united states"
             }
 
-            return country_name_map[string] if string in country_name_map else string
+            return location_name_map[string] if string in location_name_map else string
 
-        country_name = country_name.lower()
-        country_name = re.sub(r"\.|-|'|\s*\([^)]+\)", "", country_name)
-        country_name = _map_country_abbreviations(country_name)
+        location_name = location_name.lower()
+        location_name = re.sub(r"\.|-|'|\s*\([^)]+\)", "", location_name)
+        location_name = _map_location_abbreviations(location_name)
 
-        return country_name
+        return location_name
 
     @staticmethod
     def get_countries() -> Set[str]:
@@ -90,11 +90,11 @@ class LocationRecognizer:
         if len(location_ents) == 0:
             # If automated entity recognition doesn't work, try a manual approach
             for token in span:
-                normalized_token: str = Location.normalize_country_name(token.text)
+                normalized_token: str = Location.normalize_location_name(token.text)
 
                 if normalized_token in Location.get_all():
                     return normalized_token
 
             return None
         else:
-            return Location.normalize_country_name(location_ents[0])
+            return Location.normalize_location_name(location_ents[0])

@@ -45,23 +45,23 @@ def session(db_manager: DatabaseManager):
 
 def add_austria_cases(session):
     cases = [
-        Case(id=1, date=current_day - timedelta(days=9), country="Austria", country_normalized="austria", cases=15000,
+        Case(id=1, date=current_day - timedelta(days=9), location="Austria", location_normalized="austria", cases=15000,
              cumulative_cases=15000),
-        Case(id=2, date=current_day - timedelta(days=8), country="Austria", country_normalized="austria", cases=16345,
+        Case(id=2, date=current_day - timedelta(days=8), location="Austria", location_normalized="austria", cases=16345,
              cumulative_cases=31345),
-        Case(id=3, date=current_day - timedelta(days=7), country="Austria", country_normalized="austria", cases=8450,
+        Case(id=3, date=current_day - timedelta(days=7), location="Austria", location_normalized="austria", cases=8450,
              cumulative_cases=39795),
-        Case(id=4, date=current_day - timedelta(days=6), country="Austria", country_normalized="austria", cases=4560,
+        Case(id=4, date=current_day - timedelta(days=6), location="Austria", location_normalized="austria", cases=4560,
              cumulative_cases=40251),
-        Case(id=5, date=current_day - timedelta(days=5), country="Austria", country_normalized="austria", cases=7054,
+        Case(id=5, date=current_day - timedelta(days=5), location="Austria", location_normalized="austria", cases=7054,
              cumulative_cases=45060),
-        Case(id=6, date=current_day - timedelta(days=4), country="Austria", country_normalized="austria", cases=10450,
+        Case(id=6, date=current_day - timedelta(days=4), location="Austria", location_normalized="austria", cases=10450,
              cumulative_cases=61859),
-        Case(id=7, date=current_day - timedelta(days=2), country="Austria", country_normalized="austria", cases=15392,
+        Case(id=7, date=current_day - timedelta(days=2), location="Austria", location_normalized="austria", cases=15392,
              cumulative_cases=77251),
-        Case(id=8, date=current_day - timedelta(days=1), country="Austria", country_normalized="austria", cases=19509,
+        Case(id=8, date=current_day - timedelta(days=1), location="Austria", location_normalized="austria", cases=19509,
              cumulative_cases=96760),
-        Case(id=9, date=current_day, country="Austria", country_normalized="austria", cases=12000,
+        Case(id=9, date=current_day, location="Austria", location_normalized="austria", cases=12000,
              cumulative_cases=108760),
     ]
     session.add_all(cases)
@@ -69,22 +69,22 @@ def add_austria_cases(session):
 
 def add_austria_vaccinations(session):
     vaccinations = [
-        Vaccination(id=1, date=current_day - timedelta(days=6), country="Austria", country_normalized="austria",
+        Vaccination(id=1, date=current_day - timedelta(days=6), location="Austria", location_normalized="austria",
                     total_vaccinations=1200, people_vaccinated=1200, daily_vaccinations=1200,
                     daily_people_vaccinated=1200),
-        Vaccination(id=2, date=current_day - timedelta(days=5), country="Austria", country_normalized="austria",
+        Vaccination(id=2, date=current_day - timedelta(days=5), location="Austria", location_normalized="austria",
                     total_vaccinations=2700, people_vaccinated=2500, daily_vaccinations=1500,
                     daily_people_vaccinated=1300),
-        Vaccination(id=3, date=current_day - timedelta(days=4), country="Austria", country_normalized="austria",
+        Vaccination(id=3, date=current_day - timedelta(days=4), location="Austria", location_normalized="austria",
                     total_vaccinations=3500, people_vaccinated=3100, daily_vaccinations=800,
                     daily_people_vaccinated=600),
-        Vaccination(id=4, date=current_day - timedelta(days=3), country="Austria", country_normalized="austria",
+        Vaccination(id=4, date=current_day - timedelta(days=3), location="Austria", location_normalized="austria",
                     total_vaccinations=6900, people_vaccinated=6100, daily_vaccinations=3400,
                     daily_people_vaccinated=3000),
-        Vaccination(id=5, date=current_day - timedelta(days=2), country="Austria", country_normalized="austria",
+        Vaccination(id=5, date=current_day - timedelta(days=2), location="Austria", location_normalized="austria",
                     total_vaccinations=10500, people_vaccinated=9300, daily_vaccinations=3600,
                     daily_people_vaccinated=3200),
-        Vaccination(id=6, date=current_day - timedelta(days=1), country="Austria", country_normalized="austria",
+        Vaccination(id=6, date=current_day - timedelta(days=1), location="Austria", location_normalized="austria",
                     total_vaccinations=11000, people_vaccinated=9600, daily_vaccinations=500,
                     daily_people_vaccinated=300),
     ]
@@ -93,13 +93,13 @@ def add_austria_vaccinations(session):
 
 def add_different_countries_vaccinations(session):
     vaccinations = [
-        Vaccination(id=7, date=current_day - timedelta(days=2), country="Austria", country_normalized="austria",
+        Vaccination(id=7, date=current_day - timedelta(days=2), location="Austria", location_normalized="austria",
                     total_vaccinations=1200, people_vaccinated=1000, daily_vaccinations=1200,
                     daily_people_vaccinated=1000),
-        Vaccination(id=8, date=current_day - timedelta(days=2), country="Ukraine", country_normalized="ukraine",
+        Vaccination(id=8, date=current_day - timedelta(days=2), location="Ukraine", location_normalized="ukraine",
                     total_vaccinations=3000, people_vaccinated=2400, daily_vaccinations=3000,
                     daily_people_vaccinated=2400),
-        Vaccination(id=9, date=current_day - timedelta(days=2), country="Germany", country_normalized="ukraine",
+        Vaccination(id=9, date=current_day - timedelta(days=2), location="Germany", location_normalized="ukraine",
                     total_vaccinations=4000, people_vaccinated=1000, daily_vaccinations=4000,
                     daily_people_vaccinated=1000),
     ]
