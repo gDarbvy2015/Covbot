@@ -1,11 +1,11 @@
-from typing import Optional
+import re
+from typing import Optional, List, Set
 
 from spacy.tokens import Span
 
-from lib.nlp.nlp_processor import NLPProcessor
-
-_locations = {'micronesia', 'poland', 'philippines', 'portugal', 'anguilla', 'niue', 'moldova', 'bermuda', 'canada',
-              'tonga', 'aruba', 'angola', 'ireland', 'ecuador', 'timor', 'afghanistan', 'iraq', 'european union',
+class Location:
+    _countries: Set[str] = {'micronesia', 'poland', 'philippines', 'portugal', 'anguilla', 'niue', 'moldova', 'bermuda', 'canada',
+              'tonga', 'aruba', 'angola', 'ireland', 'ecuador', 'timor', 'afghanistan', 'iraq',
               'hong kong', 'liechtenstein', 'maldives', 'palau', 'benin', 'syria', 'guatemala', 'venezuela', 'armenia',
               'tokelau', 'turkmenistan', 'tuvalu', 'congo', 'azerbaijan', 'bosnia and herzegovina', 'madagascar',
               'bhutan', 'burundi', 'cameroon', 'bangladesh', 'ukraine', 'qatar', 'ethiopia', 'jordan', 'uruguay',
@@ -24,32 +24,77 @@ _locations = {'micronesia', 'poland', 'philippines', 'portugal', 'anguilla', 'ni
               'tanzania', 'kosovo', 'new zealand', 'india', 'bonaire sint eustatius and saba', 'iceland', 'nigeria',
               'seychelles', 'mozambique', 'vietnam', 'hungary', 'niger', 'chad', 'austria', 'greenland', 'kenya',
               'barbados', 'panama', 'saudi arabia', 'yemen', 'djibouti', 'vatican', 'sudan', 'palestine', 'tajikistan',
-              'mauritius', 'gabon', 'oceania', 'chile', 'cape verde', 'asia', 'italy', 'mexico', 'paraguay',
+              'mauritius', 'gabon', 'oceania', 'chile', 'cape verde', 'italy', 'mexico', 'paraguay',
               'antigua and barbuda', 'montserrat', 'cyprus', 'botswana', 'pitcairn', 'laos', 'tunisia', 'switzerland',
               'trinidad and tobago', 'china', 'saint pierre and miquelon', 'north macedonia', 'zimbabwe', 'kazakhstan',
-              'morocco', 'faeroe islands', 'namibia', 'norway', 'europe', 'jamaica', 'scotland', 'eritrea', 'lebanon',
+              'morocco', 'faeroe islands', 'namibia', 'norway', 'jamaica', 'scotland', 'eritrea', 'lebanon',
               'bahrain', 'czechia', 'cuba', 'nicaragua', 'monaco', 'peru', 'libya', 'solomon islands', 'romania',
-              'san marino', 'nepal', 'falkland islands', 'south america', 'sweden', 'el salvador', 'england',
-              'colombia', 'australia', 'north america', 'mongolia', 'south korea', 'saint lucia',
+              'san marino', 'nepal', 'falkland islands', 'sweden', 'el salvador', 'england',
+              'colombia', 'australia', 'mongolia', 'south korea', 'saint lucia',
               'united arab emirates', 'turkey', 'marshall islands', 'british virgin islands', 'dominican republic',
               'turks and caicos islands', 'new caledonia', 'mauritania', 'bolivia', 'sierra leone', 'costa rica',
               'curacao', 'eswatini', 'saint kitts and nevis', 'cayman islands', 'myanmar', 'zambia'}
 
+    _continents: Set[str] = {"europe", "asia", "european union", "north america", "south america"}
+
+    _world: Set[str] = {"world"}
+
+    @staticmethod
+    def normalize_country_name(country_name: str) -> str:
+        def _map_country_abbreviations(string: str) -> str:
+            country_name_map: dict = {
+                "macedonia": "north macedonia",
+                "hk": "hong kong",
+                "nz": "new zealand",
+                "democratic republic of congo": "congo",
+                "uk": "united kingdom",
+                "na": "north america",
+                "eu": "european union",
+                "uae": "united arab emirates",
+                "bosnia": "bosnia and herzegovina",
+                "salvador": "el salvador",
+                "virgin islands": "british virgin islands",
+                "us": "united states",
+                "usa": "united states",
+                "united states of america": "united states"
+            }
+
+            return country_name_map[string] if string in country_name_map else string
+
+        country_name = country_name.lower()
+        country_name = re.sub(r"\.|-|'|\s*\([^)]+\)", "", country_name)
+        country_name = _map_country_abbreviations(country_name)
+
+        return country_name
+
+    @staticmethod
+    def get_countries() -> Set[str]:
+        return Location._countries
+
+    @staticmethod
+    def get_continents() -> Set[str]:
+        return Location._continents
+
+    @staticmethod
+    def get_world() -> Set[str]:
+        return Location._world
+
+    @staticmethod
+    def get_all() -> Set[str]:
+        return Location.get_countries().union(Location.get_continents()).union(Location.get_world())
+
 
 class LocationRecognizer:
-    def __init__(self):
-        self._nlp_processor = NLPProcessor()
-
     def recognize_location(self, span: Span) -> Optional[str]:
         location_ents: list = [ent.text for ent in span.ents if ent.label_ == "GPE"]
         if len(location_ents) == 0:
             # If automated entity recognition doesn't work, try a manual approach
             for token in span:
-                normalized_token: str = self._nlp_processor.normalize_country_name(token.text)
+                normalized_token: str = Location.normalize_country_name(token.text)
 
-                if normalized_token in _locations:
+                if normalized_token in Location.get_all():
                     return normalized_token
 
             return None
         else:
-            return self._nlp_processor.normalize_country_name(location_ents[0])
+            return Location.normalize_country_name(location_ents[0])

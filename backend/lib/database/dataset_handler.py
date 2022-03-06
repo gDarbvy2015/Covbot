@@ -5,13 +5,12 @@ from typing import List
 import pandas as pd
 from pandas import DataFrame
 
-from lib.nlp.nlp_processor import NLPProcessor
+from lib.nlu.slot.location import Location
 from lib.util.logger import Logger
 
 
 class DatasetHandler:
     def __init__(self):
-        self.nlp_pipeline: NLPProcessor = NLPProcessor()
         self.logger: Logger = Logger(__name__)
 
     def load_covid_cases(self) -> DataFrame:
@@ -20,8 +19,7 @@ class DatasetHandler:
         data.columns = ["date", "country", "cases"]
 
         data["country_normalized"] = data.apply(lambda row:
-                                                self.nlp_pipeline.normalize_country_name(row["country"]), axis=1)
-
+                                                Location.normalize_country_name(row["country"]), axis=1)
 
         exclude_countries = ["upper middle income", "summer olympics 2020", "lower middle income",
                              "low income", "international", "world", "high income", "europe", "asia",
@@ -42,7 +40,7 @@ class DatasetHandler:
         data.columns = relevant_columns
 
         data["country_normalized"] = data.apply(lambda row:
-                                                self.nlp_pipeline.normalize_country_name(row["country"]), axis=1)
+                                                Location.normalize_country_name(row["country"]), axis=1)
 
         exclude_countries: List[str] = ["world", "lower middle income", "low income", "high income",
                                         "upper middle income", "europe", "asia", "european union",
