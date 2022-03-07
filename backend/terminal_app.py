@@ -14,9 +14,9 @@ spacy = get_spacy()
 if __name__ == '__main__':
     with open(pathlib.Path.cwd() / "tests" / "annotated_queries.json") as query_file:
         queries = json.load(query_file)
-    sentences = [query["query"] for query in queries]
+    # sentences = [query["query"] for query in queries]
 
-    # sentences = ["How many new cases have been reported in Austria today?"]
+    sentences = ["How many people are vaccinated in Europe?"]
 
     for sentence in sentences:
         print(sentence)

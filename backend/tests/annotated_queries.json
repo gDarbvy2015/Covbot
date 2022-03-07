@@ -811,5 +811,20 @@
       "location": "austria",
       "timeframe": null
     }
+  },
+  {
+    "id": 49,
+    "query": "How many people are vaccinated in Europe?",
+    "topic": "VACCINATIONS",
+    "intent": {
+      "calculation_type": "RAW_VALUE",
+      "value_type": "NUMBER",
+      "value_domain": "VACCINATED_PEOPLE",
+      "measurement_type": "CUMULATIVE"
+    },
+    "slots": {
+      "location": "europe",
+      "timeframe": null
+    }
   }
 ]
