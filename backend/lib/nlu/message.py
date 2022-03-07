@@ -20,7 +20,6 @@ class MessageValidationCode(Enum):
 
     # These valication codes will be returned if there are issues or missing information in the user query, but
     # it is not unexpected that it will be returned.
-    NO_WORLDWIDE_SUPPORTED = 2
     NO_TIMEFRAME = 3
     AMBIGUOUS_TOPIC = 4
     UNKNOWN = 5
@@ -38,7 +37,7 @@ class MessageValidationCode(Enum):
 
     @staticmethod
     def get_user_query_error_codes() -> List[MessageValidationCode]:
-        return [MessageValidationCode.NO_WORLDWIDE_SUPPORTED, MessageValidationCode.NO_TIMEFRAME, MessageValidationCode.AMBIGUOUS_TOPIC,
+        return [MessageValidationCode.NO_TIMEFRAME, MessageValidationCode.AMBIGUOUS_TOPIC,
                 MessageValidationCode.UNKNOWN]
 
     @staticmethod
