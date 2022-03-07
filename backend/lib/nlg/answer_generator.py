@@ -7,7 +7,7 @@ from typing import Tuple
 import yaml
 
 from lib.database.querier import QueryResultCode, QueryResult
-from lib.nlu.intent import Intent
+from lib.nlu.intent import Intent, ValueType
 from lib.nlu.message import Message, MessageValidationCode
 from lib.nlu.slot import Slots
 from lib.nlu.slot.date import Date
@@ -68,6 +68,9 @@ class AnswerGenerator:
 
         if slots.location:
             value_dict["location"] = slots.location
+
+        if slots.location is None and query_result.message.intent.value_type in [ValueType.DAY, ValueType.NUMBER]:
+            value_dict["location"] = "the world"
 
         if slots.date:
             value_dict["date"] = Date.generate_date_message(slots.date)
