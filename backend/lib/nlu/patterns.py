@@ -1,8 +1,11 @@
 from typing import List
 
 from nltk import PorterStemmer
+from spacy.matcher import DependencyMatcher
+from spacy.tokens import Span
 
 from lib.nlu.topic.topic import TopicRecognizer
+from lib.spacy_components.custom_spacy import CustomSpacy
 
 
 class Pattern:
@@ -224,3 +227,12 @@ class Pattern:
             }
         }
     ]
+
+    @staticmethod
+    def has_valid_pattern(span: Span, pattern: list) -> bool:
+        matcher: DependencyMatcher = DependencyMatcher(CustomSpacy.get_spacy().vocab)
+
+        matcher.add("pattern", pattern)
+        result: list = matcher(span)
+
+        return len(result) > 0

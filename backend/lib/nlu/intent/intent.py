@@ -13,7 +13,7 @@ from lib.nlu.intent.value_type import ValueType
 from lib.nlu.patterns import Pattern
 from lib.nlu.slot.date import DateRecognizer, Date
 from lib.nlu.topic.topic import TopicRecognizer, Topic
-from lib.spacy_components.custom_spacy import get_spacy
+from lib.spacy_components.custom_spacy import get_spacy, CustomSpacy
 
 
 @dataclass
@@ -25,12 +25,10 @@ class Intent:
 
 
 class IntentRecognizer:
-    def __init__(self, vocab):
+    def __init__(self):
         self._stemmer: PorterStemmer = PorterStemmer()
         self._topic_recognizer: TopicRecognizer = TopicRecognizer()
         self._date_recognizer: DateRecognizer = DateRecognizer()
-        #
-        self._vocab = vocab
 
     def recognize_intent(self, span: Span) -> Intent:
         value_domain: ValueDomain = self.recognize_value_domain(span)
@@ -45,10 +43,10 @@ class IntentRecognizer:
         value_type: ValueType = self.recognize_value_type(span)
 
         # e.g. "What is the highest number of cases recorded in Austria?".
-        if self._has_valid_pattern(span, [Pattern.maximum_number_pattern, Pattern.most_trigger_word_pattern]):
+        if Pattern.has_valid_pattern(span, [Pattern.maximum_number_pattern, Pattern.most_trigger_word_pattern]):
             return CalculationType.MAXIMUM
         # e.g. "What is the smallest number of cases recorded in Austria this week?".
-        if self._has_valid_pattern(span, [Pattern.minimum_number_pattern, Pattern.least_trigger_word_pattern]):
+        if Pattern.has_valid_pattern(span, [Pattern.minimum_number_pattern, Pattern.least_trigger_word_pattern]):
             return CalculationType.MINIMUM
 
         # If we were asking about a day or a location, it either has to be maximum or minimum, so by now
@@ -74,7 +72,7 @@ class IntentRecognizer:
         # Distinguish between "how many vaccines have been administered" and "how many people have been vaccinated".
         elif topic == Topic.VACCINATIONS:
 
-            matcher: DependencyMatcher = DependencyMatcher(self._vocab)
+            matcher: DependencyMatcher = DependencyMatcher(CustomSpacy.get_spacy().vocab)
             matcher.add("human", [Pattern.human_pattern])
             matcher.add("vaccine", [Pattern.vaccine_trigger_pattern])
             result: list = matcher(span.as_doc())
@@ -139,34 +137,26 @@ class IntentRecognizer:
     def recognize_value_type(self, span: Span) -> ValueType:
         # Use each of the pre-defined patterns to understand what type of value the user is asking from us.
         # e.g. "When did Austria have the most Corona cases?"
-        if self._has_valid_pattern(span, [Pattern.what_day_pattern, Pattern.when_pattern]):
+        if Pattern.has_valid_pattern(span, [Pattern.what_day_pattern, Pattern.when_pattern]):
             return ValueType.DAY
         # e.g. "Where have most Corona cases been reported?"
-        elif self._has_valid_pattern(span, [Pattern.where_pattern, Pattern.what_country_pattern,
+        elif Pattern.has_valid_pattern(span, [Pattern.where_pattern, Pattern.what_country_pattern,
                                             Pattern.what_is_country_pattern]):
             return ValueType.LOCATION
         # e.g. "What is the number of new Corona cases in Austria today?"
-        elif self._has_valid_pattern(span, [Pattern.how_many_pattern, Pattern.number_of_pattern]):
+        elif Pattern.has_valid_pattern(span, [Pattern.how_many_pattern, Pattern.number_of_pattern]):
             return ValueType.NUMBER
         # If we don't have any other clues but there are trigger words, we assume that we are asking for the number
         # e.g. "vaccinations worldwide today" (query with id 20)
-        elif self._has_valid_pattern(span, [Pattern.case_trigger_pattern, Pattern.vaccine_trigger_pattern]):
+        elif Pattern.has_valid_pattern(span, [Pattern.case_trigger_pattern, Pattern.vaccine_trigger_pattern]):
             return ValueType.NUMBER
 
         return ValueType.UNKNOWN
-
-    def _has_valid_pattern(self, span: Span, pattern: list) -> bool:
-        matcher: DependencyMatcher = DependencyMatcher(self._vocab)
-
-        matcher.add("pattern", pattern)
-        result: list = matcher(span)
-
-        return len(result) > 0
 
 
 if __name__ == '__main__':
     sent = "Which country had the most corona cases yesterday?"
     nlp = get_spacy()
     span = list(nlp(sent).sents)[0]
-    ir = IntentRecognizer(nlp.vocab)
+    ir = IntentRecognizer()
     print(ir.recognize_intent(span))

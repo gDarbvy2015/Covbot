@@ -15,7 +15,7 @@ with open(pathlib.Path(__file__).parent / "annotated_queries.json") as query_fil
     queries = json.load(query_file)
 
 spacy = get_spacy()
-intent_recognizer = IntentRecognizer(spacy.vocab)
+intent_recognizer = IntentRecognizer()
 location_recognizer = LocationRecognizer()
 topic_recognizer = TopicRecognizer()
 querier = Querier()
