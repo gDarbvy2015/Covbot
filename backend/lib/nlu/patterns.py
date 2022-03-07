@@ -3,24 +3,28 @@ from typing import List
 from nltk import PorterStemmer
 from spacy.matcher import DependencyMatcher
 from spacy.tokens import Span
-
-from lib.nlu.topic.topic import TopicRecognizer
 from lib.spacy_components.custom_spacy import CustomSpacy
+
+_stemmer: PorterStemmer = PorterStemmer()
 
 
 class Pattern:
-    _stemmer: PorterStemmer = PorterStemmer()
-    _topic_recognizer: TopicRecognizer = TopicRecognizer()
-    _people_trigger_words: list = ["human", "people", "person", "individual"]
+    _people_trigger_words: list = [_stemmer.stem(word) for word in ["human", "people", "person", "individual"]]
+    _vaccine_trigger_words: list = [_stemmer.stem(word) for word in ["shot", "vaccine", "jab", "inoculation", "immunization",
+                                                      "administer"]]
+    _cases_trigger_words: list = [_stemmer.stem(word) for word in ["case", "infection", "test", "positive", "negative"]]
 
     human_pattern: List[dict] = [{
         "RIGHT_ID": "human_pattern",
         "RIGHT_ATTRS": {
-            "LEMMA": {
-                "IN": _people_trigger_words
+            "_": {
+                "stem": {
+                    "IN": _people_trigger_words
+                }
             }
         }
     }]
+
 
     country_pattern: List[dict] = [{
         "RIGHT_ID": "country_pattern",
@@ -36,7 +40,7 @@ class Pattern:
         "RIGHT_ATTRS": {
             "_": {
                 "stem": {
-                    "IN": list(_topic_recognizer.get_vaccine_trigger_words())
+                    "IN": _vaccine_trigger_words
                 }
             }
         }
@@ -47,7 +51,7 @@ class Pattern:
         "RIGHT_ATTRS": {
             "_": {
                 "stem": {
-                    "IN": list(_topic_recognizer.get_cases_trigger_words())
+                    "IN": _cases_trigger_words
                 }
             }
         }
@@ -189,9 +193,7 @@ class Pattern:
             "RIGHT_ATTRS": {
                 "_": {
                     "stem": {
-                        "IN": list(_topic_recognizer.get_vaccine_trigger_words()) + list(
-                            _topic_recognizer.get_cases_trigger_words())
-                              + _people_trigger_words
+                        "IN": _vaccine_trigger_words + _cases_trigger_words + _people_trigger_words
                     }
                 }
             }
@@ -206,9 +208,7 @@ class Pattern:
             "RIGHT_ATTRS": {
                 "_": {
                     "stem": {
-                        "IN": list(_topic_recognizer.get_vaccine_trigger_words()) + list(
-                            _topic_recognizer.get_cases_trigger_words())
-                              + _people_trigger_words
+                        "IN": _vaccine_trigger_words + _cases_trigger_words + _people_trigger_words
                     }
                 }
             }
