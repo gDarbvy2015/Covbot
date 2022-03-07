@@ -20,6 +20,7 @@ from lib.nlu.intent.measurement_type import MeasurementType
 from lib.nlu.intent.value_domain import ValueDomain
 from lib.nlu.intent.value_type import ValueType
 from lib.nlu.message import MessageBuilder, Message, MessageValidationCode
+from lib.nlu.slot.location import Location
 from lib.nlu.topic.topic import Topic
 from lib.spacy_components.custom_spacy import get_spacy
 
@@ -179,20 +180,20 @@ class Querier:
 
     def _get_location_from_condition(self, table: Union[Case, Vaccination], msg: Message) -> List[bool]:
         # If we are querying the location, we just ignore whatever is in there since we don't need it.
+        # But we have to make sure that we don't get any continents or data on the whole world.
+        # e.g. When asking "Where have most cases been recorded?" we don't want it to return the whole
+        # world as a location
         if msg.intent.value_type == ValueType.LOCATION:
-            return []
+            return [table.location_normalized not in Location.get_continents().union(Location.get_world())]
 
         if msg.slots.location is None:
             # If we are asking for the day, we don't need the location, so we can just return an empty list.
+            # But same as above, we only want to consider countries.
             if msg.intent.value_type == ValueType.DAY:
-                return []
-            # If we are searching for the number, we currently only support leaving out the country if we are searching
-            # for the maximum/minimum.
+                return [table.location_normalized not in Location.get_continents().union(Location.get_world())]
+            # If we are searching for the number, we default to searching for data on the whole world.
             else:
-                if msg.intent.calculation_type in [CalculationType.MAXIMUM, CalculationType.MINIMUM]:
-                    return []
-                else:
-                    raise NotImplementedError()
+                return [table.location_normalized == Location.get_world()]
         else:
             return [table.location_normalized == msg.slots.location]
 

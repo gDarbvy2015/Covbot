@@ -22,8 +22,7 @@ class DatasetHandler:
                                                 Location.normalize_location_name(row["location"]), axis=1)
 
         exclude_locations = ["upper middle income", "summer olympics 2020", "lower middle income",
-                             "low income", "international", "world", "high income", "europe", "asia",
-                             "european union", "north america"]
+                             "low income", "international"]
         data = data[~data["location_normalized"].isin(exclude_locations)]
         data = self._add_cumulative_cases(data)
 
@@ -41,9 +40,8 @@ class DatasetHandler:
         data["location_normalized"] = data.apply(lambda row:
                                                 Location.normalize_location_name(row["location"]), axis=1)
 
-        exclude_locations: List[str] = ["world", "lower middle income", "low income", "high income",
-                                        "upper middle income", "europe", "asia", "european union",
-                                        "north america"]
+        exclude_locations: List[str] = ["lower middle income", "low income", "high income",
+                                        "upper middle income"]
         data = data[~data["location_normalized"].isin(exclude_locations)]
         data = self._add_cumulative_vaccinations(data)
 
@@ -72,7 +70,7 @@ class DatasetHandler:
 
 if __name__ == '__main__':
     dataset_handler = DatasetHandler()
-    vaccinations = dataset_handler.load_vaccinations()
+    vaccinations = dataset_handler.load_covid_cases()
     pd.set_option('display.max_columns', 500)
     pd.set_option('display.width', 1000)
-    print(vaccinations[vaccinations["location"] == "China"])
+    print(vaccinations[vaccinations["location"] == "World"])

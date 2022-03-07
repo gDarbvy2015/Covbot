@@ -70,28 +70,24 @@ class Message:
 
         if msg.intent.value_type == ValueType.NUMBER:
             if msg.intent.calculation_type == CalculationType.RAW_VALUE:
-                # We need a location as well as a timeframe to return a daily number.
+                # We need a timeframe to return a daily number. If there is no location, we default to
+                # the whole world.
                 if msg.intent.measurement_type == MeasurementType.DAILY:
                     if not has_date:
                         return MessageValidationCode.NO_TIMEFRAME
-                    elif not has_location:
-                        return MessageValidationCode.NO_WORLDWIDE_SUPPORTED
-                    elif has_both:
-                        return MessageValidationCode.VALID
-                # We only need a location. If the timeframe is null, we assume that the user is asking for today.
-                elif msg.intent.measurement_type == MeasurementType.CUMULATIVE:
-                    if not has_location:
-                        return MessageValidationCode.NO_WORLDWIDE_SUPPORTED
                     else:
                         return MessageValidationCode.VALID
+                # If the location is None, we default to the whole world.
+                # If the timeframe is null, we assume that the user is asking for today.
+                elif msg.intent.measurement_type == MeasurementType.CUMULATIVE:
+                    return MessageValidationCode.VALID
             elif msg.intent.calculation_type == CalculationType.SUM:
-                # We need a location as well as a timeframe to return a daily number.
+                # We need a timeframe to return a daily number. If there is no location, we default to the whole
+                # world.
                 if msg.intent.measurement_type == MeasurementType.DAILY:
                     if not has_date:
                         return MessageValidationCode.NO_TIMEFRAME
-                    elif not has_location:
-                        return MessageValidationCode.NO_WORLDWIDE_SUPPORTED
-                    elif has_both:
+                    else:
                         return MessageValidationCode.VALID
                 # We can't possibly want the sum of a cumulative value.
                 elif msg.intent.measurement_type == MeasurementType.CUMULATIVE:
@@ -101,13 +97,12 @@ class Message:
                 # if we are looking for the day or the location with the highest/lowest cumulative value.
                 if msg.intent.measurement_type == MeasurementType.CUMULATIVE:
                     return MessageValidationCode.INTENT_MISMATCH
-                # We need a location as well as a timeframe to return the highest/lowest number.
+                # We need a timeframe to return the highest/lowest number. If the location is None,
+                # we default to the whole world.
                 elif msg.intent.measurement_type == MeasurementType.DAILY:
                     if not has_date:
                         return MessageValidationCode.NO_TIMEFRAME
-                    elif not has_location:
-                        return MessageValidationCode.NO_WORLDWIDE_SUPPORTED
-                    elif has_both:
+                    else:
                         return MessageValidationCode.VALID
         elif msg.intent.value_type == ValueType.DAY:
             # We can only want the maximum/minimum when searching for a day.
@@ -116,7 +111,6 @@ class Message:
             elif msg.intent.calculation_type in [CalculationType.MAXIMUM, CalculationType.MINIMUM]:
                 if msg.intent.measurement_type in [MeasurementType.DAILY, MeasurementType.CUMULATIVE]:
                     return MessageValidationCode.VALID
-
         elif msg.intent.value_type == ValueType.LOCATION:
             # We can only want the maximum/minimum when searching for a location.
             if msg.intent.calculation_type in [CalculationType.SUM, CalculationType.RAW_VALUE]:
