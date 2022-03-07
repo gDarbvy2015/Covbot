@@ -97,13 +97,10 @@ class Message:
                 # if we are looking for the day or the location with the highest/lowest cumulative value.
                 if msg.intent.measurement_type == MeasurementType.CUMULATIVE:
                     return MessageValidationCode.INTENT_MISMATCH
-                # We need a timeframe to return the highest/lowest number. If the location is None,
+                # If the timeframe is None, we assume that we are searching for the all-time value. If the location is None,
                 # we default to the whole world.
                 elif msg.intent.measurement_type == MeasurementType.DAILY:
-                    if not has_date:
-                        return MessageValidationCode.NO_TIMEFRAME
-                    else:
-                        return MessageValidationCode.VALID
+                    return MessageValidationCode.VALID
         elif msg.intent.value_type == ValueType.DAY:
             # We can only want the maximum/minimum when searching for a day.
             if msg.intent.calculation_type in [CalculationType.SUM, CalculationType.RAW_VALUE]:
