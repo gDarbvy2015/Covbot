@@ -1,3 +1,4 @@
+import decimal
 import pathlib
 import random
 import re
@@ -60,7 +61,10 @@ class AnswerGenerator:
         value_dict = dict()
 
         if result is not None:
-            value_dict["result"] = str(result)
+            if isinstance(result, (int, float, decimal.Decimal)):
+                value_dict["result"] = f"{int(result):,}"
+            else:
+                value_dict["result"] = str(result)
 
         if slots.location:
             value_dict["location"] = slots.location
