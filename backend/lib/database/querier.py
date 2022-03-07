@@ -48,7 +48,7 @@ class QueryResult:
     result_code: QueryResultCode
     result: Optional[Union[str, int, datetime.date]]
     # In case of an error, we can add a dict with additional information
-    information: Optional[dict]
+    information: dict
 
 
 class Querier:
@@ -103,7 +103,7 @@ class Querier:
         time_condition: List[bool] = self._get_timeframe_from_condition(table, msg)
 
         if self.session.query(func.count(table.id)).where(and_(*time_condition)).scalar() == 0:
-            return QueryResult(msg, QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE, None, None)
+            return QueryResult(msg, QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE, None, {})
 
         if msg.intent.calculation_type in [CalculationType.MAXIMUM, CalculationType.MINIMUM]:
             sort_order = asc if msg.intent.calculation_type == CalculationType.MINIMUM else desc
@@ -112,9 +112,9 @@ class Querier:
                     sort_order(considered_column)).limit(1)
                 result = query.all()
                 if len(result) == 0:
-                    return QueryResult(msg, QueryResultCode.UNEXPECTED_RESULT, None, None)
+                    return QueryResult(msg, QueryResultCode.UNEXPECTED_RESULT, None, {})
                 else:
-                    return QueryResult(msg, QueryResultCode.SUCCESS, result[0].location, None)
+                    return QueryResult(msg, QueryResultCode.SUCCESS, result[0].location, {})
             else:
                 raise NotImplementedError()
         else:
@@ -135,7 +135,7 @@ class Querier:
             if len(result) == 0:
                 return QueryResult(msg, QueryResultCode.UNEXPECTED_RESULT, None, None)
             else:
-                return QueryResult(msg, QueryResultCode.SUCCESS, Date("DAY", result[0].date, ""), None)
+                return QueryResult(msg, QueryResultCode.SUCCESS, Date("DAY", result[0].date, ""), {"location": result[0].location})
         else:
             raise NotImplementedError()
 
@@ -151,20 +151,21 @@ class Querier:
         if self.session.query(func.count(table.id)).where(and_(*location_condition, *time_condition)).scalar() == 0:
             return QueryResult(msg, QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE, None, None)
 
+        def get_query(query_list: list):
+            return self.session.query(*query_list).where(and_(
+                *time_condition, *location_condition
+            ))
+
         if msg.intent.calculation_type == CalculationType.RAW_VALUE:
-            query = self.session.query(table).order_by(desc(table.date)).with_entities(considered_column)
+            query = get_query([considered_column, table.location]).order_by(desc(table.date))
         elif msg.intent.calculation_type == CalculationType.SUM:
-            query = self.session.query(functions.sum(considered_column))
+            query = get_query([functions.sum(considered_column), table.location]).group_by(table.location)
         elif msg.intent.calculation_type == CalculationType.MAXIMUM:
-            query = self.session.query(functions.max(considered_column))
+            query = get_query([functions.max(considered_column), table.location]).group_by(table.location)
         elif msg.intent.calculation_type == CalculationType.MINIMUM:
-            query = self.session.query(functions.min(considered_column))
+            query = get_query([functions.min(considered_column), table.location]).group_by(table.location)
         else:
             raise NotImplementedError()
-
-        query = query.where(and_(
-            *time_condition, *location_condition
-        ))
 
         if msg.intent.calculation_type == CalculationType.RAW_VALUE:
             query = query.limit(1)
@@ -172,12 +173,12 @@ class Querier:
         result = query.all()
 
         if len(result) > 1:
-            return QueryResult(msg, QueryResultCode.UNEXPECTED_RESULT, None, None)
+            return QueryResult(msg, QueryResultCode.UNEXPECTED_RESULT, None, {})
         else:
             if result[0][0] is None:
-                return QueryResult(msg, QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE, None, None)
+                return QueryResult(msg, QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE, None, {})
             else:
-                return QueryResult(msg, QueryResultCode.SUCCESS, result[0][0], None)
+                return QueryResult(msg, QueryResultCode.SUCCESS, result[0][0], {"location": result[0][1]})
 
     def _get_location_from_condition(self, table: Union[Case, Vaccination], msg: Message) -> List[bool]:
         # If we are querying the location, we just ignore whatever is in there since we don't need it.
@@ -236,12 +237,12 @@ class Querier:
             return QueryResult(msg, QueryResultCode.INVALID_MESSAGE, None, {"message_validation_code": msg_validation})
 
         if msg.slots.date and msg.slots.date.value > self.today:
-            return QueryResult(msg, QueryResultCode.FUTURE_DATA_REQUESTED, None, None)
+            return QueryResult(msg, QueryResultCode.FUTURE_DATA_REQUESTED, None, {})
         return None
 
 
 if __name__ == '__main__':
-    sentence = "When were most vaccinations performed in Austria?"
+    sentence = "How many vaccinations were administered on the 25.01.2022 in Austria?"
     spacy = get_spacy()
     doc = spacy(sentence)
     querier = Querier()

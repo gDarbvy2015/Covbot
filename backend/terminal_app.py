@@ -12,12 +12,11 @@ answer_generator = AnswerGenerator()
 spacy = get_spacy()
 
 if __name__ == '__main__':
-
     with open(pathlib.Path.cwd() / "tests" / "annotated_queries.json") as query_file:
         queries = json.load(query_file)
-    # sentences = [query["query"] for query in queries]
+    sentences = [query["query"] for query in queries]
 
-    sentences = ["How many cases are there today?"]
+    # sentences = ["Give me the number of jabs administered in England in the last year"]
 
     for sentence in sentences:
         print(sentence)

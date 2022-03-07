@@ -66,11 +66,13 @@ class AnswerGenerator:
             else:
                 value_dict["result"] = str(result)
 
-        if slots.location:
-            value_dict["location"] = slots.location
+        location = query_result.information["location"] if "location" in query_result.information else None
 
-        if slots.location is None and query_result.message.intent.value_type in [ValueType.DAY, ValueType.NUMBER]:
-            value_dict["location"] = "the world"
+        if location:
+            if location == "World":
+                value_dict["location"] = "the world"
+            else:
+                value_dict["location"] = query_result.information["location"]
 
         if slots.date:
             value_dict["date"] = Date.generate_date_message(slots.date)
