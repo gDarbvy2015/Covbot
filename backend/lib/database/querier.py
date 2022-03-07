@@ -20,6 +20,7 @@ from lib.nlu.intent.measurement_type import MeasurementType
 from lib.nlu.intent.value_domain import ValueDomain
 from lib.nlu.intent.value_type import ValueType
 from lib.nlu.message import MessageBuilder, Message, MessageValidationCode
+from lib.nlu.slot.date import Date
 from lib.nlu.slot.location import Location
 from lib.nlu.topic.topic import Topic
 from lib.spacy_components.custom_spacy import get_spacy
@@ -134,7 +135,7 @@ class Querier:
             if len(result) == 0:
                 return QueryResult(msg, QueryResultCode.UNEXPECTED_RESULT, None, None)
             else:
-                return QueryResult(msg, QueryResultCode.SUCCESS, result[0].date, None)
+                return QueryResult(msg, QueryResultCode.SUCCESS, Date("DAY", result[0].date, ""), None)
         else:
             raise NotImplementedError()
 

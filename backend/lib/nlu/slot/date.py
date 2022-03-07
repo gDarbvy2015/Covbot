@@ -84,6 +84,9 @@ class Date:
         else:
             raise NotImplementedError()
 
+    def __str__(self):
+        return Date.generate_date_message(Date(self.type, self.value, self.text))
+
 
 class DateRecognizer:
     def recognize_date(self, span: Span) -> Optional[Date]:
