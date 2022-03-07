@@ -42,7 +42,7 @@ class Date:
                 if difference == timedelta(days=-1):
                     return "tomorrow"
                 else:
-                    return custom_strftime(preposition + " %B {S} %Y", date.value)
+                    return custom_strftime(preposition + "%B {S} %Y", date.value)
         elif date.type == "WEEK":
             today_iso = today.isocalendar()
             date_iso = date.value.isocalendar()
