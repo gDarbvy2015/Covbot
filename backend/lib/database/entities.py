@@ -11,12 +11,12 @@ Base = declarative_base()
 class Case(Base):
     __tablename__ = "cases"
 
-    id = Column(Integer, primary_key=True)
-    date = Column(Date)
-    location = Column(String(256))
-    location_normalized = Column(String(256))
-    cases = Column(BigInteger)
-    cumulative_cases = Column(BigInteger)
+    id: Column = Column(Integer, primary_key=True)
+    date: Column = Column(Date)
+    location: Column = Column(String(256))
+    location_normalized: Column = Column(String(256))
+    cases: Column = Column(BigInteger)
+    cumulative_cases: Column = Column(BigInteger)
 
     def __repr__(self):
         return f"Case(id={self.id}, date={self.date}, location={self.location}, " \
@@ -27,14 +27,14 @@ class Case(Base):
 class Vaccination(Base):
     __tablename__ = "vaccinations"
 
-    id = Column(Integer, primary_key=True)
-    date = Column(Date)
-    location = Column(String(256))
-    location_normalized = Column(String(256))
-    total_vaccinations = Column(BigInteger)
-    people_vaccinated = Column(BigInteger)
-    daily_vaccinations = Column(Integer)
-    daily_people_vaccinated = Column(Integer)
+    id: Column = Column(Integer, primary_key=True)
+    date: Column = Column(Date)
+    location: Column = Column(String(256))
+    location_normalized: Column = Column(String(256))
+    total_vaccinations: Column = Column(BigInteger)
+    people_vaccinated: Column = Column(BigInteger)
+    daily_vaccinations: Column = Column(Integer)
+    daily_people_vaccinated: Column = Column(Integer)
 
     def __repr__(self):
         return f"Case(id={self.id}, date={self.date}, location={self.location}, " \

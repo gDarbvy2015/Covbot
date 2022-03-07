@@ -6,7 +6,7 @@ from datetime import datetime, timedelta, date
 from enum import Enum
 from typing import Union, Optional, List
 
-from sqlalchemy import and_, func
+from sqlalchemy import and_, func, not_
 from sqlalchemy import desc, asc
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, Query
@@ -101,14 +101,15 @@ class Querier:
     def _query_location(self, table: Union[Case, Vaccination], considered_column: InstrumentedAttribute,
                         msg: Message) -> QueryResult:
         time_condition: List[bool] = self._get_timeframe_from_condition(table, msg)
+        location_condition: List[bool] = self._get_location_from_condition(table, msg)
 
-        if self.session.query(func.count(table.id)).where(and_(*time_condition)).scalar() == 0:
+        if self.session.query(func.count(table.id)).where(and_(*time_condition, *location_condition)).scalar() == 0:
             return QueryResult(msg, QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE, None, {})
 
         if msg.intent.calculation_type in [CalculationType.MAXIMUM, CalculationType.MINIMUM]:
             sort_order = asc if msg.intent.calculation_type == CalculationType.MINIMUM else desc
             if msg.slots.date is None or msg.slots.date.type == "DAY":
-                query = self.session.query(table).where(and_(*time_condition)).order_by(
+                query = self.session.query(table).where(and_(*time_condition, *location_condition)).order_by(
                     sort_order(considered_column)).limit(1)
                 result = query.all()
                 if len(result) == 0:
@@ -133,7 +134,7 @@ class Querier:
                 sort_order(considered_column)).limit(1)
             result = query.all()
             if len(result) == 0:
-                return QueryResult(msg, QueryResultCode.UNEXPECTED_RESULT, None, None)
+                return QueryResult(msg, QueryResultCode.UNEXPECTED_RESULT, None, {})
             else:
                 return QueryResult(msg, QueryResultCode.SUCCESS, Date("DAY", result[0].date, ""), {"location": result[0].location})
         else:
@@ -149,7 +150,7 @@ class Querier:
             return QueryResult(msg, QueryResultCode.NOT_EXISTING_LOCATION, None, {"location": msg.slots.location})
 
         if self.session.query(func.count(table.id)).where(and_(*location_condition, *time_condition)).scalar() == 0:
-            return QueryResult(msg, QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE, None, None)
+            return QueryResult(msg, QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE, None, {})
 
         def get_query(query_list: list):
             return self.session.query(*query_list).where(and_(
@@ -186,13 +187,13 @@ class Querier:
         # e.g. When asking "Where have most cases been recorded?" we don't want it to return the whole
         # world as a location
         if msg.intent.value_type == ValueType.LOCATION:
-            return [table.location_normalized not in Location.get_continents().union(Location.get_world())]
+            return [not_(table.location_normalized.in_(list(Location.get_continents().union(Location.get_world()))))]
 
         if msg.slots.location is None:
             # If we are asking for the day, we don't need the location, so we can just return an empty list.
             # But same as above, we only want to consider countries.
             if msg.intent.value_type == ValueType.DAY:
-                return [table.location_normalized not in Location.get_continents().union(Location.get_world())]
+                return [not_(table.location_normalized.in_(list(Location.get_continents().union(Location.get_world()))))]
             # If we are searching for the number, we default to searching for data on the whole world.
             else:
                 return [table.location_normalized == Location.get_world()]

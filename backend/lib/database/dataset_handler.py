@@ -22,7 +22,7 @@ class DatasetHandler:
                                                 Location.normalize_location_name(row["location"]), axis=1)
 
         exclude_locations = ["upper middle income", "summer olympics 2020", "lower middle income",
-                             "low income", "international"]
+                             "low income", "international", "high income"]
         data = data[~data["location_normalized"].isin(exclude_locations)]
         data = self._add_cumulative_cases(data)
 
