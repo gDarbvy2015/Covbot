@@ -1,6 +1,5 @@
 NO_DATA_AVAILABLE_FOR_DATE:
-  - "Sorry, I'm afraid I don't have the required data for that time period."
-  - "Unfortunately I don't have the necessary data to answer that question for you."
+  - "Sorry, I'm afraid I don't have any data on {topic} from {date} for {location}. The latest entry is from {latest_date}."
 UNEXPECTED_RESULT:
   - "It looks like I got an unexpected result when processing your question... I took note of it,
     feel free to ask another question in the meanwhile!"

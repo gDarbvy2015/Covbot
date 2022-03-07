@@ -150,7 +150,10 @@ class Querier:
             return QueryResult(msg, QueryResultCode.NOT_EXISTING_LOCATION, None, {"location": msg.slots.location})
 
         if self.session.query(func.count(table.id)).where(and_(*location_condition, *time_condition)).scalar() == 0:
-            return QueryResult(msg, QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE, None, {})
+            last_date = self.session.query(table).where(and_(*location_condition))\
+                .order_by(desc(table.date)).limit(1).all()
+            return QueryResult(msg, QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE,
+                               None, {"latest": Date("DAY", last_date[0].date, ""), "location": last_date[0].location})
 
         def get_query(query_list: list):
             return self.session.query(*query_list).where(and_(
@@ -243,7 +246,7 @@ class Querier:
 
 
 if __name__ == '__main__':
-    sentence = "How many vaccinations were administered on the 25.01.2022 in Austria?"
+    sentence = "How many vaccinations were administered today in Austria?"
     spacy = get_spacy()
     doc = spacy(sentence)
     querier = Querier()

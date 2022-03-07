@@ -68,6 +68,15 @@ class Location:
         return location_name
 
     @staticmethod
+    def add_prepositions_to_location_name(location_name: str) -> str:
+        if location_name.lower() == "world":
+            return "the world"
+        elif location_name.lower() in ["united kingdom", "ukraine", "united states"]:
+            return "the " + location_name
+        else:
+            return location_name
+
+    @staticmethod
     def get_countries() -> Set[str]:
         return Location._countries
 

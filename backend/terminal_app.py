@@ -16,7 +16,7 @@ if __name__ == '__main__':
         queries = json.load(query_file)
     sentences = [query["query"] for query in queries]
 
-    # sentences = ["Which country has had the most corona cases last year?"]
+    # sentences = ["How many new cases have been reported in Austria today?"]
 
     for sentence in sentences:
         print(sentence)

@@ -11,6 +11,7 @@ from lib.nlu.intent import Intent, ValueType
 from lib.nlu.message import Message, MessageValidationCode
 from lib.nlu.slot import Slots
 from lib.nlu.slot.date import Date
+from lib.nlu.slot.location import Location
 
 
 class AnswerGenerator:
@@ -20,7 +21,14 @@ class AnswerGenerator:
 
     def generate_answer(self, query_result: QueryResult) -> str:
 
-        if query_result.result_code in [QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE, QueryResultCode.UNEXPECTED_RESULT,
+        if query_result.result_code == QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE:
+            return random.choice(self.answers[query_result.result_code.NO_DATA_AVAILABLE_FOR_DATE.name]).format(
+                date=query_result.message.slots.date,
+                latest_date=Date.generate_date_message(query_result.information["latest"], include_preposition=False),
+                location=Location.add_prepositions_to_location_name(query_result.information["location"]),
+                topic=query_result.message.topic.name.lower()
+            )
+        elif query_result.result_code in [QueryResultCode.UNEXPECTED_RESULT,
                                           QueryResultCode.FUTURE_DATA_REQUESTED]:
             return random.choice(self.answers[query_result.result_code.name])
         elif query_result.result_code == QueryResultCode.NOT_EXISTING_LOCATION:
@@ -69,10 +77,7 @@ class AnswerGenerator:
         location = query_result.information["location"] if "location" in query_result.information else None
 
         if location:
-            if location == "World":
-                value_dict["location"] = "the world"
-            else:
-                value_dict["location"] = query_result.information["location"]
+            value_dict["location"] = Location.add_prepositions_to_location_name(location)
 
         if slots.date:
             value_dict["date"] = Date.generate_date_message(slots.date)
