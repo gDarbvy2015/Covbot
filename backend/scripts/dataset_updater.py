@@ -5,7 +5,7 @@ import pathlib
 import requests
 
 from lib.database.database_manager import DatabaseManager
-from lib.util.logger import Logger
+from lib.util.logger import ServerLogger
 
 
 class DatasetUpdater:
@@ -34,7 +34,7 @@ class DatasetUpdater:
                 "on_update": self.db_manager.update_covid_cases
             }
         ]
-        self.logger = Logger(__name__)
+        self.logger = ServerLogger(__name__)
 
     def start(self):
         self.logger.info("Successfully started the database updater.")

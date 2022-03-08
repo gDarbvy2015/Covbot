@@ -5,12 +5,12 @@ from sqlalchemy.exc import DatabaseError
 from lib.database.database_connection import DatabaseConnection
 from lib.database.dataset_handler import DatasetHandler
 from lib.database.entities import create_tables, Vaccination, Case, drop_tables
-from lib.util.logger import Logger
+from lib.util.logger import ServerLogger
 
 
 class DatabaseManager:
     def __init__(self, db_name="covbot"):
-        self.logger: Logger = Logger(__name__)
+        self.logger: ServerLogger = ServerLogger(__name__)
         self.connection: DatabaseConnection = DatabaseConnection()
         self.db_name: str = db_name
         self.engine: Engine = self.connection.create_engine(self.db_name)

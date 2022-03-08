@@ -22,7 +22,7 @@ class AnswerGenerator:
     def generate_answer(self, query_result: QueryResult) -> str:
 
         if query_result.result_code == QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE:
-            return random.choice(self.answers[query_result.result_code.NO_DATA_AVAILABLE_FOR_DATE.name]).format(
+            return random.choice(self.answers[query_result.result_code.NO_DATA_AVAILABLE_FOR_DATE.name]).log_format(
                 date=query_result.message.slots.date,
                 latest_date=Date.generate_date_message(query_result.information["latest"], include_preposition=False),
                 location=Location.add_prepositions_to_location_name(query_result.information["location"]),
@@ -32,7 +32,7 @@ class AnswerGenerator:
                                           QueryResultCode.FUTURE_DATA_REQUESTED]:
             return random.choice(self.answers[query_result.result_code.name])
         elif query_result.result_code == QueryResultCode.NOT_EXISTING_LOCATION:
-            return random.choice(self.answers[query_result.result_code.name]).format(location=query_result.message.slots.location)
+            return random.choice(self.answers[query_result.result_code.name]).log_format(location=query_result.message.slots.location)
         elif query_result.result_code == QueryResultCode.INVALID_MESSAGE:
             if query_result.information["message_validation_code"] in MessageValidationCode.get_user_query_error_codes():
                 return random.choice(self.answers[query_result.result_code.name][query_result.information["message_validation_code"].name])

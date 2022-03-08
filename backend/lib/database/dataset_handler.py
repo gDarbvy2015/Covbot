@@ -6,12 +6,12 @@ import pandas as pd
 from pandas import DataFrame
 
 from lib.nlu.slot.location import Location
-from lib.util.logger import Logger
+from lib.util.logger import ServerLogger
 
 
 class DatasetHandler:
     def __init__(self):
-        self.logger: Logger = Logger(__name__)
+        self.logger: ServerLogger = ServerLogger(__name__)
 
     def load_covid_cases(self) -> DataFrame:
         path: str = os.environ.get("COVBOT_CASES_PATH")

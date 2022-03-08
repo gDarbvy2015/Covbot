@@ -5,7 +5,7 @@ from lib.database.querier import Querier
 from lib.nlg.answer_generator import AnswerGenerator
 from lib.nlu.message import MessageBuilder
 from lib.spacy_components.custom_spacy import CustomSpacy
-from lib.util.logger import Logger
+from lib.util.logger import ServerLogger
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -14,7 +14,7 @@ message_builder: MessageBuilder = MessageBuilder()
 querier: Querier = Querier()
 answer_generator: AnswerGenerator = AnswerGenerator()
 spacy = CustomSpacy.get_spacy()
-logger: Logger = Logger(__name__)
+logger: ServerLogger = ServerLogger(__name__)
 logger.info("Successfully started the web server... Starting listening to requests now.")
 
 @app.route('/')
