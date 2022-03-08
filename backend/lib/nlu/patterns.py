@@ -10,8 +10,9 @@ _stemmer: PorterStemmer = PorterStemmer()
 
 class Pattern:
     _people_trigger_words: list = [_stemmer.stem(word) for word in ["human", "people", "person", "individual"]]
-    _vaccine_trigger_words: list = [_stemmer.stem(word) for word in ["shot", "vaccine", "jab", "inoculation", "immunization",
-                                                      "administer"]]
+    _vaccine_trigger_words: list = [_stemmer.stem(word) for word in
+                                    ["shot", "vaccine", "jab", "inoculation", "immunization",
+                                     "administer"]]
     _cases_trigger_words: list = [_stemmer.stem(word) for word in ["case", "infection", "test", "positive", "negative"]]
 
     human_pattern: List[dict] = [{
@@ -25,6 +26,29 @@ class Pattern:
         }
     }]
 
+    covid_pattern: List[dict] = [{
+        "RIGHT_ID": "covid_pattern",
+        "RIGHT_ATTRS": {
+            "_": {
+                "stem": {
+                    "IN": ["covid", "covid-19", "covid19"]
+                }
+            }
+        }
+    }]
+
+    covid_vaccine_pattern: List[dict] = covid_pattern + [{
+        "LEFT_ID": "covid_pattern",
+        "REL_OP": "<",
+        "RIGHT_ID": "covid_vaccine_pattern",
+        "RIGHT_ATTRS": {
+            "_": {
+                "stem": {
+                    "IN": _vaccine_trigger_words
+                }
+            }
+        }
+    }]
 
     country_pattern: List[dict] = [{
         "RIGHT_ID": "country_pattern",

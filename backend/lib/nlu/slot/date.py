@@ -142,4 +142,4 @@ class DateRecognizer:
 
 if __name__ == '__main__':
     recognizer = DateRecognizer()
-    print(recognizer.recognize_date("How many positive cases were there in Germany yesterday?"))
+    print(recognizer.recognize_date("How many people got Covid yesterday in Austria?"))

@@ -826,5 +826,41 @@
       "location": "europe",
       "timeframe": null
     }
+  },
+  {
+    "id": 1000,
+    "query": "How many people got Covid yesterday in Austria?",
+    "topic": "CASES",
+    "intent": {
+      "calculation_type": "RAW_VALUE",
+      "value_type": "NUMBER",
+      "value_domain": "POSITIVE_CASES",
+      "measurement_type": "DAILY"
+    },
+    "slots": {
+      "location": "austria",
+      "timeframe": {
+        "type": "DAY",
+        "text": "yesterday"
+      }
+    }
+  },
+  {
+    "id": 1000,
+    "query": "How many people got the COVID vaccine yesterday in Austria?",
+    "topic": "VACCINATIONS",
+    "intent": {
+      "calculation_type": "RAW_VALUE",
+      "value_type": "NUMBER",
+      "value_domain": "VACCINATED_PEOPLE",
+      "measurement_type": "DAILY"
+    },
+    "slots": {
+      "location": "austria",
+      "timeframe": {
+        "type": "DAY",
+        "text": "yesterday"
+      }
+    }
   }
 ]

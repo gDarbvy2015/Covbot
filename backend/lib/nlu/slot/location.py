@@ -95,7 +95,8 @@ class Location:
 
 class LocationRecognizer:
     def recognize_location(self, span: Span) -> Optional[str]:
-        location_ents: list = [ent.text for ent in span.ents if ent.label_ == "GPE"]
+        # For some reason, for query 1000 it recognizes "Covid" as a location, so we need to manually exclude it
+        location_ents: list = [ent.text for ent in span.ents if ent.label_ == "GPE" and ent.text.lower() != "covid"]
         if len(location_ents) == 0:
             # If automated entity recognition doesn't work, try a manual approach
             for token in span:

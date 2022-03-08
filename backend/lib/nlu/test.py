@@ -5,18 +5,17 @@ import requests
 # from sutime import SUTime
 
 # sutime = SUTime(mark_time_ranges=True, include_range=True)
+from lib.nlu.patterns import Pattern
+from lib.spacy_components.custom_spacy import CustomSpacy
 
-properties = {
-    "annotators": "tokenize,ner",
-    "outputFormat": "json",
-    "ner.docdate.usePresent": "true",
-    "sutime.includeRange": "true",
-    "sutime.markTimeRanges": "true"
-}
+text = "How many people got the COVID vaccine"
 
-print("Reached")
-# print(sutime.parse("How many people have been infected with COVID on the 30th of November?"))
-res = requests.post(f'http://localhost:9000/?properties={json.dumps(properties)}',
-                    data={'data': 'How many people have been infected with COVID on the 30th of November?'}).text
+spacy = CustomSpacy.get_spacy()
 
-print(res)
+span = spacy(text)[:]
+
+for token in span:
+    print(token, " ", token.dep_)
+
+
+print(Pattern.has_valid_pattern(span, [Pattern.covid_vaccine_pattern, Pattern.covid_pattern]))

@@ -46,4 +46,8 @@ class TopicRecognizer:
         return Pattern.has_valid_pattern(span, [Pattern.vaccine_trigger_pattern])
 
     def is_topic_cases(self, span: Span) -> bool:
+        # Special case: "How many people got COVID" vs. "How many people got the COVID vaccine"
+        if Pattern.has_valid_pattern(span, [Pattern.covid_pattern]) and not Pattern.has_valid_pattern(
+                span, [Pattern.covid_vaccine_pattern]):
+            return True
         return Pattern.has_valid_pattern(span, [Pattern.case_trigger_pattern])
