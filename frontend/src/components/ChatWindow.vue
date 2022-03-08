@@ -36,18 +36,6 @@ export default {
   data() {
     return {
       messages: [
-        // {id: 1, self: true, message: "Hey! How many cases have there been in Austria this today?"},
-        // {
-        //   id: 2,
-        //   self: false,
-        //   message: "I'm afraid I don't have any data on COVID cases in Austria today, yet. :( Try " +
-        //       "again a bit later."
-        // },
-        // {id: 3, self: true, message: "How many people have been vaccinated this week in Germany?"},
-        // {id: 4, self: false, message: "More than **500.000** people have been vaccinated this week in Germany."},
-        // {id: 5, self: true, message: "On which day where most people vaccinated in Austria?"},
-        // {id: 6, self: false, message: "**26th of September 2021** was the day were the most people were vaccinated in Austria."},
-
       ],
       currentMessage: null,
       consent: null
@@ -122,11 +110,29 @@ export default {
       if (this.currentMessage != null && this.currentMessage.trim() !== "") {
         this.addMessage(true, this.currentMessage, false);
 
-        // Simulate response
         let id = this.addMessage(false, "", true);
-        this.axios.get("http://127.0.0.1:5000/", {params: {message: this.currentMessage}}).then((response) => {
+        let messageContent = ""
+        this.axios.get("http://127.0.0.1:5000/", {params: {msg: this.currentMessage}}).then((response) => {
+          messageContent = response.data.msg
+        }).catch((error) => {
+          if (error.response) {
+            messageContent = "Whoops, looks like an error occurred while processing your request... It has been taken " +
+                "note of, try asking a different question in the meanwhile!"
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          } else if (error.request) {
+            messageContent = "It looks like the server is down, so I can't process your request... Please notify the " +
+                "adminstrator.";
+            console.log(error.request);
+          } else {
+            messageContent = "Sorry, an unknown error occurred...";
+            console.log(error.message)
+          }
+        }).finally(() => {
+          console.log("Finally!")
           let msg = this.messages.filter(msg => msg.id === id)[0];
-          msg.message = response.data.msg;
+          msg.message = messageContent;
           msg.loading = false;
           this.$nextTick(this.scrollChatToBottom)
         });
