@@ -9,6 +9,7 @@ from lib.util.logger import ServerLogger
 
 
 class DatabaseManager:
+    """Class that provides helper methods to manage the Covbot database."""
     def __init__(self, db_name="covbot"):
         self.logger: ServerLogger = ServerLogger(__name__)
         self.connection: DatabaseConnection = DatabaseConnection()
@@ -17,6 +18,7 @@ class DatabaseManager:
         self.dataset_handler: DatasetHandler = DatasetHandler()
 
     def create_database(self) -> None:
+        """Creates a database to allow saving data for Covbot."""
         self.logger.info(f"Creating the database {self.db_name}...")
 
         try:
@@ -33,11 +35,13 @@ class DatabaseManager:
         self.create_tables()
 
     def update_database(self) -> None:
+        """Updates the data on COVID cases and vaccinations. The database already needs to exist."""
         self.logger.info("Updating the data in the database...")
         self.update_covid_cases()
         self.update_vaccinations()
 
     def update_covid_cases(self) -> None:
+        """Updates the data on COVID cases. The database already needs to exist."""
         covid_cases: DataFrame = self.dataset_handler.load_covid_cases()
         db_connection: Connection = self.engine.connect()
 
@@ -49,6 +53,7 @@ class DatabaseManager:
         self.logger.info("Daily detected covid cases were updated.")
 
     def update_vaccinations(self) -> None:
+        """Updates the data on vaccinations. The database already needs to exist."""
         vaccinations: DataFrame = self.dataset_handler.load_vaccinations()
         db_connection: Connection = self.engine.connect()
 
@@ -60,9 +65,11 @@ class DatabaseManager:
         self.logger.info("Daily vaccinations were updated.")
 
     def create_tables(self) -> None:
+        """Creates all necessary tables."""
         create_tables(self.engine)
 
     def drop_tables(self) -> None:
+        """Drops all tables."""
         drop_tables(self.engine)
 
 

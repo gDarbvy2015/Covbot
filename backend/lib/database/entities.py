@@ -9,6 +9,7 @@ Base = declarative_base()
 
 
 class Case(Base):
+    """Class representing a case entry as it is saved in the database."""
     __tablename__ = "cases"
 
     id: Column = Column(Integer, primary_key=True)
@@ -25,6 +26,7 @@ class Case(Base):
 
 
 class Vaccination(Base):
+    """Class representing a vaccination entry as it is saved in the database."""
     __tablename__ = "vaccinations"
 
     id: Column = Column(Integer, primary_key=True)
@@ -44,6 +46,7 @@ class Vaccination(Base):
 
 
 def create_tables(engine: Engine, tables=None) -> None:
+    """Creates (all) tables in the database."""
     if tables is None:
         tables = [Vaccination.__table__, Case.__table__]
     drop_tables(engine, tables)
@@ -51,6 +54,7 @@ def create_tables(engine: Engine, tables=None) -> None:
 
 
 def drop_tables(engine: Engine, tables=None) -> None:
+    """Drops (all) tables in the database."""
     if tables is None:
         tables = [Vaccination.__table__, Case.__table__]
     Base.metadata.drop_all(engine, tables)

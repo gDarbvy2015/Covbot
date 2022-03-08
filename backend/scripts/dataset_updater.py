@@ -1,6 +1,7 @@
 import hashlib
 import os
 import pathlib
+import time
 
 import requests
 
@@ -40,10 +41,6 @@ class DatasetUpdater:
         self.logger.info("Successfully started the database updater.")
         self._perform_updates()
 
-        # while True:
-        #     self._perform_updates()
-        #     time.sleep(30)
-
     def _perform_updates(self):
         for tracked_file in self.tracked_files:
             if not tracked_file["local_path"].exists():
@@ -76,4 +73,7 @@ class DatasetUpdater:
 
 if __name__ == '__main__':
     updater = DatasetUpdater()
-    updater.start()
+    while True:
+        updater.start()
+        updater.logger.info("Waiting 2 hours before attempting the next update...")
+        time.sleep(7200)

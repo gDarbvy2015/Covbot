@@ -10,10 +10,12 @@ from lib.util.logger import ServerLogger
 
 
 class DatasetHandler:
+    """Class responsible for handling and updating the datasets pulled from the Github repository by OWID."""
     def __init__(self):
         self.logger: ServerLogger = ServerLogger(__name__)
 
     def load_covid_cases(self) -> DataFrame:
+        """Loads the covid cases from the data file and returns it as a dataframe."""
         path: str = os.environ.get("COVBOT_CASES_PATH")
         data: DataFrame = pd.read_csv(path).set_index("date").stack().reset_index()
         data.columns = ["date", "location", "cases"]
@@ -30,6 +32,7 @@ class DatasetHandler:
         return data
 
     def load_vaccinations(self) -> pd.DataFrame:
+        """Loads the vaccinations from the data file and returns it as a dataframe."""
         path: str = os.environ.get("COVBOT_VACCINATIONS_PATH")
         relevant_columns: List[str] = ["location", "date", "total_vaccinations", "people_vaccinated",
                                        "daily_vaccinations",
@@ -48,19 +51,15 @@ class DatasetHandler:
         data["id"] = data.index + 1
         return data
 
-    def _increase_date_by_one(self, date: str) -> str:
-        date_format: str = "%Y-%m-%d"
-        date_obj: datetime.date = datetime.strptime(date, date_format).date()
-        date_obj += timedelta(days=1)
-        return date_obj.strftime(date_format)
-
     def _add_cumulative_cases(self, df: DataFrame) -> DataFrame:
+        """Adds the cumulative cases to the dataframe."""
         df["date_in_seconds"] = df.apply(lambda row: datetime.strptime(row["date"], "%Y-%m-%d").timestamp(), axis=1)
         df = df.set_index(["location", "date_in_seconds"]).sort_index()
         df["cumulative_cases"] = df["cases"].fillna(0).groupby("location").cumsum()
         return df.reset_index().drop("date_in_seconds", axis=1)
 
     def _add_cumulative_vaccinations(self, df: DataFrame) -> DataFrame:
+        """Adds the cumulative vaccinations to the dataframe."""
         df["date_in_seconds"] = df.apply(lambda row: datetime.strptime(row["date"], "%Y-%m-%d").timestamp(), axis=1)
         df = df.set_index(["location", "date_in_seconds"]).sort_index()
         df["total_vaccinations"] = df["daily_vaccinations"].fillna(0).groupby("location").cumsum()
