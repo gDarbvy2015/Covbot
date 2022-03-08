@@ -11,10 +11,8 @@ FUTURE_DATA_REQUESTED:
   - "Maybe you should try asking this a clairvoyant."
   - "Nice try, but I can't give you data on the future. ;)"
 NOT_EXISTING_LOCATION:
-  - "I don't have any data on {location}, try a different location. Keep in mind that
-      for now, I can only work with countries."
-  - "Looks like I can't find any data on {location} in the database. Keep in mind that
-      for now, I can only work with countries."
+  - "I don't have any data on {location}, try a different location."
+  - "Looks like I can't find any data on {location} in the database."
 INVALID_MESSAGE:
   NO_WORLDWIDE_SUPPORTED:
     - "Sorry, at the moment I can't calculate statistics for the whole world and specific continents,
