@@ -46,34 +46,32 @@ export default {
       this.askConsent();
     } else {
       this.consent = JSON.parse(localStorage.getItem("information_consent"));
-      this.addWelcomeMessage();
+      if(this.consent) {
+        this.addWelcomeMessage();
+      }
     }
+
   },
   methods: {
     askConsent() {
       if(localStorage.getItem("information_consent") == null) {
         const dialog = useDialog()
         dialog.create({
-          title: 'Storing conversations',
-          content: 'Do you agree to saving this conversation history on the server in order to improve ' +
-              'the bot?',
-          negativeText: 'Refuse',
-          positiveText: 'Allow',
+          title: 'Note',
+          content: 'All of the messages sent here are stored on the server and might be used ' +
+              'to improve the chatbot, so please don\'t enter any private information.',
+          positiveText: 'Okay',
           closable: false,
           onPositiveClick: () => {
             localStorage.setItem("information_consent", "true");
             this.setConsent(true);
+            this.addWelcomeMessage();
           },
-          onNegativeClick: () => {
-            localStorage.setItem("information_consent", "false");
-            this.setConsent(false);
-          }
         })
       }
     },
     setConsent(value) {
       this.consent = value;
-      this.addWelcomeMessage()
     },
     addMessage(self, message, loading) {
       var id = uuidv4();
@@ -89,22 +87,25 @@ export default {
     addWelcomeMessage() {
       var message = "Hi there! My name is **Covbot**, I am a chatbot that can help you answer certain questions about COVID." +
           "\n\n\nIn particular, I have access to information about:\n" +
-          "1. The number of positive COVID cases detected in certain countries every day.\n" +
-          "2. The number of vaccinations that were administered in certain countries every day.\n\n" +
-          "I was built as part of a project for a bachelor thesis. I'm still in my infancy, meaning that I have a couple " +
-          "of limitations:\n" +
-          "1. Unfortunately, I don't have any memory (yet). :( This means that every message you send" +
+          "1. The number of positive COVID cases detected in a certain country on a certain day.\n" +
+          "2. The number of vaccinations that were administered in a certain country on a certain day.\n" +
+          "3. The number of people that were vaccinated in a certain country on a certain day.\n\n" +
+          "I was built as part of a bachelor thesis. If you are curious about how I work, you can check out my " +
+          "[source code](https://github.com/LaurenzV/Covbot) if you want.\n\n" +
+          "I'm still in my infancy, so expect that I that there might be errors and I might not be able to understand " +
+          "all of your questions. In particular, keep in mind that:\n" +
+          "1. Unfortunately, I don't have a memory. :( This means that every message you send" +
           " has to contain all of the information that is necessary for me, you can't refer to anything that you've" +
-          " written in the past.\n" +
-          "2. I'm kind of bad at small talk and understanding difficult questions. So try to keep your questions " +
+          " written before.\n" +
+          "2. I'm kind of bad at small talk and understanding complex questions. So try to keep your questions " +
           "relatively short and precise!\n\n" +
-          "Anyway, ask away! ;)"
+          "With that said, ask away!"
 
       var messageId = this.addMessage(false, message, true);
 
       setTimeout(() => {
         this.messages.filter(msg => msg.id === messageId)[0].loading = false;
-      }, 2000)
+      }, 1500)
     },
     sendMessage() {
       if (this.currentMessage != null && this.currentMessage.trim() !== "") {
@@ -118,19 +119,13 @@ export default {
           if (error.response) {
             messageContent = "Whoops, looks like an error occurred while processing your request... It has been taken " +
                 "note of, try asking a different question in the meanwhile!"
-            console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
           } else if (error.request) {
             messageContent = "It looks like the server is down, so I can't process your request... Please notify the " +
                 "adminstrator.";
-            console.log(error.request);
           } else {
             messageContent = "Sorry, an unknown error occurred...";
-            console.log(error.message)
           }
         }).finally(() => {
-          console.log("Finally!")
           let msg = this.messages.filter(msg => msg.id === id)[0];
           msg.message = messageContent;
           msg.loading = false;
