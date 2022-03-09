@@ -29,7 +29,7 @@ export default {
     max-width: 75%;
   }
 }
-@media only screen and (min-width: 1000px) {
+@media only screen and (min-width: 1300px) {
   .wrapper {
     max-width: 55%;
   }
