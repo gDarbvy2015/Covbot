@@ -19,11 +19,22 @@ export default {
 
 <style>
 .wrapper {
-  max-width: 55%;
   margin: auto;
   max-height: 100vh;
   display: flex;
 }
+
+@media only screen and (min-width: 750px) {
+  .wrapper {
+    max-width: 75%;
+  }
+}
+@media only screen and (min-width: 1000px) {
+  .wrapper {
+    max-width: 55%;
+  }
+}
+
 
 html{
   height: 100vh;
