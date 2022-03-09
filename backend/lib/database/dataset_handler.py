@@ -65,11 +65,3 @@ class DatasetHandler:
         df["total_vaccinations"] = df["daily_vaccinations"].fillna(0).groupby("location").cumsum()
         df["people_vaccinated"] = df["daily_people_vaccinated"].fillna(0).groupby("location").cumsum()
         return df.reset_index().drop("date_in_seconds", axis=1)
-
-
-if __name__ == '__main__':
-    dataset_handler = DatasetHandler()
-    vaccinations = dataset_handler.load_covid_cases()
-    pd.set_option('display.max_columns', 500)
-    pd.set_option('display.width', 1000)
-    print(vaccinations[vaccinations["location"] == "World"])

@@ -161,11 +161,3 @@ class IntentRecognizer:
             return ValueType.NUMBER
 
         return ValueType.UNKNOWN
-
-
-if __name__ == '__main__':
-    sent = "Which country had the most corona cases yesterday?"
-    nlp = get_spacy()
-    span = list(nlp(sent).sents)[0]
-    ir = IntentRecognizer()
-    print(ir.recognize_intent(span))

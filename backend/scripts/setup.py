@@ -8,5 +8,6 @@ parts of the chatbot.
 import nltk
 from spacy.cli import download as spacy_download
 
-spacy_download('en_core_web_lg')
-nltk.download('punkt')
+if __name__ == '__main__':
+    spacy_download('en_core_web_lg')
+    nltk.download('punkt')
