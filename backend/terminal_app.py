@@ -1,6 +1,3 @@
-import json
-import pathlib
-
 from lib.database.querier import Querier
 from lib.nlg.answer_generator import AnswerGenerator
 from lib.nlu.message import MessageBuilder
@@ -10,19 +7,18 @@ message_builder = MessageBuilder()
 querier = Querier()
 answer_generator = AnswerGenerator()
 spacy = get_spacy()
+print("Finished initialization!")
 
 if __name__ == '__main__':
-    with open(pathlib.Path.cwd() / "tests" / "annotated_queries.json") as query_file:
-        queries = json.load(query_file)
-    # sentences = [query["query"] for query in queries]
+    while True:
+        question = input("> ")
 
-    sentences = ["How many people are vaccinated in Europe?"]
+        if question == "quit":
+            break
 
-    for sentence in sentences:
-        print(sentence)
-        new_sent = spacy(sentence)[:]
-        message = message_builder.create_message(new_sent)
+        sentence = spacy(question)[:]
+        message = message_builder.create_message(sentence)
+        print(message)
         query_result = querier.query_intent(message)
         answer = answer_generator.generate_answer(query_result)
         print(answer)
-        print()
