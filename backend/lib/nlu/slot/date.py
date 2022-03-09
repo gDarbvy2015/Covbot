@@ -13,12 +13,19 @@ from spacy.tokens import Span
 
 @dataclass
 class Date:
+    """Class representing a date with additional information.
+    type: Considered timeframe, can be "DAY", "WEEK", "MONTH", "YEAR"
+    value: The actual value of the date as a datetime.date object. In case of a week, month or year, it will
+    always be the first day of that time period.
+    text: The text from which the date was extracted.
+    """
     type: str
     value: datetime.date
     text: Optional[str]
 
     @staticmethod
     def generate_date_message(date: Date, today: datetime.date = datetime.now().date(), include_preposition = True) -> str:
+        """Generates a string representation of a date taking into consideration the timeframe."""
         def suffix(d):
             return 'th' if 11 <= d <= 13 else {1: 'st', 2: 'nd', 3: 'rd'}.get(d % 10, 'th')
 
@@ -94,7 +101,9 @@ class Date:
 
 
 class DateRecognizer:
+    """Class providing helper methods to recognize dates in text."""
     def recognize_date(self, span: Span) -> Optional[Date]:
+        """Extracts the first date in a span."""
         result: List[dict] = self._send_request(str(span))
         if len(result) > 0:
             if result[0]["value"] == "P1D":
@@ -105,6 +114,7 @@ class DateRecognizer:
             return None
 
     def _parse_date(self, date_dict: dict) -> Optional[Date]:
+        """Converts the date representation from the Stanford parser to a Date object."""
         if re.match(r"^\d{4}$", date_dict["value"]):
             return Date("YEAR", parse(date_dict["value"]).date(), date_dict["text"])
         elif re.match(r"^\d{4}-\d{2}$", date_dict["value"]):
@@ -116,6 +126,7 @@ class DateRecognizer:
         return None
 
     def _send_request(self, sentence: str) -> List[dict]:
+        """Sends a request to the server running the Stanford parser and returns the result as a dict."""
         properties: dict = {
             "date": datetime.now().isoformat(),
             "annotators": "tokenize, ssplit, pos, lemma, ner",
@@ -138,8 +149,3 @@ class DateRecognizer:
                         })
 
         return dates
-
-
-if __name__ == '__main__':
-    recognizer = DateRecognizer()
-    print(recognizer.recognize_date("How many people got Covid yesterday in Austria?"))

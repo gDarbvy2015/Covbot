@@ -3,7 +3,9 @@ from typing import Optional, List, Set
 
 from spacy.tokens import Span
 
+
 class Location:
+    """Class containing helper functions for dealing with locations."""
     _countries: Set[str] = {'micronesia', 'poland', 'philippines', 'portugal', 'anguilla', 'niue', 'moldova', 'bermuda', 'canada',
               'tonga', 'aruba', 'angola', 'ireland', 'ecuador', 'timor', 'afghanistan', 'iraq',
               'hong kong', 'liechtenstein', 'maldives', 'palau', 'benin', 'syria', 'guatemala', 'venezuela', 'armenia',
@@ -41,6 +43,7 @@ class Location:
 
     @staticmethod
     def normalize_location_name(location_name: str) -> str:
+        """Normalizes the name of a location."""
         def _map_location_abbreviations(string: str) -> str:
             location_name_map: dict = {
                 "macedonia": "north macedonia",
@@ -69,6 +72,7 @@ class Location:
 
     @staticmethod
     def add_prepositions_to_location_name(location_name: str) -> str:
+        """Adds a preposition to some countries as necessary."""
         if location_name.lower() == "world":
             return "the world"
         elif location_name.lower() in ["united kingdom", "ukraine", "united states"]:
@@ -78,27 +82,32 @@ class Location:
 
     @staticmethod
     def get_countries() -> Set[str]:
+        """Returns a set of the string representation of all available countries."""
         return Location._countries
 
     @staticmethod
     def get_continents() -> Set[str]:
+        """Returns a set of the string representations of all available continents."""
         return Location._continents
 
     @staticmethod
     def get_world() -> Set[str]:
+        """Returns a set of the string representation of the world."""
         return Location._world
 
     @staticmethod
     def get_all() -> Set[str]:
+        """Returns a list of the string representaitons of all available locations."""
         return Location.get_countries().union(Location.get_continents()).union(Location.get_world())
 
 
 class LocationRecognizer:
+    """Class providing helper methods to recognize locations in text."""
     def recognize_location(self, span: Span) -> Optional[str]:
-        # For some reason, for query 1000 it recognizes "Covid" as a location, so we need to manually exclude it
+        # For some reason, for query 1000 it recognizes "Covid" as a location, so we need to manually exclude it.
         location_ents: list = [ent.text for ent in span.ents if ent.label_ == "GPE" and ent.text.lower() != "covid"]
         if len(location_ents) == 0:
-            # If automated entity recognition doesn't work, try a manual approach
+            # If automated entity recognition doesn't work, try a manual approach by using the lists from above.
             for token in span:
                 normalized_token: str = Location.normalize_location_name(token.text)
 
