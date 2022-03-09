@@ -71,9 +71,3 @@ class DatabaseManager:
     def drop_tables(self) -> None:
         """Drops all tables."""
         drop_tables(self.engine)
-
-
-if __name__ == '__main__':
-    database_creator = DatabaseManager()
-    database_creator.create_database()
-    database_creator.update_database()

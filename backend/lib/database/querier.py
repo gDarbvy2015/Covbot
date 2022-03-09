@@ -285,15 +285,3 @@ class Querier:
         if msg.slots.date and msg.slots.date.value > self.today:
             return QueryResult(msg, QueryResultCode.FUTURE_DATA_REQUESTED, None, {})
         return None
-
-
-if __name__ == '__main__':
-    sentence = "How many vaccinations were administered today in Austria?"
-    spacy = get_spacy()
-    doc = spacy(sentence)
-    querier = Querier()
-
-    mb = MessageBuilder()
-    message = mb.create_message(list(doc.sents)[0])
-    result = querier.query_intent(message)
-    print(result)

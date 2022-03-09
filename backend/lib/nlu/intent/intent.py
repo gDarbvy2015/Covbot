@@ -18,6 +18,9 @@ from lib.spacy_components.custom_spacy import get_spacy, CustomSpacy
 
 @dataclass
 class Intent:
+    """Class representing the intent of a query.
+    For more information on each of the attributes, check the documentation of the respective classes.
+    """
     calculation_type: CalculationType
     value_type: ValueType
     value_domain: ValueDomain
@@ -25,12 +28,14 @@ class Intent:
 
 
 class IntentRecognizer:
+    """Class providing helper methods to recognize the intent of a query."""
     def __init__(self):
         self._stemmer: PorterStemmer = PorterStemmer()
         self._topic_recognizer: TopicRecognizer = TopicRecognizer()
         self._date_recognizer: DateRecognizer = DateRecognizer()
 
     def recognize_intent(self, span: Span) -> Intent:
+        """Recognize the intent of a span."""
         value_domain: ValueDomain = self.recognize_value_domain(span)
         measurement_type: MeasurementType = self.recognize_measurement_type(span)
         value_type: ValueType = self.recognize_value_type(span)
@@ -39,6 +44,7 @@ class IntentRecognizer:
         return Intent(calculation_type, value_type, value_domain, measurement_type)
 
     def recognize_calculation_type(self, span: Span):
+        """Recognize the calculation type of a span."""
         date: Date = self._date_recognizer.recognize_date(span)
         value_type: ValueType = self.recognize_value_type(span)
 
@@ -66,6 +72,7 @@ class IntentRecognizer:
             return CalculationType.SUM
 
     def recognize_value_domain(self, span: Span) -> ValueDomain:
+        """Recognize the value domain of a span."""
         topic: Topic = self._topic_recognizer.recognize_topic(span)
         if topic == Topic.CASES:
             return ValueDomain.POSITIVE_CASES
@@ -87,6 +94,7 @@ class IntentRecognizer:
             return ValueDomain.UNKNOWN
 
     def recognize_measurement_type(self, span: Span) -> MeasurementType:
+        """Recognize the measurement type of a span."""
         date = self._date_recognizer.recognize_date(span)
         value_type = self.recognize_value_type(span)
         calculation_type = self.recognize_calculation_type(span)
@@ -135,6 +143,7 @@ class IntentRecognizer:
         return MeasurementType.UNKNOWN
 
     def recognize_value_type(self, span: Span) -> ValueType:
+        """Recognize the value type of a span."""
         # Use each of the pre-defined patterns to understand what type of value the user is asking from us.
         # e.g. "When did Austria have the most Corona cases?"
         if Pattern.has_valid_pattern(span, [Pattern.what_day_pattern, Pattern.when_pattern]):
@@ -152,11 +161,3 @@ class IntentRecognizer:
             return ValueType.NUMBER
 
         return ValueType.UNKNOWN
-
-
-if __name__ == '__main__':
-    sent = "Which country had the most corona cases yesterday?"
-    nlp = get_spacy()
-    span = list(nlp(sent).sents)[0]
-    ir = IntentRecognizer()
-    print(ir.recognize_intent(span))

@@ -15,6 +15,11 @@ from lib.spacy_components.custom_spacy import get_spacy
 
 
 class MessageValidationCode(Enum):
+    """Class representing the result of the validation of a message.
+    VALID is for valid messages.
+    NO_TIMEFRAME, AMBIGUOUS_TOPIC, UNKNOWN are returned if there is something "wrong" or missing in the user message.
+    NO_TOPIC, NO_INTENT, NO_SLOTS, INTENT_MISMATCH, UNSUPPORTED_ACTION are server-side errors.
+    """
     # This means that we should be able to query the user intent and return an answer.
     VALID = 1
 
@@ -33,15 +38,19 @@ class MessageValidationCode(Enum):
 
     @staticmethod
     def get_valid_codes() -> List[MessageValidationCode]:
+        """Returns a list of message validation codes that indicate that the message is valid."""
         return [MessageValidationCode.VALID]
 
     @staticmethod
     def get_user_query_error_codes() -> List[MessageValidationCode]:
+        """Returns a list of message validation codes that indicate that there is an error
+        by the user in the query."""
         return [MessageValidationCode.NO_TIMEFRAME, MessageValidationCode.AMBIGUOUS_TOPIC,
                 MessageValidationCode.UNKNOWN]
 
     @staticmethod
     def get_server_side_error_codes() -> List[MessageValidationCode]:
+        """Returns a list of message validation codes that indicate that there was a server-side error."""
         return [MessageValidationCode.NO_TOPIC, MessageValidationCode.NO_INTENT,
                 MessageValidationCode.NO_SLOTS, MessageValidationCode.INTENT_MISMATCH,
                 MessageValidationCode.UNSUPPORTED_ACTION]
@@ -49,12 +58,18 @@ class MessageValidationCode(Enum):
 
 @dataclass
 class Message:
+    """Class representing a message and providing related helper-methods.
+    topic: The topic of the message.
+    intent: The intent of the message.
+    slots: The slots of the message.
+    """
     topic: Topic
     intent: Intent
     slots: Slots
 
     @staticmethod
     def validate_message(msg: Message) -> MessageValidationCode:
+        """Validates a message."""
         single_fields_validation: Optional[MessageValidationCode] = Message._validate_single_fields(msg)
         if single_fields_validation:
             return single_fields_validation
@@ -63,9 +78,8 @@ class Message:
 
     @staticmethod
     def _validate_intent_with_slots(msg: Message) -> MessageValidationCode:
-        has_location: bool = msg.slots.location is not None
+        """Validates the slots in combination with the different attributes of the intent."""
         has_date: bool = msg.slots.date is not None
-        has_both: bool = has_location and has_date
 
         if msg.intent.value_type == ValueType.NUMBER:
             if msg.intent.calculation_type == CalculationType.RAW_VALUE:
@@ -96,8 +110,8 @@ class Message:
                 # if we are looking for the day or the location with the highest/lowest cumulative value.
                 if msg.intent.measurement_type == MeasurementType.CUMULATIVE:
                     return MessageValidationCode.INTENT_MISMATCH
-                # If the timeframe is None, we assume that we are searching for the all-time value. If the location is None,
-                # we default to the whole world.
+                # If the timeframe is None, we assume that we are searching for the all-time value. If the location is
+                # None, we default to the whole world.
                 elif msg.intent.measurement_type == MeasurementType.DAILY:
                     return MessageValidationCode.VALID
         elif msg.intent.value_type == ValueType.DAY:
@@ -120,6 +134,7 @@ class Message:
 
     @staticmethod
     def _validate_single_fields(msg: Message) -> Optional[MessageValidationCode]:
+        """Checks whether the different attributes of the message on their own are valid."""
         if msg.topic is None:
             return MessageValidationCode.NO_TOPIC
         if msg.intent is None:
@@ -144,13 +159,14 @@ class Message:
 
 
 class MessageBuilder:
+    """Class that provides a helper methods to recognize the message from a span."""
     def __init__(self):
-        spacy: Language = get_spacy()
         self._topic_recognizer: TopicRecognizer = TopicRecognizer()
         self._intent_recognizer: IntentRecognizer = IntentRecognizer()
         self._slots_filler: SlotsFiller = SlotsFiller()
 
     def create_message(self, span: Span) -> Message:
+        """Builds a message based on a span."""
         topic: Topic = self._topic_recognizer.recognize_topic(span)
         intent: Intent = self._intent_recognizer.recognize_intent(span)
         slots: Slots = self._slots_filler.fill_slots(span)

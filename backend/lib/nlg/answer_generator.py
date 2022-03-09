@@ -107,8 +107,3 @@ class AnswerGenerator:
 
         return value_dict
 
-
-if __name__ == '__main__':
-    with open(pathlib.Path(__file__).parent / "answers.yaml") as answers_file:
-        entries = yaml.safe_load(answers_file)
-

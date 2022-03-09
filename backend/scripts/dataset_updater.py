@@ -38,10 +38,12 @@ class DatasetUpdater:
         self.logger = ServerLogger(__name__)
 
     def start(self):
+        """Starts the database updater."""
         self.logger.info("Successfully started the database updater.")
         self._perform_updates()
 
     def _perform_updates(self):
+        """Downloads the data files from Github in case they have been updated and updates the database."""
         for tracked_file in self.tracked_files:
             if not tracked_file["local_path"].exists():
                 self.logger.info(f"Datafile with new {tracked_file['name']} does not exist.")
@@ -61,6 +63,7 @@ class DatasetUpdater:
                         self._download_file(tracked_file)
 
     def _download_file(self, tracked_file: dict):
+        """Downloads the data files from Github."""
         self.logger.info(f"Downloading the {tracked_file['name']} data file...")
         response = requests.get(tracked_file["url"])
         self.logger.info(
@@ -72,6 +75,7 @@ class DatasetUpdater:
 
 
 if __name__ == '__main__':
+    # Searches for updates every two hours.
     updater = DatasetUpdater()
     while True:
         updater.start()

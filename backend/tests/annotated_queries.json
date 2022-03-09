@@ -846,7 +846,7 @@
     }
   },
   {
-    "id": 1000,
+    "id": 1001,
     "query": "How many people got the COVID vaccine yesterday in Austria?",
     "topic": "VACCINATIONS",
     "intent": {
