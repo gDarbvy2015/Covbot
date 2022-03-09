@@ -77,7 +77,4 @@ class DatasetUpdater:
 if __name__ == '__main__':
     # Searches for updates every two hours.
     updater = DatasetUpdater()
-    while True:
-        updater.start()
-        updater.logger.info("Waiting 2 hours before attempting the next update...")
-        time.sleep(7200)
+    updater.start()
