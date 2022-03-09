@@ -9,6 +9,7 @@ _stemmer: PorterStemmer = PorterStemmer()
 
 
 class Pattern:
+    """Class that contains the necessary patterns for intent recognition."""
     _people_trigger_words: list = [_stemmer.stem(word) for word in ["human", "people", "person", "individual"]]
     _vaccine_trigger_words: list = [_stemmer.stem(word) for word in
                                     ["shot", "vaccine", "jab", "inoculation", "immunization",
@@ -254,6 +255,7 @@ class Pattern:
 
     @staticmethod
     def has_valid_pattern(span: Span, pattern: list) -> bool:
+        """Checks whether a given span matches a list of patterns."""
         matcher: DependencyMatcher = DependencyMatcher(CustomSpacy.get_spacy().vocab)
 
         matcher.add("pattern", pattern)

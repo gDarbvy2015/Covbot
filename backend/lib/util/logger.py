@@ -7,6 +7,7 @@ log_format: str = "%(asctime)s %(levelname)s - %(module)s: %(message)s"
 
 
 class ColoredFormatter(logging.Formatter):
+    """A formatter that allows printing logs in color using the custom output format."""
 
     grey: str = "\x1b[38;20m"
     yellow: str = "\x1b[33;20m"
@@ -29,12 +30,14 @@ class ColoredFormatter(logging.Formatter):
 
 
 class Formatter(logging.Formatter):
+    """A formatter that allows printing logs using the custom output format."""
     def format(self, record: logging.LogRecord) -> str:
         formatter: logging.Formatter = logging.Formatter(log_format)
         return formatter.format(record)
 
 
 class ServerLogger(logging.Logger):
+    """Logger that can be used by the Flask webserver to log important information."""
     def __init__(self, name: str):
         super().__init__(name)
 
