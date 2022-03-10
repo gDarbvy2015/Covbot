@@ -8,6 +8,12 @@ parts of the chatbot.
 import nltk
 from spacy.cli import download as spacy_download
 
+from lib.database.database_manager import DatabaseManager
+
 if __name__ == '__main__':
-    spacy_download('en_core_web_lg')
-    nltk.download('punkt')
+    database_manager = DatabaseManager()
+    database_manager.create_database()
+    database_manager.update_database()
+
+    database_manager = DatabaseManager("covbot_test")
+    database_manager.create_database()
