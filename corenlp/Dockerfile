@@ -8,5 +8,6 @@ RUN apt-get -y install openjdk-17-jre
 RUN cd ~
 RUN wget https://nlp.stanford.edu/software/stanford-corenlp-latest.zip
 RUN unzip stanford-corenlp-latest.zip
-RUN cd stanford-corenlp-4.4.0
-# RUN java -mx4g -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLPServer -port 9000 -timeout 15000 -preload "tokenize, ssplit, pos, lemma, ner"
+WORKDIR "/stanford-corenlp-4.4.0"
+CMD java -mx4g -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLPServer -port 9000 -timeout 15000 -preload "tokenize, ssplit, pos, lemma, ner"
+EXPOSE 9000
