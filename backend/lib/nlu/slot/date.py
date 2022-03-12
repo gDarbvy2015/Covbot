@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import re
+import os
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Optional, List
@@ -132,8 +133,8 @@ class DateRecognizer:
             "annotators": "tokenize, ssplit, pos, lemma, ner",
             "outputFormat": "json",
         }
-
-        res: dict = requests.post(f'http://localhost:9000/?properties={json.dumps(properties)}',
+        res: dict = requests.post(f'http://{os.environ.get("COVBOT_CORENLP_HOST")}:'
+                                  f'{os.environ.get("COVBOT_CORENLP_PORT")}/?properties={json.dumps(properties)}',
                                   data={
                                       'data': sentence}).json()
 
