@@ -4,10 +4,6 @@ This script will download any additional necessary dependencies and set up the d
 parts of the chatbot.
 
 """
-
-import nltk
-from spacy.cli import download as spacy_download
-
 from lib.database.database_manager import DatabaseManager
 
 if __name__ == '__main__':
