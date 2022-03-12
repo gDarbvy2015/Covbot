@@ -19,7 +19,7 @@ class CustomSpacy:
     def get_spacy() -> Language:
         """Returns the customized spacy instance."""
         if CustomSpacy.nlp is None:
-            CustomSpacy.nlp = spacy.load("en_core_web_lg")
+            CustomSpacy.nlp = spacy.load("en_core_web_sm")
 
         return CustomSpacy.nlp
 
