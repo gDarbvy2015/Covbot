@@ -133,10 +133,8 @@ class DateRecognizer:
             "annotators": "tokenize, ssplit, pos, lemma, ner",
             "outputFormat": "json",
         }
-        res: dict = requests.post(f'http://{os.environ.get("COVBOT_CORENLP_HOST")}:'
-                                  f'{os.environ.get("COVBOT_CORENLP_PORT")}/?properties={json.dumps(properties)}',
-                                  data={
-                                      'data': sentence}).json()
+        res: dict = requests.post(f'http://corenlp:9000/?properties={json.dumps(properties)}',
+                                  data={'data': sentence}).json()
 
         dates = list()
         for sentence in res["sentences"]:
