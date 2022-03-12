@@ -9,5 +9,5 @@ RUN cd ~
 RUN wget https://nlp.stanford.edu/software/stanford-corenlp-latest.zip
 RUN unzip stanford-corenlp-latest.zip
 WORKDIR "/stanford-corenlp-4.4.0"
-CMD java -mx4g -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLPServer -port 9000 -timeout 15000 -preload "tokenize, ssplit, pos, lemma, ner"
+CMD java -mx2g -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLPServer -port 9000 -timeout 15000 -annotators "tokenize,ssplit,pos,lemma,ner" -preload "tokenize,ssplit,pos,lemma,ner"
 EXPOSE 9000
