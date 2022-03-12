@@ -17,23 +17,6 @@ class DatabaseManager:
         self.engine: Engine = self.connection.create_engine(self.db_name)
         self.dataset_handler: DatasetHandler = DatasetHandler()
 
-    def create_database(self) -> None:
-        """Creates a database to allow saving data for Covbot."""
-        self.logger.info(f"Creating the database {self.db_name}...")
-
-        try:
-            self.connection.create_engine().execute(f"CREATE DATABASE {self.db_name}")
-            self.logger.info("Database was created successfully.")
-            self.engine = self.connection.create_engine(self.db_name)
-        except DatabaseError as e:
-            if "1007" in str(e):
-                self.logger.info("Couldn't create the database because it already exists.")
-            else:
-                self.logger.error(f"Unexpected error occurred while creating the database for {self.db_name}: ", str(e))
-                return
-
-        self.create_tables()
-
     def update_database(self) -> None:
         """Updates the data on COVID cases and vaccinations. The database already needs to exist."""
         self.logger.info("Updating the data in the database...")

@@ -237,7 +237,7 @@ class Querier:
                 return [not_(table.location_normalized.in_(list(Location.get_continents().union(Location.get_world()))))]
             # If we are searching for the number, we default to searching for data on the whole world.
             else:
-                return [table.location_normalized == Location.get_world()]
+                return [table.location_normalized.in_(list(Location.get_world()))]
         else:
             # Otherwise, we limit the country.
             return [table.location_normalized == msg.slots.location]

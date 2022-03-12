@@ -29,7 +29,6 @@ current_day = datetime(2022, 2, 24).date()
 @pytest.fixture(scope="session")
 def db_manager():
     db_manager = DatabaseManager("covbot_test")
-    db_manager.create_database()
     db_manager.create_tables()
 
     yield db_manager

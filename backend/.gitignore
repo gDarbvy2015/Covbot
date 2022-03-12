@@ -2,3 +2,4 @@ venv
 server_log*
 messages_log
 .pytest_cache
+*.db
