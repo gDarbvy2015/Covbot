@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  backend:
+    image: covbot/backend
+    ports:
+      - 5000:5000
+  corenlp:
+    image: covbot/corenlp
+    ports:
+      - 9000:9000
+  frontend:
+    image: covbot/frontend
+    ports:
+      - 80:80
