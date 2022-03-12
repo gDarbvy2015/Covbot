@@ -8,5 +8,5 @@ ENV COVBOT_LOGS "/usr/src/app/logs"
 ENV COVBOT_DB_PATH "/usr/src/app/lib/database"
 RUN pip install -r requirements.txt
 RUN python -m spacy download en_core_web_sm
-CMD gunicorn --bind 0.0.0.0:5000 wsgi:app
-EXPOSE 5000
+CMD gunicorn --bind 0.0.0.0:5200 wsgi:app
+EXPOSE 5200

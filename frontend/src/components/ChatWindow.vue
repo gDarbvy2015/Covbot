@@ -113,7 +113,7 @@ export default {
 
         let id = this.addMessage(false, "", true);
         let messageContent = ""
-        this.axios.get("http://127.0.0.1:5000/", {params: {msg: this.currentMessage}}).then((response) => {
+        this.axios.get("http://127.0.0.1:5200/", {params: {msg: this.currentMessage}}).then((response) => {
           messageContent = response.data.msg
         }).catch((error) => {
           if (error.response) {
