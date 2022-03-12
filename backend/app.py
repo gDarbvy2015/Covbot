@@ -28,7 +28,7 @@ def start_dataset_updater_loop():
     while True:
         dataset_updater.start()
         server_logger.info("Waiting 2 hours before attempting the next update...")
-        time.sleep(10)
+        time.sleep(7200)
 
 
 t1 = threading.Thread(target=start_dataset_updater_loop)
