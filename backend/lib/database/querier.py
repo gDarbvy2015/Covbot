@@ -174,6 +174,14 @@ class Querier:
         else:
             return QueryResult(msg, QueryResultCode.UNSUPPORTED_ACTION, None, {})
 
+    def _handle_no_data_available_for_date(self, table: Union[Case, Vaccination], msg: Message,
+                                           location_condition: List[bool], considered_column: InstrumentedAttribute)\
+            -> QueryResult:
+        last_date = self.session.query(table).where(and_(*location_condition + [not_(considered_column == None)])) \
+            .order_by(desc(table.date)).limit(1).all()
+        return QueryResult(msg, QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE,
+                           None, {"latest": Date("DAY", last_date[0].date, ""), "location": last_date[0].location})
+
     def _query_number(self, table: Union[Case, Vaccination], considered_column: InstrumentedAttribute,
                       msg: Message) -> QueryResult:
         """Performs the query given that we are trying to query a number."""
@@ -187,10 +195,9 @@ class Querier:
         if self.session.query(func.count(table.id)).where(and_(*location_condition, *time_condition)).scalar() == 0:
             # We fetch the most recent date, since many queries were asking about "today" or "yesterday", but this
             # data often is not available.
-            last_date = self.session.query(table).where(and_(*location_condition))\
-                .order_by(desc(table.date)).limit(1).all()
-            return QueryResult(msg, QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE,
-                               None, {"latest": Date("DAY", last_date[0].date, ""), "location": last_date[0].location})
+            # Also note the condition needs to be "== None" instead of "is None", otherwise it will be interpreted
+            # incorrectly
+            return self._handle_no_data_available_for_date(table, msg, location_condition, considered_column)
 
         def get_query(query_list: list):
             return self.session.query(*query_list).where(and_(
@@ -217,7 +224,7 @@ class Querier:
             return QueryResult(msg, QueryResultCode.UNEXPECTED_RESULT, None, {})
         else:
             if result[0][0] is None:
-                return QueryResult(msg, QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE, None, {})
+                return self._handle_no_data_available_for_date(table, msg, location_condition, considered_column)
             else:
                 return QueryResult(msg, QueryResultCode.SUCCESS, result[0][0], {"location": result[0][1]})
 
