@@ -45,7 +45,9 @@ class AnswerGenerator:
                 topic=query_result.message.topic.name.lower()
             )
         elif query_result.result_code in [QueryResultCode.UNEXPECTED_RESULT,
-                                          QueryResultCode.FUTURE_DATA_REQUESTED]:
+                                          QueryResultCode.FUTURE_DATA_REQUESTED,
+                                          QueryResultCode.UNSUPPORTED_ACTION,
+                                          QueryResultCode.NO_MAX_MIN_FOR_COUNTRY_SUPPORTED]:
             return random.choice(self.answers[query_result.result_code.name])
         elif query_result.result_code == QueryResultCode.NOT_EXISTING_LOCATION:
             return random.choice(self.answers[query_result.result_code.name]).format(location=query_result.message.slots.location)

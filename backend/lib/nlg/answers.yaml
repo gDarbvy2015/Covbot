@@ -1,5 +1,6 @@
 NO_DATA_AVAILABLE_FOR_DATE:
-  - "Sorry, I'm afraid I don't have any data on {topic} from {date} for {location}. The latest entry is from {latest_date}."
+  - "Sorry, I'm afraid I don't have any data on {topic} from {date} for {location}. The latest entry is from {latest_date}. 
+  Maybe try a different time period."
 UNEXPECTED_RESULT:
   - "It looks like I got an unexpected result when processing your question... I took note of it,
     feel free to ask another question in the meanwhile!"
@@ -9,7 +10,12 @@ FUTURE_DATA_REQUESTED:
   - "Sorry pal, I can't look into the future. :("
   - "Ha, I do know a lot, but I cannot predict the future."
   - "Maybe you should try asking this a clairvoyant."
-  - "Nice try, but I can't give you data on the future. ;)"
+UNSUPPORTED_ACTION:
+  - "Looks like you tried to do something which I haven't been programmed to do yet. I've written it down, try 
+  asking something else in the meanwhile!"
+NO_MAX_MIN_FOR_COUNTRY_SUPPORTED:
+  - "Sorry, at the moment I can only compare the maximum/minimum between different countries for a single day; if you
+   are asking for a whole week, month or year, I don't support that yet. Try a different question!"
 NOT_EXISTING_LOCATION:
   - "I don't have any data on {location}, try a different location."
   - "Looks like I can't find any data on {location} in the database."

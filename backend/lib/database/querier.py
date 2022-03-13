@@ -43,6 +43,8 @@ class QueryResultCode(Enum):
     NOT_EXISTING_LOCATION = 4
     NO_DATA_AVAILABLE_FOR_DATE = 5
     INVALID_MESSAGE = 6
+    UNSUPPORTED_ACTION = 7
+    NO_MAX_MIN_FOR_COUNTRY_SUPPORTED = 9
 
     @staticmethod
     def from_str(query_result_code: str) -> Optional[QueryResultCode]:
@@ -120,7 +122,7 @@ class Querier:
         elif msg.intent.value_type == ValueType.DAY:
             return self._query_date(table, considered_column, msg)
         else:
-            raise NotImplementedError()
+            return QueryResult(msg, QueryResultCode.UNSUPPORTED_ACTION, None, {})
 
     def _query_location(self, table: Union[Case, Vaccination], considered_column: InstrumentedAttribute,
                         msg: Message) -> QueryResult:
@@ -145,9 +147,9 @@ class Querier:
                 else:
                     return QueryResult(msg, QueryResultCode.SUCCESS, result[0].location, {})
             else:
-                raise NotImplementedError()
+                return QueryResult(msg, QueryResultCode.NO_MAX_MIN_FOR_COUNTRY_SUPPORTED, None, {})
         else:
-            raise NotImplementedError()
+            return QueryResult(msg, QueryResultCode.UNSUPPORTED_ACTION, None, {})
 
     def _query_date(self, table: Union[Case, Vaccination], considered_column: InstrumentedAttribute,
                     msg: Message) -> QueryResult:
@@ -170,7 +172,7 @@ class Querier:
             else:
                 return QueryResult(msg, QueryResultCode.SUCCESS, Date("DAY", result[0].date, ""), {"location": result[0].location})
         else:
-            raise NotImplementedError()
+            return QueryResult(msg, QueryResultCode.UNSUPPORTED_ACTION, None, {})
 
     def _query_number(self, table: Union[Case, Vaccination], considered_column: InstrumentedAttribute,
                       msg: Message) -> QueryResult:
@@ -204,7 +206,7 @@ class Querier:
         elif msg.intent.calculation_type == CalculationType.MINIMUM:
             query = get_query([functions.min(considered_column), table.location]).group_by(table.location)
         else:
-            raise NotImplementedError()
+            return QueryResult(msg, QueryResultCode.UNSUPPORTED_ACTION, None, {})
 
         if msg.intent.calculation_type == CalculationType.RAW_VALUE:
             query = query.limit(1)
