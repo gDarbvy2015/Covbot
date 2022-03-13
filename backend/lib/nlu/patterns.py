@@ -15,6 +15,7 @@ class Pattern:
                                     ["shot", "vaccine", "jab", "inoculation", "immunization",
                                      "administer"]]
     _cases_trigger_words: list = [_stemmer.stem(word) for word in ["case", "infection", "test", "positive", "negative"]]
+    _covid_trigger_words: list = [_stemmer.stem(word) for word in ["covid", "covid-19", "covid19"]]
 
     human_pattern: List[dict] = [{
         "RIGHT_ID": "human_pattern",
@@ -32,7 +33,7 @@ class Pattern:
         "RIGHT_ATTRS": {
             "_": {
                 "stem": {
-                    "IN": ["covid", "covid-19", "covid19"]
+                    "IN": _covid_trigger_words
                 }
             }
         }
@@ -66,6 +67,19 @@ class Pattern:
             "_": {
                 "stem": {
                     "IN": _vaccine_trigger_words
+                }
+            }
+        }
+    }]
+
+    vaccine_covid_pattern: List[dict] = vaccine_trigger_pattern + [{
+        "LEFT_ID": "vaccine_trigger_pattern",
+        "REL_OP": ">>",
+        "RIGHT_ID": "vaccine_covid_pattern",
+        "RIGHT_ATTRS": {
+            "_": {
+                "stem": {
+                    "IN": _covid_trigger_words
                 }
             }
         }
