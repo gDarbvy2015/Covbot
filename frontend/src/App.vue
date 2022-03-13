@@ -1,6 +1,6 @@
 <template>
   <n-dialog-provider>
-    <div class="wrapper">
+    <div className="wrapper">
       <chat-window></chat-window>
     </div>
   </n-dialog-provider>
@@ -29,6 +29,7 @@ export default {
     max-width: 75%;
   }
 }
+
 @media only screen and (min-width: 1300px) {
   .wrapper {
     max-width: 55%;
@@ -36,12 +37,12 @@ export default {
 }
 
 
-html{
+html {
   height: 100vh;
 }
 
 body {
-  height: calc(100vh - 2*15px);
+  height: calc(100vh - 2 * 15px);
   padding: 15px 0 15px 0;
 }
 
