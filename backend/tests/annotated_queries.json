@@ -862,5 +862,92 @@
         "text": "yesterday"
       }
     }
+  },
+  {
+    "id": 1002,
+    "query": "tell me how many people were vaccinated against covid19 this week.",
+    "topic": "VACCINATIONS",
+    "intent": {
+      "calculation_type": "SUM",
+      "value_type": "NUMBER",
+      "value_domain": "VACCINATED_PEOPLE",
+      "measurement_type": "DAILY"
+    },
+    "slots": {
+      "location": null,
+      "timeframe": {
+        "type": "WEEK",
+        "text": "this week"
+      }
+    }
+  },
+  {
+    "id": 1003,
+    "query": "which country had the highest number of cases last week.",
+    "topic": "CASES",
+    "intent": {
+      "calculation_type": "MAXIMUM",
+      "value_type": "LOCATION",
+      "value_domain": "POSITIVE_CASES",
+      "measurement_type": "DAILY"
+    },
+    "slots": {
+      "location": null,
+      "timeframe": {
+        "type": "WEEK",
+        "text": "last week"
+      }
+    }
+  },
+  {
+    "id": 1004,
+    "query": "when did China have the most cases last month?",
+    "topic": "CASES",
+    "intent": {
+      "calculation_type": "MAXIMUM",
+      "value_type": "DAY",
+      "value_domain": "POSITIVE_CASES",
+      "measurement_type": "DAILY"
+    },
+    "slots": {
+      "location": "china",
+      "timeframe": {
+        "type": "MONTH",
+        "text": "last month"
+      }
+    }
+  },
+  {
+    "id": 1005,
+    "query": "when did Italy have the most cases?",
+    "topic": "CASES",
+    "intent": {
+      "calculation_type": "MAXIMUM",
+      "value_type": "DAY",
+      "value_domain": "POSITIVE_CASES",
+      "measurement_type": "DAILY"
+    },
+    "slots": {
+      "location": "italy",
+      "timeframe": null
+    }
+  },
+  {
+    "id": 1006,
+    "query": "how many people got the vaccine against COVID on March 2nd 2022 in Saudi Arabia?",
+    "topic": "VACCINATIONS",
+    "intent": {
+      "calculation_type": "RAW_VALUE",
+      "value_type": "NUMBER",
+      "value_domain": "VACCINATED_PEOPLE",
+      "measurement_type": "DAILY"
+    },
+    "slots": {
+      "location": "saudi arabia",
+      "timeframe": {
+        "type": "DAY",
+        "text": "March 2nd 2022"
+      }
+    }
   }
 ]
