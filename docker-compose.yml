@@ -3,16 +3,19 @@ version: "3.8"
 services:
   backend:
     image: backend
+    container_name: backend
     volumes:
       - logs:/usr/src/app/logs
     ports:
       - 5200:5200
   corenlp:
     image: corenlp
+    container_name: corenlp
     ports:
       - 9000:9000
   frontend:
     image: frontend
+    container_name: frontend
     ports:
       - 80:80
 
