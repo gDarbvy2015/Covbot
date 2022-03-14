@@ -25,7 +25,8 @@ import {Icon} from '@vicons/utils'
 import ChatBubble from "@/components/ChatBubble";
 import { v4 as uuidv4 } from 'uuid';
 import {useDialog} from "naive-ui";
-
+import showdown from "showdown";
+var converter = new showdown.Converter()
 export default {
   name: "ChatWindow",
   components: {
@@ -58,8 +59,10 @@ export default {
         const dialog = useDialog()
         dialog.create({
           title: 'Note',
-          content: 'All of the messages sent here are stored on the server and might be used ' +
-              'to improve the chatbot, so please don\'t enter any private information.',
+          content: 'All of the messages sent here will be logged on the server and might be used ' +
+              'in my bachelor thesis to provide examples for user queries, ' +
+              'so please don\'t enter any private or sensitive information. But other than that,' +
+              ' feel free to play around as much as you want. :)',
           positiveText: 'Okay',
           closable: false,
           onPositiveClick: () => {
@@ -90,16 +93,19 @@ export default {
           "1. The number of positive COVID cases detected in a certain country on a certain day.\n" +
           "2. The number of vaccinations that were administered in a certain country on a certain day.\n" +
           "3. The number of people that were vaccinated in a certain country on a certain day.\n\n" +
-          "I was built as part of a bachelor thesis. If you are curious about how I work, you can check out my " +
-          "[source code](https://github.com/LaurenzV/Covbot) if you want.\n\n" +
-          "I'm still in my infancy, so expect that I that there might be errors and I might not be able to understand " +
+          "Based on this, I can answer various questions for you, like for example the number of detected cases in a certain " +
+          "month in a certain country or the country with the highest number of administered vaccines on a certain day." +
+          "I was built as part of a bachelor thesis. If you are curious about how I work, you can take a look at my " +
+          "[source code](https://github.com/LaurenzV/Covbot).\n\n" +
+          "I'm still in my infancy, so expect that there might be some errors and I might not be able to understand " +
           "all of your questions. In particular, keep in mind that:\n" +
           "1. Unfortunately, I don't have a memory. :( This means that every message you send" +
           " has to contain all of the information that is necessary for me, you can't refer to anything that you've" +
           " written before.\n" +
           "2. I'm kind of bad at small talk and understanding complex questions. So try to keep your questions " +
-          "relatively short and precise!\n\n" +
-          "With that said, ask away!"
+          "relatively simple and precise!\n\n" +
+          "Despite these limitations, feel free to interact with me as much as you want! The more " +
+          " questions I get asked, the more data I have which can be used to improve me. Ask away!"
 
       var messageId = this.addMessage(false, message, true);
 
