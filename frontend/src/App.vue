@@ -42,8 +42,7 @@ html {
 }
 
 body {
-  height: calc(100vh - 2 * 15px);
-  padding: 15px 0 15px 0;
+  height: 100vh;
 }
 
 #app, .wrapper {
