@@ -1,7 +1,7 @@
 echo Building the backend...
-docker build -t backend backend/
+docker build --rm -t backend backend/
 echo Building the corenlp server...
-docker build -t corenlp corenlp/
+docker build --rm -t corenlp corenlp/
 echo Building the frontend...
-docker build -t frontend frontend/
+docker build --rm -t frontend frontend/
 echo Done!
