@@ -3,3 +3,4 @@ server_log*
 messages_log
 .pytest_cache
 *.db
+*/__pycache__/*
