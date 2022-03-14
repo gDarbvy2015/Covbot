@@ -1,7 +1,7 @@
 echo Building the backend...
-docker build -t covbot/backend backend/
+docker build -t backend backend/
 echo Building the corenlp server...
-docker build -t covbot/corenlp corenlp/
+docker build -t corenlp corenlp/
 echo Building the frontend...
-docker build -t covbot/frontend frontend/
+docker build -t frontend frontend/
 echo Done!

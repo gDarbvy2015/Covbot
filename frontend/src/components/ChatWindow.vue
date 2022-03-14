@@ -185,7 +185,7 @@ export default {
   padding: 14px 17px 14px 17px;
   flex: 0 0 100%;
   border-radius: 20px;
-  font-size: 18px;
+  font-size: 15px;
   max-width: 60%;
   overflow-wrap: break-word;
   box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2);

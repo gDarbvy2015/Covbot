@@ -2,17 +2,17 @@ version: "3.8"
 
 services:
   backend:
-    image: covbot/backend
-    volumes: 
+    image: backend
+    volumes:
       - logs:/usr/src/app/logs
     ports:
       - 5200:5200
   corenlp:
-    image: covbot/corenlp
+    image: corenlp
     ports:
       - 9000:9000
   frontend:
-    image: covbot/frontend
+    image: frontend
     ports:
       - 80:80
 
