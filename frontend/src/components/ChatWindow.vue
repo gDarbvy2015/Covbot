@@ -25,8 +25,6 @@ import {Icon} from '@vicons/utils'
 import ChatBubble from "@/components/ChatBubble";
 import { v4 as uuidv4 } from 'uuid';
 import {useDialog} from "naive-ui";
-import showdown from "showdown";
-var converter = new showdown.Converter()
 export default {
   name: "ChatWindow",
   components: {
