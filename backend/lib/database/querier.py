@@ -76,14 +76,11 @@ class QueryResult:
 
 class Querier:
     """Class containing helper methods to perform query-related operations."""
-    def __init__(self, db_name="covbot", engine=None, session=None, today=datetime.now().date()):
+    def __init__(self, db_name="covbot", engine=None, session=None):
         self.engine: Engine = DatabaseConnection().create_engine(db_name) if engine is None else engine
         self.session: Session = Session(self.engine, future=True) if session is None else session
         self.case_query: Query = self.session.query(Case)
         self.vaccination_query: Query = self.session.query(Vaccination)
-
-        # We allow setting a custom value as the "today" value so that testing becomes easier
-        self.today = today
 
         self.table_dict: dict = {
             Topic.CASES: Case,
@@ -103,9 +100,11 @@ class Querier:
             }
         }
 
-    def query_intent(self, msg: Message) -> QueryResult:
+
+    # We allow setting a custom value as the "today" value so that testing becomes easier
+    def query_intent(self, msg: Message, today=datetime.now().date()) -> QueryResult:
         """Given a message, it queries the database and returns the result in the form of a QueryResult object."""
-        validation_result: Optional[QueryResult] = self._validate_msg(msg)
+        validation_result: Optional[QueryResult] = self._validate_msg(msg, today)
 
         # If validation_result is not None, there is an validation error and we return it.
         if validation_result:
@@ -284,13 +283,13 @@ class Querier:
         else:
             raise NotImplementedError()
 
-    def _validate_msg(self, msg: Message) -> Optional[QueryResult]:
+    def _validate_msg(self, msg: Message, today: datetime.date) -> Optional[QueryResult]:
         """Checks the validity of the message."""
         msg_validation: MessageValidationCode = Message.validate_message(msg)
 
         if msg_validation != MessageValidationCode.VALID:
             return QueryResult(msg, QueryResultCode.INVALID_MESSAGE, None, {"message_validation_code": msg_validation})
 
-        if msg.slots.date and msg.slots.date.value > self.today:
+        if msg.slots.date and msg.slots.date.value > today:
             return QueryResult(msg, QueryResultCode.FUTURE_DATA_REQUESTED, None, {})
         return None

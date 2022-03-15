@@ -108,7 +108,7 @@ def add_different_countries_vaccinations(session):
 
 @pytest.fixture
 def querier(db_manager, session):
-    return Querier("covbot_test", db_manager, session, current_day)
+    return Querier("covbot_test", db_manager, session)
 
 
 def get_cases_message(topic: Topic = Topic.CASES, calculation_type: CalculationType = CalculationType.RAW_VALUE,
@@ -144,7 +144,7 @@ def test_check_new_cases_today_in_austria_returns_number_of_cases(querier, sessi
 
     add_austria_cases(session)
 
-    qr: QueryResult = querier.query_intent(msg)
+    qr: QueryResult = querier.query_intent(msg, current_day)
 
     assert qr.result_code == QueryResultCode.SUCCESS
     assert qr.result == 12000
@@ -155,7 +155,7 @@ def test_check_new_vaccinations_yesterday_in_austria(querier, session):
 
     add_austria_vaccinations(session)
 
-    qr: QueryResult = querier.query_intent(msg)
+    qr: QueryResult = querier.query_intent(msg, current_day)
 
     assert qr.result_code == QueryResultCode.SUCCESS
     assert qr.result == 500
@@ -166,7 +166,7 @@ def test_check_new_vaccinations_today_in_austria(querier, session):
 
     add_austria_vaccinations(session)
 
-    qr: QueryResult = querier.query_intent(msg)
+    qr: QueryResult = querier.query_intent(msg, current_day)
 
     assert qr.result_code == QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE
 
@@ -177,7 +177,7 @@ def test_check_maximum_vaccinations_this_week_in_austria(querier, session):
 
     add_austria_vaccinations(session)
 
-    qr: QueryResult = querier.query_intent(msg)
+    qr: QueryResult = querier.query_intent(msg, current_day)
 
     assert qr.result_code == QueryResultCode.SUCCESS
     assert qr.result == 3600
@@ -189,7 +189,7 @@ def test_check_minimum_cases_this_year_in_austria(querier, session):
 
     add_austria_cases(session)
 
-    qr: QueryResult = querier.query_intent(msg)
+    qr: QueryResult = querier.query_intent(msg, current_day)
 
     assert qr.result_code == QueryResultCode.SUCCESS
     assert qr.result == 4560
@@ -201,7 +201,7 @@ def test_check_sum_cases_next_week_in_austria(querier, session):
 
     add_austria_cases(session)
 
-    qr: QueryResult = querier.query_intent(msg)
+    qr: QueryResult = querier.query_intent(msg, current_day)
 
     assert qr.result_code == QueryResultCode.FUTURE_DATA_REQUESTED
 
@@ -212,7 +212,7 @@ def test_check_new_vaccinated_people_yesterday_in_austria(querier, session):
 
     add_austria_vaccinations(session)
 
-    qr: QueryResult = querier.query_intent(msg)
+    qr: QueryResult = querier.query_intent(msg, current_day)
 
     assert qr.result_code == QueryResultCode.SUCCESS
     assert qr.result == 300
@@ -224,7 +224,7 @@ def test_check_new_cases_this_week_in_austria(querier, session):
 
     add_austria_cases(session)
 
-    qr: QueryResult = querier.query_intent(msg)
+    qr: QueryResult = querier.query_intent(msg, current_day)
 
     assert qr.result_code == QueryResultCode.SUCCESS
     assert qr.result == 46901
@@ -235,7 +235,7 @@ def test_check_new_cases_cumulative_in_austria(querier, session):
 
     add_austria_cases(session)
 
-    qr: QueryResult = querier.query_intent(msg)
+    qr: QueryResult = querier.query_intent(msg, current_day)
 
     assert qr.result_code == QueryResultCode.SUCCESS
     assert qr.result == 108760
@@ -246,7 +246,7 @@ def test_check_future_date(querier, session):
 
     add_austria_cases(session)
 
-    qr: QueryResult = querier.query_intent(msg)
+    qr: QueryResult = querier.query_intent(msg, current_day)
     assert qr.result_code == QueryResultCode.FUTURE_DATA_REQUESTED
 
 
@@ -255,7 +255,7 @@ def test_check_not_existing_location(querier, session):
 
     add_austria_cases(session)
 
-    qr: QueryResult = querier.query_intent(msg)
+    qr: QueryResult = querier.query_intent(msg, current_day)
     assert qr.result_code == QueryResultCode.NOT_EXISTING_LOCATION
 
 
@@ -268,7 +268,7 @@ def test_check_country_with_maximum_vaccinated_people_two_days_ago(querier, sess
 
     add_different_countries_vaccinations(session)
 
-    qr: QueryResult = querier.query_intent(msg)
+    qr: QueryResult = querier.query_intent(msg, current_day)
 
     assert qr.result_code == QueryResultCode.SUCCESS
     assert qr.result == "Ukraine"
@@ -283,7 +283,7 @@ def test_check_country_with_minimum_vaccinated_people_today(querier, session):
 
     add_different_countries_vaccinations(session)
 
-    qr: QueryResult = querier.query_intent(msg)
+    qr: QueryResult = querier.query_intent(msg, current_day)
 
     assert qr.result_code == QueryResultCode.NO_DATA_AVAILABLE_FOR_DATE
 
@@ -294,7 +294,7 @@ def test_check_when_maximum_new_cases_in_austria(querier, session):
 
     add_austria_cases(session)
 
-    qr: QueryResult = querier.query_intent(msg)
+    qr: QueryResult = querier.query_intent(msg, current_day)
 
     assert qr.result_code == QueryResultCode.SUCCESS
     assert qr.result.value == current_day - timedelta(days=1)
@@ -315,4 +315,4 @@ def test_all_annotated_queries(querier, query, session):
     add_austria_cases(session)
     add_austria_vaccinations(session)
 
-    querier.query_intent(msg)
+    querier.query_intent(msg, current_day)
