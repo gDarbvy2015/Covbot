@@ -100,9 +100,12 @@ class Querier:
             }
         }
 
-
     # We allow setting a custom value as the "today" value so that testing becomes easier
-    def query_intent(self, msg: Message, today=datetime.now().date()) -> QueryResult:
+    def query_intent(self, msg: Message, today: datetime.date = None) -> QueryResult:
+
+        if today is None:
+            today = datetime.now().date()
+
         """Given a message, it queries the database and returns the result in the form of a QueryResult object."""
         validation_result: Optional[QueryResult] = self._validate_msg(msg, today)
 
