@@ -25,8 +25,12 @@ class Date:
     text: Optional[str]
 
     @staticmethod
-    def generate_date_message(date: Date, today: datetime.date = datetime.now().date(), include_preposition = True) -> str:
+    def generate_date_message(date: Date, today: datetime.date = None, include_preposition = True) -> str:
         """Generates a string representation of a date taking into consideration the timeframe."""
+
+        if today is None:
+            today = datetime.now().date()
+
         def suffix(d):
             return 'th' if 11 <= d <= 13 else {1: 'st', 2: 'nd', 3: 'rd'}.get(d % 10, 'th')
 
