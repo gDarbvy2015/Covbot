@@ -89,8 +89,8 @@ export default {
       var message = "Hi there! My name is **Covbot**, I am a chatbot that can help you answer certain questions about COVID." +
           "\n\n\nIn particular, I have access to information about:\n" +
           "1. The number of positive COVID cases detected in a certain country on a certain day.\n" +
-          "2. The number of vaccinations that were administered in a certain country on a certain day.\n" +
-          "3. The number of people that were vaccinated in a certain country on a certain day.\n\n" +
+          "2. The number of COVID vaccines that were administered in a certain country on a certain day.\n" +
+          "3. The number of people that were vaccinated against COVID for the first time in a certain country on a certain day.\n\n" +
           "Based on this, I can answer various questions for you, like for example the number of detected cases in a certain " +
           "month in a certain country or the country with the highest number of administered vaccines on a certain day." +
           "I was built as part of a bachelor thesis. If you are curious about how I work, you can take a look at my " +
