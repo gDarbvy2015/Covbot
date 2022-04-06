@@ -240,15 +240,7 @@ class Querier:
             return [not_(table.location_normalized.in_(list(Location.get_continents().union(Location.get_world()))))]
 
         if msg.slots.location is None:
-            # If we are asking for the day, we don't need the location, so we can just return an empty list.
-            # But same as above, we only want to consider countries. For example for "When have most cases been reported",
-            # we don't want this to return results for the whole world, but instead the country with the most cases on that
-            # certain date.
-            if msg.intent.value_type == ValueType.DAY:
-                return [not_(table.location_normalized.in_(list(Location.get_continents().union(Location.get_world()))))]
-            # If we are searching for the number, we default to searching for data on the whole world.
-            else:
-                return [table.location_normalized.in_(list(Location.get_world()))]
+            return [table.location_normalized.in_(list(Location.get_world()))]
         else:
             # Otherwise, we limit the country.
             return [table.location_normalized == msg.slots.location]
