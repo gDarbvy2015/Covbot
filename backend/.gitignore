@@ -3,5 +3,5 @@ server_log*
 messages_log
 .pytest_cache
 *.db
-evluation
+evaluation
 */__pycache__/*
