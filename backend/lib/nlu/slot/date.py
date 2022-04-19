@@ -144,7 +144,7 @@ class DateRecognizer:
         for sentence in res["sentences"]:
             if "entitymentions" in sentence:
                 for entity in sentence["entitymentions"]:
-                    if entity["ner"] in ["DATE", "TIME"] and "timex" in entity:
+                    if entity["ner"] in ["DATE", "TIME"] and "timex" in entity and "value" in entity["timex"]:
                         print(entity)
                         dates.append({
                             "text": entity["text"],
