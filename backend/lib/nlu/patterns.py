@@ -39,14 +39,12 @@ class Pattern:
         }
     }]
 
-    covid_vaccine_pattern: List[dict] = covid_pattern + [{
-        "LEFT_ID": "covid_pattern",
-        "REL_OP": "<",
-        "RIGHT_ID": "covid_vaccine_pattern",
+    case_trigger_pattern: List[dict] = [{
+        "RIGHT_ID": "case_trigger_pattern",
         "RIGHT_ATTRS": {
             "_": {
                 "stem": {
-                    "IN": _vaccine_trigger_words
+                    "IN": _cases_trigger_words
                 }
             }
         }
@@ -61,41 +59,6 @@ class Pattern:
         }
     }]
 
-    vaccine_trigger_pattern: List[dict] = [{
-        "RIGHT_ID": "vaccine_trigger_pattern",
-        "RIGHT_ATTRS": {
-            "_": {
-                "stem": {
-                    "IN": _vaccine_trigger_words
-                }
-            }
-        }
-    }]
-
-    vaccine_covid_pattern: List[dict] = vaccine_trigger_pattern + [{
-        "LEFT_ID": "vaccine_trigger_pattern",
-        "REL_OP": ">>",
-        "RIGHT_ID": "vaccine_covid_pattern",
-        "RIGHT_ATTRS": {
-            "_": {
-                "stem": {
-                    "IN": _covid_trigger_words
-                }
-            }
-        }
-    }]
-
-    case_trigger_pattern: List[dict] = [{
-        "RIGHT_ID": "case_trigger_pattern",
-        "RIGHT_ATTRS": {
-            "_": {
-                "stem": {
-                    "IN": _cases_trigger_words
-                }
-            }
-        }
-    }]
-
     how_pattern: List[dict] = [
         {
             "RIGHT_ID": "how_pattern",
@@ -105,16 +68,6 @@ class Pattern:
         }
     ]
 
-    how_many_pattern: List[dict] = how_pattern + [
-        {
-            "LEFT_ID": "how_pattern",
-            "REL_OP": "<",
-            "RIGHT_ID": "how_many_pattern",
-            "RIGHT_ATTRS": {
-                "LEMMA": "many"
-            }
-        }]
-
     what_pattern: List[dict] = [
         {
             "RIGHT_ID": "what_pattern",
@@ -123,35 +76,6 @@ class Pattern:
                     "IN": ["which", "what"]
                 }
             }
-        }
-    ]
-
-    what_day_pattern: List[dict] = what_pattern + [
-        {
-            "LEFT_ID": "what_pattern",
-            "REL_OP": "<<",
-            "RIGHT_ID": "what_day_pattern",
-            "RIGHT_ATTRS": {
-                "LEMMA": {
-                    "IN": ["day", "time", "date"]
-                }
-            }
-        }
-    ]
-
-    what_country_pattern: List[dict] = what_pattern + [
-        {
-            "LEFT_ID": "what_pattern",
-            "REL_OP": "<<",
-            **country_pattern[0]
-        }
-    ]
-
-    what_is_country_pattern: List[dict] = what_pattern + [
-        {
-            "LEFT_ID": "what_pattern",
-            "REL_OP": "$++",
-            **country_pattern[0]
         }
     ]
 
@@ -182,6 +106,100 @@ class Pattern:
         }
     }]
 
+    most_pattern: List[dict] = [{
+        "RIGHT_ID": "most_pattern",
+        "RIGHT_ATTRS": {
+            "LEMMA": {
+                "IN": ["most"]
+            }
+        }
+    }]
+
+    least_pattern: List[dict] = [{
+        "RIGHT_ID": "least_pattern",
+        "RIGHT_ATTRS": {
+            "LEMMA": {
+                "IN": ["few", "least"]
+            }
+        }
+    }]
+
+    vaccine_trigger_pattern: List[dict] = [{
+        "RIGHT_ID": "vaccine_trigger_pattern",
+        "RIGHT_ATTRS": {
+            "_": {
+                "stem": {
+                    "IN": _vaccine_trigger_words
+                }
+            }
+        }
+    }]
+
+    covid_vaccine_pattern: List[dict] = covid_pattern + [{
+        "LEFT_ID": "covid_pattern",
+        "REL_OP": "<",
+        "RIGHT_ID": "covid_vaccine_pattern",
+        "RIGHT_ATTRS": {
+            "_": {
+                "stem": {
+                    "IN": _vaccine_trigger_words
+                }
+            }
+        }
+    }]
+
+    vaccine_covid_pattern: List[dict] = vaccine_trigger_pattern + [{
+        "LEFT_ID": "vaccine_trigger_pattern",
+        "REL_OP": ">>",
+        "RIGHT_ID": "vaccine_covid_pattern",
+        "RIGHT_ATTRS": {
+            "_": {
+                "stem": {
+                    "IN": _covid_trigger_words
+                }
+            }
+        }
+    }]
+
+    how_many_pattern: List[dict] = how_pattern + [
+        {
+            "LEFT_ID": "how_pattern",
+            "REL_OP": "<",
+            "RIGHT_ID": "how_many_pattern",
+            "RIGHT_ATTRS": {
+                "LEMMA": "many"
+            }
+        }]
+
+    what_day_pattern: List[dict] = what_pattern + [
+        {
+            "LEFT_ID": "what_pattern",
+            "REL_OP": "<<",
+            "RIGHT_ID": "what_day_pattern",
+            "RIGHT_ATTRS": {
+                "LEMMA": {
+                    "IN": ["day", "time", "date"]
+                }
+            }
+        }
+    ]
+
+    what_country_pattern: List[dict] = what_pattern + [
+        {
+            "LEFT_ID": "what_pattern",
+            "REL_OP": "<<",
+            **country_pattern[0]
+        }
+    ]
+
+    what_is_country_pattern: List[dict] = what_pattern + [
+        {
+            "LEFT_ID": "what_pattern",
+            "REL_OP": "$++",
+            **country_pattern[0]
+        }
+    ]
+
     number_of_pattern: List[dict] = number_pattern + [
         {
             "LEFT_ID": "number_pattern",
@@ -206,23 +224,18 @@ class Pattern:
         }
     ]
 
-    most_pattern: List[dict] = [{
-        "RIGHT_ID": "most_pattern",
-        "RIGHT_ATTRS": {
-            "LEMMA": {
-                "IN": ["most"]
+    minimum_number_pattern: List[dict] = number_pattern + [
+        {
+            "LEFT_ID": "number_pattern",
+            "REL_OP": ">",
+            "RIGHT_ID": "minimum_number_pattern",
+            "RIGHT_ATTRS": {
+                "LEMMA": {
+                    "IN": ["minimum", "minimal", "low"]
+                }
             }
         }
-    }]
-
-    least_pattern: List[dict] = [{
-        "RIGHT_ID": "least_pattern",
-        "RIGHT_ATTRS": {
-            "LEMMA": {
-                "IN": ["few", "least"]
-            }
-        }
-    }]
+    ]
 
     most_trigger_word_pattern: List[dict] = most_pattern + [
         {
@@ -249,19 +262,6 @@ class Pattern:
                     "stem": {
                         "IN": _vaccine_trigger_words + _cases_trigger_words + _people_trigger_words
                     }
-                }
-            }
-        }
-    ]
-
-    minimum_number_pattern: List[dict] = number_pattern + [
-        {
-            "LEFT_ID": "number_pattern",
-            "REL_OP": ">",
-            "RIGHT_ID": "minimum_number_pattern",
-            "RIGHT_ATTRS": {
-                "LEMMA": {
-                    "IN": ["minimum", "minimal", "low"]
                 }
             }
         }
