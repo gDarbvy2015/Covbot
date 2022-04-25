@@ -1,0 +1,336 @@
+﻿query,answer,evaluation
+how many new cases in Austria today,"Sorry, I'm afraid I don't have any data on cases from today for Austria. The latest entry is from yesterday. Maybe try a different time period.",SUCCESS
+number of cases in Austria yesterday,"There have been 38,060 new positive cases in Austria yesterday.",SUCCESS
+number of cases in Austria 34 days ago,"There have been 27,087 new positive cases in Austria on February 8th 2022.",SUCCESS
+highest number of cases recorded in Austria last month,"The highest number of new positive cases in Austria last month has been 48,357.",SUCCESS
+highest number of cases recorded in Austria this month,"The highest number of new positive cases in Austria this month has been 49,432.",SUCCESS
+how many people got vaccinated this year,"503,427,737 people have been vaccinated against COVID in the world this year.",SUCCESS
+how many people received the covid vaccine in Nigeria,"18,859,144 people have been vaccinated against COVID so far in Nigeria.",SUCCESS
+tell me how many doses were administered in the United states of America,Looks like I can't find any data on america in the database.,LOCATION_NOT_RECOGNIZED
+tell me how many doses were administered in the United States of America,Looks like I can't find any data on the united states of america in the database.,LOCATION_NOT_RECOGNIZED
+tell me how many doses were administered in the USA,"556,793,649 COVID vaccines have been administered so far in the United States.",SUCCESS
+tell me how many people got COVID yesterday,"There have been 1,159,377 new positive cases in the world yesterday.",SUCCESS
+hi! how many cases have there been in Austria yesterday?,"There have been 38,060 new positive cases in Austria yesterday.",SUCCESS
+what is the highest number of cases recorded in Austria ever?,"The highest number of new positive cases in Austria has been 49,432.",SUCCESS
+in which country were most people vaccinated on September 3rd 2021?,"The highest number of daily vaccinated people against COVID in the world on September 3rd 2021 has been 16,839,142.",SUCCESS
+which country has had the highest number of people vaccinated on September 3rd 2021?,The country with the highest number of daily vaccinated people against COVID on September 3rd 2021 is India.,SUCCESS
+tell me the number of cases in Austria two days ago,"There have been 44,465 new positive cases in Austria 2 days ago.",SUCCESS
+how many people got COVID today in Australia?,"Sorry, I'm afraid I don't have any data on cases from today for Australia. The latest entry is from yesterday. Maybe try a different time period.",SUCCESS
+which country has had the highest number of covid infections this year?,"Sorry, at the moment I can only compare the maximum/minimum between different countries for a single day; if you are asking for a whole week, month or year, I don't support that yet. Try a different question!",SUCCESS
+how many cases were there in Austria 2 days ago?,"There have been 44,465 new positive cases in Austria 2 days ago.",SUCCESS
+how many cases have been reported in Austria two days ago?,"There have been 44,465 new positive cases in Austria 2 days ago.",SUCCESS
+what is the highest number of cases reported in Australia last week?,"The highest number of new positive cases in Australia last week has been 44,962.",SUCCESS
+what is the highest number of daily vaccinated people in India last month?,"The highest number of daily vaccinated people against COVID in India last month has been 1,734,701.",SUCCESS
+which country has had the most administered vaccines yesterday?,The country with the highest number of daily performed vaccinations against COVID yesterday is China.,SUCCESS
+when did Austria have the highest number of new infections?,The highest number of daily positive cases in Austria was recorded 4 days ago.,SUCCESS
+How many people were tested positive in Peru last month?,"There have been 292,854 new positive cases in Peru last month.",SUCCESS
+How many people are vaccinated in Europe,"507,930,570 people have been vaccinated against COVID so far in Europe.",SUCCESS
+Ho many peple were tested positive in the US,"There have been 79,523,227 positive cases reported so far in the United States.",SUCCESS
+Ho many peple were tesSted positive in the USa,"There have been 79,523,227 positive cases reported so far in the United States.",SUCCESS
+Ho many peple were tested postivey in the UAS,"There have been 456,791,540 positive cases reported so far in the world.",SUCCESS
+How many people are vaccinated in Austria and Germany,"6,812,027 people have been vaccinated against COVID so far in Austria.",WRONG_INTENT
+How many people are vaccinated in North Korea,Looks like I can't find any data on north korea in the database.,SUCCESS
+Tell me the number of humans that were tested positive for covid in Denmark in 2021,"There have been 640,919 new positive cases in Denmark last year.",SUCCESS
+tested positive Brazil 20.10.2021,"There have been 15,708 new positive cases in Brazil on October 20th 2021.",SUCCESS
+tested Brazil last month,"There have been 3,333,041 new positive cases in Brazil last month.",SUCCESS
+positive Brazil last month,"There have been 3,333,041 new positive cases in Brazil last month.",SUCCESS
+How many vaccinations have been administered in Hungary this year,"997,947 COVID vaccines have been administered in Hungary this year.",SUCCESS
+How many vaccinations have been administered in Japan between 12.3.2021 and 1.4.2021?,ERROR,SERVER_ERROR
+hi,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+How many people have been vaccinated in Englang?,"I don't have any data on englang, try a different location.",SUCCESS
+How many people have been vaccinated in England?,"42,832,699 people have been vaccinated against COVID so far in England.",SUCCESS
+How many people have been vaccinated in England today?,"Sorry, I'm afraid I don't have any data on vaccinations from today for England. The latest entry is from 4 days ago. Maybe try a different time period.",SUCCESS
+How many people have been vaccinated in England on 20.20.2022?,"42,832,699 people have been vaccinated against COVID so far in England.",DATE_NOT_RECOGNIZED
+How many people have been vaccinated in England on 20.10.2022?,"Ha, I do know a lot, but I cannot predict the future.",SUCCESS
+How many vaccines were delivered today?,"Sorry, I'm afraid I don't have any data on vaccinations from today for the world. The latest entry is from yesterday. Maybe try a different time period.",SUCCESS
+How many vaccines were delivered yesterday?,"17,873,548 COVID vaccines have been administered in the world yesterday.",SUCCESS
+How many vaccines were administered yesterday in wales?,"Sorry, I'm afraid I don't have any data on vaccinations from yesterday for Wales. The latest entry is from 4 days ago. Maybe try a different time period.",SUCCESS
+How many vaccines were administered on the 31.1 in wales?,"6,824,350 COVID vaccines have been administered so far in Wales.",DATE_NOT_RECOGNIZED
+How many vaccines were administered on 31.1 in wales?,"6,824,350 COVID vaccines have been administered so far in Wales.",DATE_NOT_RECOGNIZED
+How many vaccines were administered on thethirtyfirst of january in wales?,"350,575 COVID vaccines have been administered in Wales in January 2022.",USER_ERROR
+How many vaccines were administered on the 28th of january in wales?,"5,944 COVID vaccines have been administered in Wales on January 28th 2022.",SUCCESS
+How many vaccines does an austrian citizen have on average?,"10,997,998,435 COVID vaccines have been administered so far in the world.",WRONG_INTENT
+How many vaccines were administered in austria per person?,"6,812,027 people have been vaccinated against COVID so far in Austria.",SUCCESS
+How many vaccines were administered in austria in total? divide that number by the number of people please,"6,812,027 people have been vaccinated against COVID so far in Austria.",SUCCESS
+How many vaccines have been given in Russia two weeks ago?,"7,425 COVID vaccines have been administered in Russia on February 28th 2022.",SUCCESS
+How many cases in india yesterday?,"There have been 2,503 new positive cases in India yesterday.",SUCCESS
+cases denmark last week,"There have been 86,542 new positive cases in Denmark last week.",SUCCESS
+cases tyrol,"There have been 456,791,540 positive cases reported so far in the world.",LOCATION_NOT_RECOGNIZED
+cases tyrol yesterday,"There have been 1,159,377 new positive cases in the world yesterday.",LOCATION_NOT_RECOGNIZED
+cases europe yesterday,"There have been 319,011 new positive cases in Europe yesterday.",SUCCESS
+cases germany the day before yesterday,"There have been 146,847 new positive cases in Germany 2 days ago.",SUCCESS
+What is the number of vaccinated individuals currently residing in the beautiful country of the Netherlands?,"13,436,052 people have been vaccinated against COVID so far in Netherlands.",SUCCESS
+How many people were vaccinated today in Austria?,Maybe you should try asking this a clairvoyant.,SUCCESS
+How many people were vaccinated yesterday in Austria?,"Sorry, I'm afraid I don't have any data on vaccinations from today for Austria. The latest entry is from 3 days ago. Maybe try a different time period.",SUCCESS
+How many people were vaccinated 3 days ago in Austria?,"Sorry, I'm afraid I don't have any data on vaccinations from 2 days ago for Austria. The latest entry is from 3 days ago. Maybe try a different time period.",SUCCESS
+How many people were vaccinated one week ago in Austria?,443 people have been vaccinated against COVID in Austria on March 8th 2022.,SUCCESS
+How many people were vaccinated yesterday in Italy?,"Sorry, I'm afraid I don't have any data on vaccinations from today for Italy. The latest entry is from yesterday. Maybe try a different time period.",SUCCESS
+Do you know the number of total vaccinations in Italy?,"134,890,562 COVID vaccines have been administered so far in Italy.",SUCCESS
+How many new covid cases are there in Austria today?,Maybe you should try asking this a clairvoyant.,SUCCESS
+How many new covid cases were there in Austria yesterday?,"There have been 34,220 new positive cases in Austria today.",SUCCESS
+How many new covid cases have been registered in Austria yesterday?,"There have been 34,220 new positive cases in Austria today.",SUCCESS
+How many new covid cases have been registered in Austria the day before yesterday?,"There have been 38,060 new positive cases in Austria yesterday.",SUCCESS
+How many new covid cases have been registered in Austria three days before yesterday?,"There have been 49,323 new positive cases in Austria 3 days ago.",SUCCESS
+What is the rate of vaccination in Germany?,"170,933,351 COVID vaccines have been administered so far in Germany.",WRONG_INTENT
+What percentage of the German population has been vaccinated?,"10,997,998,435 COVID vaccines have been administered so far in the world.",WRONG_INTENT
+What is the rate of vaccination in the German population?,"10,997,998,435 COVID vaccines have been administered so far in the world.",WRONG_INTENT
+how many people have been vaccinated today?,ERROR,SERVER_ERROR
+how many people have been vaccinated today?,ERROR,SERVER_ERROR
+how many people have been vaccinated today?,"Sorry, I'm afraid I don't have any data on vaccinations from today for the world. The latest entry is from yesterday. Maybe try a different time period.",SUCCESS
+how many people got COVID in USA todauy,"There have been 79,562,251 positive cases reported so far in the United States.",USER_ERROR
+how many people got COVID in USA today,"Sorry, I'm afraid I don't have any data on cases from today for the United States. The latest entry is from yesterday. Maybe try a different time period.",SUCCESS
+how many new cases have been detected in Italy yesterday?,"There have been 29,698 new positive cases in Italy yesterday.",SUCCESS
+Hi! How many covid cases were there in Vienna today?,"I don't have any data on vienna, try a different location.",SUCCESS
+How many cases in Austria today?,"Sorry, I'm afraid I don't have any data on cases from today for Austria. The latest entry is from yesterday. Maybe try a different time period.",SUCCESS
+so gow many cases in Austria yesterday ,"There have been 34,220 new positive cases in Austria yesterday.",SUCCESS
+how about new cases in Hungary ,"There have been 1,814,362 positive cases reported so far in Hungary.",SUCCESS
+how many cases were there yesterday in austria?,"There have been 34,220 new positive cases in Austria yesterday.",SUCCESS
+how many vaccines yesterday in germany? ,"70,135 COVID vaccines have been administered in Germany yesterday.",SUCCESS
+puh that's a lot ,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+haha okay,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+number of vaccines in autria on june ninth 2021,"33,877,526 COVID vaccines have been administered in the world on June 9th 2021.",SUCCESS
+number of cases in austria on june ninth 2021,There have been 366 new positive cases in Austria on June 9th 2021.,SUCCESS
+how many vaccines in kenia since november 2021,Looks like I can't find any data on kenia in the database.,SUCCESS
+how many vaccines in france since november 2021,"5,774,779 COVID vaccines have been administered in France in November 2021.",SUCCESS
+how many cases in austria tomorrow,"Ha, I do know a lot, but I cannot predict the future.",SUCCESS
+how many vaccines administered in austria yesterday,"Sorry, I'm afraid I don't have any data on vaccinations from yesterday for Austria. The latest entry is from 4 days ago. Maybe try a different time period.",SUCCESS
+give me the number of vaccines administered in austria on 10th of july 2021,"69,874 COVID vaccines have been administered in Austria on July 10th 2021.",SUCCESS
+give me the number of vaccines in austria on 10th of july 2021,"69,874 COVID vaccines have been administered in Austria on July 10th 2021.",SUCCESS
+and how many are vaccinated?,"11,004,722,309 COVID vaccines have been administered so far in the world.",SUCCESS
+number of vaccines in austria on 10th july 2021,"69,874 COVID vaccines have been administered in Austria on July 10th 2021.",SUCCESS
+how many vaccines this week?,"17,565,868 COVID vaccines have been administered in the world this week.",SUCCESS
+number of vaccinated people on 10th of july austria 2021,Maybe you should try asking this a clairvoyant.,DATE_NOT_RECOGNIZED
+how many vaccines this week in Austria?,"Sorry, I'm afraid I don't have any data on vaccinations from this week for Austria. The latest entry is from 4 days ago. Maybe try a different time period.",SUCCESS
+how many last week?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+how many vaccines today,"Sorry, I'm afraid I don't have any data on vaccinations from today for the world. The latest entry is from yesterday. Maybe try a different time period.",SUCCESS
+how many vaccines in Austria last week,"20,173 COVID vaccines have been administered in Austria last week.",SUCCESS
+how many people are vaccinated in Austria,"6,812,027 people have been vaccinated against COVID so far in Austria.",SUCCESS
+how many in Hungary ,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+how many vaccines in Hungary ,"16,172,907 COVID vaccines have been administered so far in Hungary.",SUCCESS
+how many people in Austria ,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+how many people in Hungary got the shot,"6,274,737 people have been vaccinated against COVID so far in Hungary.",SUCCESS
+How many new cases have there been yesterday,How many new cases have there been yesterday,SUCCESS
+How many new cases have there been today,Maybe you should try asking this a clairvoyant.,SUCCESS
+How many new cases have there been on November 3rd 2021,"There have been 538,564 new positive cases in the world on November 3rd 2021.",SUCCESS
+number of cases in Nigeria today,"Sorry, I'm afraid I don't have any data on cases from today for Nigeria. The latest entry is from yesterday. Maybe try a different time period.",SUCCESS
+Number of cases in Moldova yesterday,There have been 343 new positive cases in Moldova yesterday.,SUCCESS
+Covid cases tansania,"There have been 460,492,434 positive cases reported so far in the world.",USER_ERROR
+How many covid cases in tansania?,"I don't have any data on tansania, try a different location.",SUCCESS
+How many covid cases in austria?,"There have been 3,225,272 positive cases reported so far in Austria.",SUCCESS
+how many corona cases in austria today?,"Sorry, I'm afraid I don't have any data on cases from today for Austria. The latest entry is from yesterday. Maybe try a different time period.",SUCCESS
+how many corona cases in austria yesterday?,"There have been 37,125 new positive cases in Austria yesterday.",SUCCESS
+hi,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+Number of vaccinations in austira,"10,986,113,083 COVID vaccines have been administered so far in the world.",USER_ERROR
+How many  vaccinations in austira?,"10,986,113,083 COVID vaccines have been administered so far in the world.",USER_ERROR
+How many vaccinations in austira today?,"Sorry, I'm afraid I don't have any data on vaccinations from today for the world. The latest entry is from 2 days ago. Maybe try a different time period.",USER_ERROR
+How many vaccinations in austria?,"18,086,740 COVID vaccines have been administered so far in Austria.",SUCCESS
+How many vaccinations in andorra?,"141,827 COVID vaccines have been administered so far in Andorra.",SUCCESS
+How many vaccinations in tanzania?,"4,856,966 COVID vaccines have been administered so far in Tanzania.",SUCCESS
+how many covid cases in tanzania?,"There have been 33,726 positive cases reported so far in Tanzania.",SUCCESS
+quantity of covid cases in austria,"There have been 3,225,272 positive cases reported so far in Austria.",SUCCESS
+quantity of covid cases in austria two days ago,"There have been 34,220 new positive cases in Austria 2 days ago.",SUCCESS
+quantity of covid cases in austria the day before yesterday,"There have been 34,220 new positive cases in Austria 2 days ago.",SUCCESS
+quantity of covid cases in austria three days before yesterday,"There have been 44,465 new positive cases in Austria 4 days ago.",SUCCESS
+number of people vaccinated in singapur,"4,406,610,736 people have been vaccinated against COVID so far in the world.",LOCATION_NOT_RECOGNIZED
+number of people vaccinated in austria,"6,812,027 people have been vaccinated against COVID so far in Austria.",SUCCESS
+number of people vaccinated in singapur,"4,406,610,736 people have been vaccinated against COVID so far in the world.",LOCATION_NOT_RECOGNIZED
+number of people vaccinated in singapur,"4,406,610,736 people have been vaccinated against COVID so far in the world.",LOCATION_NOT_RECOGNIZED
+number of people vaccinated in mali,"1,238,635 people have been vaccinated against COVID so far in Mali.",SUCCESS
+number of people vaccinated in guatemala,"7,303,345 people have been vaccinated against COVID so far in Guatemala.",SUCCESS
+number of people vaccinated in austrai,"4,406,610,736 people have been vaccinated against COVID so far in the world.",USER_ERROR
+number of people vaccinated in graz,Looks like I can't find any data on graz in the database.,SUCCESS
+number of people vaccinated in wien,"4,406,610,736 people have been vaccinated against COVID so far in the world.",USER_ERROR
+number of people vaccinated in vienna,"I don't have any data on vienna, try a different location.",LOCATION_NOT_RECOGNIZED
+number of people vaccinated in mexico,"85,395,967 people have been vaccinated against COVID so far in Mexico.",SUCCESS
+number of people vaccinated in the usa,"254,682,315 people have been vaccinated against COVID so far in the United States.",SUCCESS
+how many cases in Singapur?,"There have been 460,492,434 positive cases reported so far in the world.",LOCATION_NOT_RECOGNIZED
+number of people vaccinated in Singapur,"4,406,610,736 people have been vaccinated against COVID so far in the world.",LOCATION_NOT_RECOGNIZED
+nubmer of people vaccinated in austria,"6,812,027 people have been vaccinated against COVID so far in Austria.",SUCCESS
+number of people vaxxinated in autria,"I think I am having some trouble understanding your question, try a different one.",USER_ERROR
+vaccinations austria,"18,086,740 COVID vaccines have been administered so far in Austria.",SUCCESS
+positive cases austria,"There have been 3,225,272 positive cases reported so far in Austria.",SUCCESS
+positive cases austria on 20-01-2022,"There have been 3,225,272 positive cases reported so far in Austria.",DATE_NOT_RECOGNIZED
+positive cases austria in january 2022,"There have been 576,959 new positive cases in Austria in January 2022.",SUCCESS
+positive cases austria on january 2nd 2022,"There have been 3,283 new positive cases in Austria on January 2nd 2022.",SUCCESS
+positive cases austria on march 15th 2022,"There have been 37,125 new positive cases in Austria yesterday.",SUCCESS
+positive cases austria on april 2nd 2022,"Ha, I do know a lot, but I cannot predict the future.",SUCCESS
+positive cases austria on 20/01/2022,"There have been 3,225,272 positive cases reported so far in Austria.",DATE_NOT_RECOGNIZED
+positive cases austria on 01-01-2022,"There have been 3,608 new positive cases in Austria on January 1st 2022.",DATE_NOT_RECOGNIZED
+positive cases austria on 01-20-2022,"There have been 1,833 new positive cases in Austria on January 20th 2022.",DATE_NOT_RECOGNIZED
+positive austria,"There have been 3,225,272 positive cases reported so far in Austria.",SUCCESS
+positive austria today,"Sorry, I'm afraid I don't have any data on cases from today for Austria. The latest entry is from yesterday. Maybe try a different time period.",SUCCESS
+hi,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+no,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+positive yesterday,"There have been 1,847,951 new positive cases in the world yesterday.",SUCCESS
+vaccinated yesterday,"Sorry, I'm afraid I don't have any data on vaccinations from yesterday for the world. The latest entry is from 2 days ago. Maybe try a different time period.",SUCCESS
+vaccinated 2 days ago,"16,556,180 COVID vaccines have been administered in the world 2 days ago.",SUCCESS
+how many covid cases austria today,"Sorry, I'm afraid I don't have any data on cases from today for Austria. The latest entry is from yesterday. Maybe try a different time period.",SUCCESS
+how many covid cases austria yesterday ,"There have been 37,125 new positive cases in Austria yesterday.",SUCCESS
+how many vaccinations in austria,"18,087,712 COVID vaccines have been administered so far in Austria.",SUCCESS
+how many vaccinations in germany,"171,082,727 COVID vaccines have been administered so far in Germany.",SUCCESS
+how many vaccinations in usa,"557,285,614 COVID vaccines have been administered so far in the United States.",SUCCESS
+how many vaccinations in germany the day before the day yesterday,ERROR,SERVER_ERROR
+how many vaccinations in germany the day before yesterday,"70,952 COVID vaccines have been administered in Germany 2 days ago.",SUCCESS
+How many active cases are in Austia?,"I don't have any data on austia, try a different location.",SUCCESS
+How many active cases are in Austria?,"There have been 3,225,272 positive cases reported so far in Austria.",SUCCESS
+Which country has currently the most active cases?,The country with the highest number of positive cases is United States.,WRONG_INTENT
+How many people are vaccinated in Austria?,"6,812,316 people have been vaccinated against COVID so far in Austria.",SUCCESS
+Has Switzerland or Austria more cases?,"There have been 3,170,937 positive cases reported so far in Switzerland.",WRONG_INTENT
+austria cases yesterday,"There have been 37,125 new positive cases in Austria yesterday.",SUCCESS
+austria infection count in austria one week ago ,"There have been 47,795 new positive cases in Austria on March 9th 2022.",SUCCESS
+last month and this month cases in austria,"There have been 824,164 new positive cases in Austria last month.",DATE_NOT_RECOGNIZED
+last and this month cases in austria,"There have been 545,530 new positive cases in Austria this month.",SUCCESS
+this year infection world,"There have been 172,108,148 new positive cases in the world this year.",SUCCESS
+can you tell me the infection count from last year in usa ,"There have been 34,643,456 new positive cases in the United States last year.",SUCCESS
+how are you ,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+tell me the covid infections last 3 moths in austria,"There have been 3,225,272 positive cases reported so far in Austria.",USER_ERROR
+tell me the covid infections last 3 months in austria,"There have been 3,225,272 positive cases reported so far in Austria.",DATE_NOT_RECOGNIZED
+tell me the covid infections in the last 3 months in austria,"There have been 3,225,272 positive cases reported so far in Austria.",DATE_NOT_RECOGNIZED
+cases in the last three months in austria,"There have been 3,225,272 positive cases reported so far in Austria.",DATE_NOT_RECOGNIZED
+last three years cases in austria,"There have been 3,225,272 positive cases reported so far in Austria.",DATE_NOT_RECOGNIZED
+How many new cases todag,"There have been 460,494,999 positive cases reported so far in the world.",USER_ERROR
+How many new cases today,"Sorry, I'm afraid I don't have any data on cases from tomorrow for the world. The latest entry is from yesterday. Maybe try a different time period.",SUCCESS
+number of cases in Irak today,Looks like I can't find any data on irak in the database.,SUCCESS
+number of cases in Iraque today,"I don't have any data on iraque, try a different location.",SUCCESS
+number of cases in Iraq today,"Sorry, I'm afraid I don't have any data on cases from today for Iraq. The latest entry is from yesterday. Maybe try a different time period.",SUCCESS
+How many cases in Taiwan yesterday,There have been 90 new positive cases in Taiwan yesterday.,SUCCESS
+how many cases,"There have been 462,733,571 positive cases reported so far in the world.",SUCCESS
+how many cases,"There have been 462,733,571 positive cases reported so far in the world.",SUCCESS
+Which country has the highest number of vaccinations on March 16th,The country with the highest number of daily performed vaccinations against COVID yesterday is China.,SUCCESS
+"Hey, whats the total number of covid cases in vienna today?","I don't have any data on vienna, try a different location.",SUCCESS
+Do you have data for austria?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+How many covid cases are in austria today?,"Sorry, I'm afraid I don't have any data on cases from today for Austria. The latest entry is from yesterday. Maybe try a different time period.",SUCCESS
+How many covid cases have been in austria yesterday?,"There have been 58,583 new positive cases in Austria yesterday.",SUCCESS
+how many people have COVID,"There have been 462,733,571 positive cases reported so far in the world.",WRONG_DOMAIN
+how many cases in China,"There have been 123,232 positive cases reported so far in China.",SUCCESS
+Which country had the most covid cases yesterday?,The country with the highest number of positive cases yesterday is South Korea.,SUCCESS
+How many covid cases do South Korea have?,"There have been 8,250,591 positive cases reported so far in South Korea.",SUCCESS
+Whats the population of south korea?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+What country has the most covid cases in percent?,The country with the highest number of positive cases is United States.,WRONG_INTENT
+What country has the most covid deaths?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+Do you know how many people died of covid?,"There have been 462,733,571 positive cases reported so far in the world.",WRONG_DOMAIN
+Do you have any data on covid related deaths?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+What is your favourite country?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+whats the first country that goes extinct because of covid?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+How many covid cases are in Swasiland?,Looks like I can't find any data on swasiland in the database.,SUCCESS
+How many covid cases are in Fiji?,"There have been 64,154 positive cases reported so far in Fiji.",SUCCESS
+Who is your creator?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+Who wrote you?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+How many vaccines have been given in austria?,"18,099,752 COVID vaccines have been administered so far in Austria.",SUCCESS
+How many first vaccinations have been administered so far in austria?,"18,099,752 COVID vaccines have been administered so far in Austria.",WRONG_DOMAIN
+Who made you?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+Who is Laurenz?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+Who is Lau?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+What's the country with the least covid infections?,The country with the lowest number of positive cases is Japan.,SUCCESS
+What is Japan?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+What country has the highest vaccation percentage?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+What country has given out the most vaccines?,The country with the highest number of performed vaccinations against COVID is China.,SUCCESS
+How many vaccines in china?,"3,193,199,923 COVID vaccines have been administered so far in China.",SUCCESS
+how many vaccines in usa?,"557,529,533 COVID vaccines have been administered so far in the United States.",SUCCESS
+How many vaccines in russia?,"161,603,932 COVID vaccines have been administered so far in Russia.",SUCCESS
+How many vaccines in India?,"1,801,400,530 COVID vaccines have been administered so far in India.",SUCCESS
+Thank you!,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+"I think I am having some trouble understanding your question, try a different one.","I think I am having some trouble understanding your question, try a different one.",SUCCESS
+Do you understand my question?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+how many new cases in Austria?,"There have been 3,283,855 positive cases reported so far in Austria.",SUCCESS
+how many new cases have there been in Germany today?,"Sorry, I'm afraid I don't have any data on cases from today for Germany. The latest entry is from yesterday. Maybe try a different time period.",SUCCESS
+how many covid cases in brasil,"There have been 464,773,977 positive cases reported so far in the world.",USER_ERROR
+brazil ,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+how many covid cases in brazil,"There have been 29,427,728 positive cases reported so far in Brazil.",SUCCESS
+when was the first covid vaccination,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+when was the first covid vaccination in austria,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+Number of vaccinations in austria so far,"18,101,793 COVID vaccines have been administered so far in Austria.",SUCCESS
+How many people got a vaccine shot in austria ,"6,814,189 people have been vaccinated against COVID so far in Austria.",SUCCESS
+how many shots did people drink so far,"4,411,051,510 people have been vaccinated against COVID so far in the world.",WRONG_INTENT
+tell me the country with the highest number of cases yesterday,"The highest number of new positive cases in the world yesterday has been 1,874,851.",WRONG_INTENT
+tell me what country had the highest number of cases yesterday,The country with the highest number of positive cases yesterday is South Korea.,SUCCESS
+tell me what country had the highest number of cases three days ago,The country with the highest number of positive cases 3 days ago is South Korea.,SUCCESS
+tell me the number of cases in Austria yesterday,"There have been 37,192 new positive cases in Austria yesterday.",SUCCESS
+how many cases in saudi arabia,"There have been 749,597 positive cases reported so far in Saudi Arabia.",SUCCESS
+how many cases in Saudi Arabia yesterday?,There have been 126 new positive cases in Saudi Arabia yesterday.,SUCCESS
+how many people have been vaccinated in Hungary two days ago?,199 people have been vaccinated against COVID in Hungary 2 days ago.,SUCCESS
+how many cases in Croatia today?,"Sorry, I'm afraid I don't have any data on cases from today for Croatia. The latest entry is from yesterday. Maybe try a different time period.",SUCCESS
+Hi! How many people got shots for the first time today?,"Sorry, I'm afraid I don't have any data on vaccinations from today for the world. The latest entry is from 2 days ago. Maybe try a different time period.",SUCCESS
+So how many people got shots for the first time last week,"20,145,409 people have been vaccinated against COVID in the world last week.",SUCCESS
+How many cases have there been yesterday,"There have been 1,580,649 new positive cases in the world yesterday.",SUCCESS
+What is the number of positive cases today?,"Sorry, I'm afraid I don't have any data on cases from today for the world. The latest entry is from yesterday. Maybe try a different time period.",SUCCESS
+What were the number of positive cases yesterday?,"There have been 1,580,649 new positive cases in the world yesterday.",SUCCESS
+What were the number of positive cases yesterday in Austria?,"There have been 41,607 new positive cases in Austria yesterday.",SUCCESS
+What were the number of positive cases yesterday inHungary?,"There have been 1,580,649 new positive cases in the world yesterday.",USER_ERROR
+What were the number of positive cases yesterday in Hungary?,"There have been 2,651 new positive cases in Hungary yesterday.",SUCCESS
+What were the number of deaths yesterday?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+How many people died yesterday?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+How many cases we had in Vienna yesterday?,Looks like I can't find any data on vienna in the database.,SUCCESS
+how many cases we had in Austria?,"There have been 3,627,093 positive cases reported so far in Austria.",SUCCESS
+How many did die in Austria?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+How are you?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+Ok ,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+How is  the covid situation in Italy ,"I think I am having some trouble understanding your question, try a different one.",WRONG_DOMAIN
+Can I enter Switzerland?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+how many vaccinations were done in austria,"18,126,450 COVID vaccines have been administered so far in Austria.",SUCCESS
+which date do we have today,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+what day is today?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+how many countries are there in the world?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+how many vaccines do you know of,"11,128,253,338 COVID vaccines have been administered so far in the world.",WRONG_DOMAIN
+types of vaccines,"11,128,253,338 COVID vaccines have been administered so far in the world.",WRONG_DOMAIN
+where do you come from?`,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+vaccine companies,"11,128,253,338 COVID vaccines have been administered so far in the world.",WRONG_DOMAIN
+vaccine,"11,128,253,338 COVID vaccines have been administered so far in the world.",WRONG_INTENT
+vaccine in bulgaria,"4,339,190 COVID vaccines have been administered so far in Bulgaria.",SUCCESS
+bulgaria,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+bulgaria cases,"There have been 1,131,065 positive cases reported so far in Bulgaria.",SUCCESS
+when did the pandemic start,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+people,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+people in russia,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+population russia,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+cases in russia,"There have been 17,433,393 positive cases reported so far in Russia.",SUCCESS
+What are the symptoms of omikron?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+What are COVID symptoms?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+What is the average number of cases per day in Austria?,"There have been 3,627,093 positive cases reported so far in Austria.",WRONG_INTENT
+What are the types of Vaccines available in Austria?,"18,126,450 COVID vaccines have been administered so far in Austria.",WRONG_DOMAIN
+What is the average number of cases per day in Egypt?,"There have been 500,889 positive cases reported so far in Egypt.",WRONG_INTENT
+What are the types of Vaccines available in Egypt?,"74,510,297 COVID vaccines have been administered so far in Egypt.",WRONG_DOMAIN
+How many people got vaccinated in Egypt?,"43,194,284 people have been vaccinated against COVID so far in Egypt.",SUCCESS
+cases russia february,"There have been 4,491,230 new positive cases in Russia last month.",SUCCESS
+cases russia february 2020,There have been 0 new positive cases in Russia in February 2020.,SUCCESS
+population france,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+cases france,"There have been 25,112,891 positive cases reported so far in France.",SUCCESS
+How many reported cases in Austria today?,"Sorry, I'm afraid I don't have any data on cases from today for Austria. The latest entry is from yesterday. Maybe try a different time period.",SUCCESS
+cases february,"There have been 58,084,019 new positive cases in the world last month.",SUCCESS
+cases february france,"There have been 3,559,127 new positive cases in France last month.",SUCCESS
+How many reported cases in Austria yesterday?,"There have been 41,607 new positive cases in Austria yesterday.",SUCCESS
+vaccine types,"11,128,253,338 COVID vaccines have been administered so far in the world.",WRONG_DOMAIN
+How many reported cases in Austria on 21st March 2022 ?,"There have been 31,872 new positive cases in Austria 4 days ago.",SUCCESS
+How many reported cases in Egypt on 21st March 2022 ?,"There have been 5,516 new positive cases in Egypt 4 days ago.",SUCCESS
+How many corona variants now?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+Vaccines types in Austria,"18,126,450 COVID vaccines have been administered so far in Austria.",WRONG_DOMAIN
+types of vaccines in Austria,"18,126,450 COVID vaccines have been administered so far in Austria.",WRONG_DOMAIN
+how many COVID related death occurred in Austria since the beginning of the pandemic,"There have been 3,627,093 positive cases reported so far in Austria.",WRONG_DOMAIN
+how many people died in Austria due to COVID,"There have been 3,627,093 positive cases reported so far in Austria.",WRONG_DOMAIN
+Which country has currently the highest incidence?,"I think I am having some trouble understanding your question, try a different one.",WRONG_DOMAIN
+How many positive Covid cases are there today worldwide?,"Sorry, I'm afraid I don't have any data on cases from today for the world. The latest entry is from yesterday. Maybe try a different time period.",SUCCESS
+How many positive Covid cases were there yesterday worldwide?,"There have been 1,580,649 new positive cases in the world yesterday.",SUCCESS
+Which country has currently the most Covid cases?,The country with the highest number of positive cases is United States.,SUCCESS
+covid case in India,"There have been 43,016,372 positive cases reported so far in India.",SUCCESS
+how about the vaccination rate?,"11,146,350,628 COVID vaccines have been administered so far in the world.",WRONG_DOMAIN
+which country has higher vaccination rate,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+what is the number of covid cases in Hungary yesterday?,"Sorry, I'm afraid I don't have any data on cases from yesterday for Hungary. The latest entry is from 3 days ago. Maybe try a different time period.",SUCCESS
+how many people have been vaccinated in Austria?,"6,817,138 people have been vaccinated against COVID so far in Austria.",SUCCESS
+which country has had the highest number of daily performed vaccinations last week?,"Sorry, at the moment I can only compare the maximum/minimum between different countries for a single day; if you are asking for a whole week, month or year, I don't support that yet. Try a different question!",SUCCESS
+what is the number of new COVID cases in Hungary yesterday?,"Sorry, I'm afraid I don't have any data on cases from yesterday for Hungary. The latest entry is from 3 days ago. Maybe try a different time period.",SUCCESS
+how many people got COVID in austria?,"There have been 3,698,511 positive cases reported so far in Austria.",SUCCESS
+which country has had the highest number of new vaccinations a week ago?,The country with the highest number of daily performed vaccinations against COVID on March 21st 2022 is China.,SUCCESS
+number of cases in China,"There have been 218,890 positive cases reported so far in China.",SUCCESS
+number of cases in China last week,"There have been 38,340 new positive cases in China last week.",SUCCESS
+how mant people got COVID in Argentinia yesterday,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
+how many people got COVID in Argentinia yesterday,"I don't have any data on argentinia, try a different location.",SUCCESS
+how many people got COVID in Argentina yesterday,"There have been 1,927 new positive cases in Argentina yesterday.",SUCCESS
+How many cases yesterday ,"There have been 1,170,974 new positive cases in the world yesterday.",SUCCESS
+How many cases Vienna ,Looks like I can't find any data on vienna in the database.,SUCCESS
+How many cases Austria ,"There have been 3,854,405 positive cases reported so far in Austria.",SUCCESS
+How many cases in Austria today ,"Sorry, I'm afraid I don't have any data on cases from today for Austria. The latest entry is from yesterday. Maybe try a different time period.",SUCCESS
+How many cases in Austria yesterday ,"There have been 23,357 new positive cases in Austria yesterday.",SUCCESS
+Inzidenz Austria ,"I think I am having some trouble understanding your question, try a different one.",USER_ERROR
+How many cases have there been in China yesterday,"There have been 25,594 new positive cases in China yesterday.",SUCCESS
+How many people are vaccinated in China?,"673,651,666 people have been vaccinated against COVID so far in China.",SUCCESS
+When have most people been infected in China,The highest number of daily positive cases in China was recorded 2 days ago.,SUCCESS
