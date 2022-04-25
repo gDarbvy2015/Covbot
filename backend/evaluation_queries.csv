@@ -225,9 +225,9 @@ tested Brazil last month,"There have been 3,333,041 new positive cases in Brazil
 tested positive Brazil 20.10.2021,"There have been 15,708 new positive cases in Brazil on October 20th 2021.",SUCCESS
 Tell me the number of humans that were tested positive for covid in Denmark in 2021,"There have been 640,919 new positive cases in Denmark last year.",SUCCESS
 How many people are vaccinated in North Korea,Looks like I can't find any data on north korea in the database.,SUCCESS
-Ho many peple were tested postivey in the UAS,"There have been 456,791,540 positive cases reported so far in the world.",SUCCESS
-Ho many peple were tesSted positive in the USa,"There have been 79,523,227 positive cases reported so far in the United States.",SUCCESS
-Ho many peple were tested positive in the US,"There have been 79,523,227 positive cases reported so far in the United States.",SUCCESS
+Ho many peple were tested postivey in the UAS,"There have been 456,791,540 positive cases reported so far in the world.",USER_ERROR
+Ho many peple were tesSted positive in the USa,"There have been 79,523,227 positive cases reported so far in the United States.",USER_ERROR
+Ho many peple were tested positive in the US,"There have been 79,523,227 positive cases reported so far in the United States.",USER_ERROR
 How many people are vaccinated in Europe,"507,930,570 people have been vaccinated against COVID so far in Europe.",SUCCESS
 How many people were tested positive in Peru last month?,"There have been 292,854 new positive cases in Peru last month.",SUCCESS
 when did Austria have the highest number of new infections?,The highest number of daily positive cases in Austria was recorded 4 days ago.,SUCCESS
