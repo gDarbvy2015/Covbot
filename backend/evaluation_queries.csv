@@ -21,7 +21,7 @@ number of people vaccinated in Singapur,"4,406,610,736 people have been vaccinat
 how many cases in Singapur?,"There have been 460,492,434 positive cases reported so far in the world.",LOCATION_NOT_RECOGNIZED
 cases tyrol,"There have been 456,791,540 positive cases reported so far in the world.",LOCATION_NOT_RECOGNIZED
 tell me how many doses were administered in the United States of America,Looks like I can't find any data on the united states of america in the database.,LOCATION_NOT_RECOGNIZED
-number of people vaccinated in vienna,"I don't have any data on vienna, try a different location.",LOCATION_NOT_RECOGNIZED
+number of people vaccinated in vienna,"I don't have any data on vienna, try a different location.",SUCCESS
 How many vaccinations have been administered in Japan between 12.3.2021 and 1.4.2021?,ERROR,SERVER_ERROR
 how many people have been vaccinated today?,ERROR,SERVER_ERROR
 how many people have been vaccinated today?,ERROR,SERVER_ERROR
@@ -305,8 +305,8 @@ How many vaccines were administered on thethirtyfirst of january in wales?,"350,
 Covid cases tansania,"There have been 460,492,434 positive cases reported so far in the world.",USER_ERROR
 Inzidenz Austria ,"I think I am having some trouble understanding your question, try a different one.",USER_ERROR
 number of people vaccinated in wien,"4,406,610,736 people have been vaccinated against COVID so far in the world.",USER_ERROR
-how about the vaccination rate?,"11,146,350,628 COVID vaccines have been administered so far in the world.",WRONG_DOMAIN
-Which country has currently the highest incidence?,"I think I am having some trouble understanding your question, try a different one.",WRONG_DOMAIN
+how about the vaccination rate?,"11,146,350,628 COVID vaccines have been administered so far in the world.",WRONG_INTENT
+Which country has currently the highest incidence?,"I think I am having some trouble understanding your question, try a different one.",SUCCESS
 Do you know how many people died of covid?,"There have been 462,733,571 positive cases reported so far in the world.",WRONG_DOMAIN
 how many COVID related death occurred in Austria since the beginning of the pandemic,"There have been 3,627,093 positive cases reported so far in Austria.",WRONG_DOMAIN
 types of vaccines in Austria,"18,126,450 COVID vaccines have been administered so far in Austria.",WRONG_DOMAIN
