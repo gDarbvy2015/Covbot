@@ -4,4 +4,5 @@ messages_log
 .pytest_cache
 *.db
 evaluation
+ba_scripts
 */__pycache__/*
