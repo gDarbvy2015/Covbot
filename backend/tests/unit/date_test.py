@@ -50,3 +50,13 @@ def test_dates(query):
 @pytest.mark.parametrize("date_tuple", date_tuples)
 def test_date_to_string(date_tuple: Tuple):
     assert Date.generate_date_message(date_tuple[0], today=today) == date_tuple[1]
+
+
+def test_date_to_string_year_boundary():
+    """Adjacent weeks that straddle a year boundary keep their short phrases."""
+    january = datetime(2022, 1, 3).date()  # a Monday
+    december = datetime(2022, 12, 28).date()  # a Wednesday; its week starts Dec 26
+    assert Date.generate_date_message(Date("WEEK", datetime(2021, 12, 27).date(), None), today=january) == "last week"
+    assert Date.generate_date_message(Date("WEEK", datetime(2022, 1, 2).date(), None), today=january) == "last week"
+    assert Date.generate_date_message(Date("WEEK", datetime(2023, 1, 2).date(), None), today=december) == "next week"
+    assert Date.generate_date_message(Date("WEEK", datetime(2022, 1, 10).date(), None), today=january) == "next week"

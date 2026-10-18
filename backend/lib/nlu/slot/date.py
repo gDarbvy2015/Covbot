@@ -56,22 +56,19 @@ class Date:
                 else:
                     return custom_strftime(preposition + "%B {S} %Y", date.value)
         elif date.type == "WEEK":
-            today_iso = today.isocalendar()
-            date_iso = date.value.isocalendar()
+            # Compare week-start dates, not ISO year/week numbers: adjacent weeks across a year
+            # boundary (Dec 27 2021 vs Jan 3 2022) are still "last week" / "next week".
+            today_start = today - timedelta(days=today.weekday())
             date_start = date.value - timedelta(days=date.value.weekday())
             date_end = date_start + timedelta(days=6)
             preposition: str = "in " if include_preposition else ""
 
-            if today_iso[0] == date_iso[0]:
-                if today_iso[1] == date_iso[1]:
-                    return "this week"
-                elif today_iso[1] - date_iso[1] == 1:
-                    return "last week"
-                elif date_iso[1] - today_iso[1] == 1:
-                    return "next week"
-                else:
-                    return preposition + f"the week from the {custom_strftime('{S} of %B %Y', date_start)} to the " \
-                           f"{custom_strftime('{S} of %B %Y', date_end)}"
+            if date_start == today_start:
+                return "this week"
+            elif date_start == today_start - timedelta(days=7):
+                return "last week"
+            elif date_start == today_start + timedelta(days=7):
+                return "next week"
             else:
                 return preposition + f"the week from the {custom_strftime('{S} of %B %Y', date_start)} to the " \
                        f"{custom_strftime('{S} of %B %Y', date_end)}"
